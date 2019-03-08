@@ -1,0 +1,133 @@
+<head>
+    <meta charset='UTF-8'/>
+    <link rel="stylesheet" type="text/css" href="../style/contrast.css" id="meta-style"/>
+</head>
+<body>
+<style>
+* {
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+}
+</style>
+<!-- Ebook system - list page -->
+<button onclick="(function(){c=document.getElementById('meta-style');c.href=c.href.endsWith('light.css')?'../style/contrast.css':'../style/light.css'})()" >切换样式</button>
+<div class="header">
+        <div class="logo">
+            <img class="img-auto-scale" src="../assets/images/logo.png" />
+            <p>Ebook电子图书管理系统</p>
+        </div>
+        <div class="menu">
+            <ul>
+                <li>首页</li>
+                <li>分类</li>
+                <li>登录</li>
+            </ul>
+            <div class="search-bar">
+                <form action="/search" method="GET">
+                    <input type="text" name="keyword" />
+                    <input type="submit" value="GO"/>
+                </form>
+            </div>
+        </div>
+    </div>
+<div class="container">
+    <div class="content-left">
+        <ul class="card-list">
+            <li class="book-card">
+                <div class="book-card-cover-container">
+                    <img src="../assets/images/CSAPP.jpg" class="book-card-cover img-auto-scale"/>
+                </div>
+                <div class="book-card-meta">
+                    <div class="book-card-title">深入理解计算机系统</div>
+                    <div class="book-card-author">
+                        Randal E. Bryant and David R. O'Hallaron, Carnegie Mellon University
+                    </div>
+                    <div class="book-card-description">
+                        This book (CS:APP3e) is the third edition of a book that stems from the introductory computer systems course we developed at Carnegie Mellon University, starting in the Fall of 1998, called "Introduction to Computer Systems" (ICS). The presentation is based on the following principles, which aim to help the students become better programmers and to help prepare them for upper-level systems courses
+                    </div>
+                </div>
+            </li>
+            <li class="book-card">
+                <div class="book-card-cover-container">
+                    <img src="../assets/images/TheCProgammingLanguage.jpg" class="book-card-cover img-auto-scale"/>
+                </div>
+                <div class="book-card-title">C程序设计语言</div>
+                <div class="book-card-author">Brian Kernighan, Dennis Ritchie</div>
+                <div class="book-card-description">
+                        The C Programming Language is a computer programming book written by Brian Kernighan and Dennis Ritchie, the latter of whom originally designed and implemented the language, as well as co-designed the Unix operating system with which development of the language was closely intertwined.
+                </div>
+            </li>
+            <li class="book-card">
+                <div class="book-card-cover-container">
+                    <img src="../assets/images/TheArtofComputerProgramming.jpg" class="book-card-cover img-auto-scale"/>
+                </div>
+                <div class="book-card-title">计算机程序设计艺术</div>
+                <div class="book-card-author">Donald E. Knuth</div>
+                <div class="book-card-description">
+                        The Art of Computer Programming is a comprehensive monograph written by Donald Knuth that covers many kinds of programming algorithms and their analysis. Knuth began the project, originally conceived as a single book with twelve chapters, in 1962.
+                </div>
+            </li>
+            <li class="book-card">
+                <div class="book-card-cover-container">
+                    <img src="../assets/images/placeholder.png" class="book-card-cover img-auto-scale"/>
+                </div>
+                <div class="book-card-title">图书还未上架</div>
+                <div class="book-card-author">作者未知</div>
+                <div class="book-card-description">敬请期待</div>
+            </li>
+            <li class="book-card">
+                    <div class="book-card-cover-container">
+                        <img src="../assets/images/placeholder.png" class="book-card-cover img-auto-scale"/>
+                    </div>
+                    <div class="book-card-title">图书还未上架</div>
+                    <div class="book-card-author">作者未知</div>
+                    <div class="book-card-description">敬请期待</div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-right">
+        <p class="entry-list-title">
+            猜你喜欢
+        </p>
+        <ul class="entry-list">
+            <li class="book-entry">
+                <img src="../assets/images/placeholder.png" class="book-entry-cover" />
+                <div class="book-entry-meta">
+                    <p class="book-entry-title">Book title</p>
+                    <p class="book-entry-author">Book author</p>
+                </div>
+            </li>
+            <li class="book-entry">
+                <img src="../assets/images/placeholder.png" class="book-entry-cover" />
+                <div class="book-entry-meta">
+                    <p class="book-entry-title">Book title</p>
+                    <p class="book-entry-author">Book author</p>
+                </div>
+            </li>
+            <li class="book-entry">
+                <img src="../assets/images/placeholder.png" class="book-entry-cover" />
+                <div class="book-entry-meta">
+                    <p class="book-entry-title">Book title</p>
+                    <p class="book-entry-author">Book author</p>
+                </div>
+            </li>
+            <li class="book-entry">
+                <img src="../assets/images/placeholder.png" class="book-entry-cover" />
+                <div class="book-entry-meta">
+                    <p class="book-entry-title">Book title</p>
+                    <p class="book-entry-author">Book author</p>
+                </div>
+            </li>
+            <li class="book-entry">
+                <img src="../assets/images/placeholder.png" class="book-entry-cover" />
+                <div class="book-entry-meta">
+                    <p class="book-entry-title">Book title</p>
+                    <p class="book-entry-author">Book author</p>
+                </div>
+            </li>                        
+        </ul>
+    </div>
+</div>
+<div class="footer">
+        <div class="copyright">Copyright@ 2019 eK Chen All rights reserved.</div>
+</div>
+</body>

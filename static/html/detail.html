@@ -1,0 +1,121 @@
+<head>
+<meta charset='UTF-8'/>
+<link rel="stylesheet" type="text/css" href="../style/light.css" id="meta-style"/>
+</head>
+<body>
+<style>
+* {
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+}
+</style>
+<!-- Ebook system - detail page -->
+<button onclick="(function(){c=document.getElementById('meta-style');c.href=c.href.endsWith('light.css')?'../style/contrast.css':'../style/light.css'})()" >切换样式</button>
+<div class="header">
+        <div class="logo">
+            <img class="img-auto-scale" src="../assets/images/logo.png" />
+            <p>Ebook电子图书管理系统</p>
+        </div>
+        <div class="menu">
+            <ul>
+                <li>首页</li>
+                <li>分类</li>
+                <li>登录</li>
+            </ul>
+            <div class="search-bar">
+                <form action="/search" method="GET">
+                    <input type="text" name="keyword" />
+                    <input type="submit" value="GO"/>
+                </form>
+            </div>
+        </div>
+    </div>
+<div class="container">
+    <div class="content-banner">
+        <div class="content-banner-title">深入了解计算机系统（CSAPP）</div>
+        <div class="content-banner-author">                                Randal E. Bryant and David R. O'Hallaron, Carnegie Mellon University</div>
+    </div>
+    <div class="content-detail">
+        <div class="content-cover-container">
+            <img src="../assets/images/CSAPP.jpg" class="content-cover img-auto-scale" />
+        </div>
+        <div class="content-description">
+            <p>From official site: <a href="http://csapp.cs.cmu.edu/3e/home.html">Computer Systems: A Programmer's Perspective, 3/E (CS:APP3e)</a></p>
+            <!-- ----------------- -->
+            <!-- CONTENT GOES HERE -->
+            <!-- ----------------- -->
+            
+            <p>
+            <b><i>Overview.</i></b> This book (CS:APP3e) is the third edition of a
+            book that stems from the introductory computer systems course we
+            developed at Carnegie Mellon University, starting in the Fall of 1998,
+            called "Introduction to Computer Systems" (ICS). The presentation is
+            based on the following principles, which aim to help the students
+            become better programmers and to help prepare them for upper-level
+            systems courses:
+            </p><ul>
+            
+            <li>
+            Students should be introduced to computer systems from the perspective
+            of a programmer, rather from the more traditional perspective of a
+            system implementer.
+            <a href="http://csapp.cs.cmu.edu/3e/perspective.html">What does this mean?</a>
+            
+            </li><li>
+            Students should get a view of the complete system, comprising the
+            hardware, operating system, compiler, and network.
+            
+            </li><li>
+            Students learn best by developing and evaluating real programs that
+            run on real machines.
+            </li></ul>
+                
+            We cover data representations, machine level representations of C
+            programs, processor architecture, program optimizations, the memory
+            hierarchy, linking, exceptional control flow (exceptions, interrupts,
+            processes, and Unix signals), virtual memory
+            and memory management, system-level I/O, basic network programming,
+            and concurrent programming. These concepts are supported by
+            series of fun and hands-on lab assignments.  See the manuscript 
+            <a href="http://csapp.cs.cmu.edu/3e/pieces/preface3e.pdf">Preface</a> for more details.
+            
+            <p>
+            <b><i>Web asides.</i></b> We had so much material for this book that we couldn't fit it all in!
+            Instead, we have created electronic documents containing useful
+            additional material, which we call
+            <a href="http://csapp.cs.cmu.edu/3e/waside.html"><em>Web asides</em></a>.
+            Check it out.  You'll find interesting theoretical and practical
+            information that goes beyond the scope of the book.
+            
+            </p><p>
+            <b><i>Course Materials for Instructors and Students.</i></b>
+            The <a href="http://csapp.cs.cmu.edu/3e/students.html"><i>Student Site</i></a> contains
+            additional material for the students. 
+            The <a href="http://csapp.cs.cmu.edu/3e/instructors.html"><i>Instructor Site</i></a>
+            contains a complete turnkey solution for teaching the course.  
+            
+            
+            <!--  Headline animator version net used
+            <hline>
+            <h2>Feed from our <a href="http:csappbook.blogspot.com">Blog</a></h2>
+            <p style="margin-top:10px; margin-bottom:0; padding-bottom:0;
+            text-align:center; line-height:0"><a target="_blank"
+            href="http://csappbook.blogspot.com"><img
+            src="http://feeds.feedburner.com/csappbook.1.gif" alt="CS:APP Blog"
+            style="border:0"></a></p><p style="margin-top:5px; padding-top:0;
+            font-size:x-small; text-align:center"><a
+            href="http://feedburner.google.com/fb/a/headlineanimator/install?id=6afea66cnkp27b7v9a3fi0jquk&amp;w=1"
+            onclick="window.open(this.href, 'haHowto',
+            'width=520,height=600,toolbar=no,address=no,resizable=yes,scrollbars');
+            return false" target="_blank"></p>
+            -->
+            
+            <!-- ----------- -->
+            <!-- END CONTENT -->
+            <!-- ----------- -->
+        </div>
+    </div>
+</div>
+<div class="footer">
+        <div class="copyright">Copyright@ 2019 eK Chen All rights reserved.</div>
+    </div>
+</body>
