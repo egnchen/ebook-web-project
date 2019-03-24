@@ -1,6 +1,7 @@
 <head>
     <meta charset='UTF-8'/>
-    <link rel="stylesheet" type="text/css" href="../style/contrast.css" id="meta-style"/>
+    <link rel="stylesheet" type="text/css" href="../style/contrast.css" id="meta-style" />
+    <script src="../js/jquery.min.js"></script>
 </head>
 <body>
 <style>
@@ -50,39 +51,60 @@
                 <div class="book-card-cover-container">
                     <img src="../assets/images/TheCProgammingLanguage.jpg" class="book-card-cover img-auto-scale"/>
                 </div>
-                <div class="book-card-title">C程序设计语言</div>
-                <div class="book-card-author">Brian Kernighan, Dennis Ritchie</div>
-                <div class="book-card-description">
-                        The C Programming Language is a computer programming book written by Brian Kernighan and Dennis Ritchie, the latter of whom originally designed and implemented the language, as well as co-designed the Unix operating system with which development of the language was closely intertwined.
+                <div class="book-card-meta">
+                    <div class="book-card-title">C程序设计语言</div>
+                    <div class="book-card-author">Brian Kernighan, Dennis Ritchie</div>
+                    <div class="book-card-description">
+                            The C Programming Language is a computer programming book written by Brian Kernighan and Dennis Ritchie, the latter of whom originally designed and implemented the language, as well as co-designed the Unix operating system with which development of the language was closely intertwined.
+                    </div>
                 </div>
             </li>
             <li class="book-card">
                 <div class="book-card-cover-container">
                     <img src="../assets/images/TheArtofComputerProgramming.jpg" class="book-card-cover img-auto-scale"/>
                 </div>
-                <div class="book-card-title">计算机程序设计艺术</div>
-                <div class="book-card-author">Donald E. Knuth</div>
-                <div class="book-card-description">
-                        The Art of Computer Programming is a comprehensive monograph written by Donald Knuth that covers many kinds of programming algorithms and their analysis. Knuth began the project, originally conceived as a single book with twelve chapters, in 1962.
+                <div class="book-card-meta">
+                    <div class="book-card-title">计算机程序设计艺术</div>
+                    <div class="book-card-author">Donald E. Knuth</div>
+                    <div class="book-card-description">
+                            The Art of Computer Programming is a comprehensive monograph written by Donald Knuth that covers many kinds of programming algorithms and their analysis. Knuth began the project, originally conceived as a single book with twelve chapters, in 1962.
+                    </div>
                 </div>
             </li>
             <li class="book-card">
                 <div class="book-card-cover-container">
                     <img src="../assets/images/placeholder.png" class="book-card-cover img-auto-scale"/>
                 </div>
-                <div class="book-card-title">图书还未上架</div>
-                <div class="book-card-author">作者未知</div>
-                <div class="book-card-description">敬请期待</div>
-            </li>
-            <li class="book-card">
-                    <div class="book-card-cover-container">
-                        <img src="../assets/images/placeholder.png" class="book-card-cover img-auto-scale"/>
-                    </div>
+                <div class="book-card-meta">
                     <div class="book-card-title">图书还未上架</div>
                     <div class="book-card-author">作者未知</div>
                     <div class="book-card-description">敬请期待</div>
+                </div>
+            </li>
+            <li class="book-card">
+                <div class="book-card-cover-container">
+                    <img src="../assets/images/placeholder.png" class="book-card-cover img-auto-scale"/>
+                </div>
+                <div class="book-card-meta">
+                    <div class="book-card-title">图书还未上架</div>
+                    <div class="book-card-author">作者未知</div>
+                    <div class="book-card-description">敬请期待</div>
+                </div>
             </li>
         </ul>
+        <script>
+            /* jquery version */
+            $(".book-card").hover(
+                function() { $(this).find(".book-card-title").css('color', 'red'); },
+                function() { $(this).find(".book-card-title").css('color', 'black'); });
+
+            /* native DOM version */
+            // cards = document.getElementsByClassName("book-card")
+            // for(i=0;i<cards.length;i++) {
+            //     cards[i].onmouseenter = function() { this.lastElementChild.firstElementChild.style.color = 'red'; }
+            //     cards[i].onmouseleave = function() { this.lastElementChild.firstElementChild.style.color = 'black'; }
+            // }
+        </script>
     </div>
     <div class="content-right">
         <p class="entry-list-title">

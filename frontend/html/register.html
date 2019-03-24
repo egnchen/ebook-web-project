@@ -1,0 +1,85 @@
+<head>
+    <meta charset='UTF-8'/>
+    <link rel="stylesheet" type="text/css" href="../style/light.css" id="meta-style"/>
+    </head>
+<body>
+<style>
+* {
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+}
+</style>
+<div class="header">
+    <div class="logo">
+        <img class="img-auto-scale" src="../assets/images/logo.png" />
+        <p>Ebook电子图书管理系统</p>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>首页</li>
+            <li>分类</li>
+            <li>登录</li>
+        </ul>
+        <div class="search-bar">
+            <form action="/search" method="GET">
+                <input type="text" name="keyword" />
+                <input type="submit" value="GO"/>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="login-window">
+        <h1>注册</h1>
+        <form action="" method="POST" onsubmit="return register_submit()">
+            <span>
+                <label for="username">用户名：</label>
+                <input type="text" name="username" id="username" />
+            </span>
+            <br/>
+            <span>
+                <label for="password">密码：</label>
+                <input type="password" name="password" id="password" />
+            </span>
+            <br/>
+            <span>
+                <input type="submit" />
+            </span>
+        </form>
+    </div>
+    <style>
+        .login-window {
+            max-width: 50%;
+            max-height: 50%;
+            margin: 30px auto;
+            border: 1px solid #888888;
+            border-radius: 5px;
+            box-shadow: 0px 5px 10px #666666;
+        }
+        .login-window h1 {
+            width: 100%;
+            text-align: center;
+        }
+        .login-window form {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .login-window form span {
+            width: 100%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+        }
+    </style>
+    <script>
+        function register_submit() {
+            var username = document.getElementById("username").value;
+            alert("用户名：" + username);
+            return false;
+        }
+    </script>
+</div>
+<div class="footer">
+    <div class="copyright">Copyright@ 2019 eK Chen All rights reserved.</div>
+</div>
+</body>
