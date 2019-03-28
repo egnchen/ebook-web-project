@@ -1,5 +1,5 @@
 <template>
-<div class="waterfall-container" :style="{marginTop: gutterWidth + 'px'}">
+<div class="waterfall-container" transition="slide-y-transition">
     <Waterfall :maxCol='maxColumn' :minCol='minColumn' :gutterWidth='gutterWidth' :gutterHeight='gutterWidth + 5'
         :fixWidth='0'>
         <WaterfallItem :width='itemWidth' v-for="(item, index) in books" :key="index">

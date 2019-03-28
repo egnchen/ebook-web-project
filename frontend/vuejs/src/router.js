@@ -1,6 +1,10 @@
-import Login from './Login'
-import BookFlow from './components/BookFlow';
-import Cart from './Cart';
+import Login from './views/Login'
+import Register from './views/Register'
+import Cart from './views/Cart'
+import Detail from  './views/Detail'
+import AdminContainer from './views/AdminContainer'
+// import BookFlow from './components/BookFlow'
+import BookList from './components/BookList'
 
 const routes = [
     {
@@ -9,14 +13,40 @@ const routes = [
         component: Login
     },
     {
+        path: '/register',
+        name: 'register',
+        component: Register
+    },
+    {
         path: '/',
         name: 'index',
-        component: BookFlow
+        component: BookList
     },
     {
         path: '/cart',
         name: 'cart',
-        component: Cart
+        component: BookList
+    },
+    {
+        path: '/detail',
+        name: 'detail',
+        component: Detail
+    },
+    {
+        path: '/buy',
+        name: 'buy'
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: AdminContainer,
+        children: [
+            {
+                path: 'edit-stock',
+                name: 'admin-edit-stock',
+                component: BookList
+            }
+        ]
     }
 ]
 
