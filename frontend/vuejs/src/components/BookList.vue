@@ -11,11 +11,11 @@
 <div style="text-align:center" v-if="books_display.length === 0">
     结果为空
 </div>
-<v-list>
-    <component :is="bookCardType"
+<v-flex>
+    <component xs-12 :is="bookCardType"
         v-for="(book,idx) in books_display" :key="idx" :book="book"
         :idxData="idx" @delete-item="delItem"/>
-</v-list>
+</v-flex>
 </div>
 </template>
 
@@ -64,4 +64,3 @@ export default {
     components: {UserBookCard, AdminBookCard, CartBookCard}
 }
 </script>
-

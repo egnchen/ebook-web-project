@@ -1,38 +1,41 @@
 <template>
 <BookCard :book="book">
     <template v-slot:action="bookProps">
-        <span>评分</span>
-        <span>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-        </span>
-        <span class="black--text">
-            <v-btn icon dark color="primary" to="{name: 'buy', params: { id: bookProps.idxData }}">
-                <v-icon dark>add</v-icon>
-            </v-btn>
-            <v-btn icon dark color="pink" to="/">
-                <v-icon dark>favorite</v-icon>
-            </v-btn>
-            <v-btn icon dark color="teal" to="/detail">
-                <v-icon dark>list</v-icon>
-            </v-btn>
-        </span>
+        <div class="action-container">
+            <span>评分</span>
+            <span>
+                <v-icon>star_border</v-icon>
+                <v-icon>star_border</v-icon>
+                <v-icon>star_border</v-icon>
+                <v-icon>star_border</v-icon>
+                <v-icon>star_border</v-icon>
+            </span>
+            <span class="black--text">
+                <v-btn icon dark color="primary" to="{name: 'buy', params: { id: bookProps.idxData }}">
+                    <v-icon dark>add</v-icon>
+                </v-btn>
+                <v-btn icon dark color="pink" to="/">
+                    <v-icon dark>favorite</v-icon>
+                </v-btn>
+                <v-btn icon dark color="teal" to="/detail">
+                    <v-icon dark>list</v-icon>
+                </v-btn>
+            </span>
+        </div>
     </template>
 </BookCard>
 </template>
 
 <style scoped>
-.card-score {
+.action-contianer {
+    height: 100%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
 }
 
-.card-score span {
+.action-container span {
     display: block
 }
 </style>

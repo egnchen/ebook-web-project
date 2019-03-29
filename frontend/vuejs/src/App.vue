@@ -1,9 +1,6 @@
 <template>
 <v-app>
-    <v-navigation-drawer app color="orange darken-1" v-model="navVisibility">
-        <SideBar style="margin-top: 64px"> </SideBar>
-    </v-navigation-drawer> 
-    
+    <SideBar v-model="navVisibility"></SideBar> 
     <v-toolbar app color="primary" style="zIndex: 100">
         <v-toolbar-title class="headline" @click="navVisibility = !navVisibility">
             <v-hover>

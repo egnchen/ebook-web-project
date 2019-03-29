@@ -21,7 +21,7 @@
                 </div>
             </v-card-title>
             </v-flex>
-            <v-flex xs3 class="card-score">
+            <v-flex xs3 class="card-action">
                 <slot name="action" :idxData="idxData"></slot>
             </v-flex>
         </v-layout>

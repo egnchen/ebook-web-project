@@ -1,17 +1,21 @@
 <template>
-<v-toolbar flat class="transparent">
-    <v-list class="pa-0">
-        <v-list-tile>
-            <v-list-tile-avatar>
-                <img src="/static/user.svg">
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-                <v-list-tile-title>{{ "爸爸" }}</v-list-tile-title>
-            </v-list-tile-content>
-        </v-list-tile>
-    </v-list>
+<v-navigation-drawer v-model="value" style="margin-top: 64px" app flat>
+    <v-toolbar flat>
+        <v-list class="pa-0">
+            <v-list-tile avatar>
+                <v-list-tile-avatar>
+                    <img src="/static/user.svg">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{ "管理员爸爸" }}</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
+    </v-toolbar>
+    
+    <v-divider></v-divider>
 
-    <v-list>
+    <v-list dense>
         <v-list-tile
             v-for="(item, idx) in this.navContent"
             :key="idx"
@@ -24,7 +28,7 @@
             </v-list-tile-content>
         </v-list-tile>
     </v-list>
-</v-toolbar>
+</v-navigation-drawer>
 </template>
 
 <style scoped>
@@ -33,6 +37,7 @@
 
 <script>
 export default {
+    props: ['value'],
     data(){
         return {
             navContent: [
@@ -40,6 +45,11 @@ export default {
                     title: "修改库存",
                     icon: "fas fa-edit",
                     path: "/admin/edit-stock"
+                },
+                {
+                    title: "我的订单",
+                    icon: "fas fa-stream",
+                    path: "/order"
                 }
             ]
         }

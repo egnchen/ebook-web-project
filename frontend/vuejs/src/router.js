@@ -2,6 +2,7 @@ import Login from './views/Login'
 import Register from './views/Register'
 import Cart from './views/Cart'
 import Detail from  './views/Detail'
+import Order from './views/Order'
 import AdminContainer from './views/AdminContainer'
 // import BookFlow from './components/BookFlow'
 import BookList from './components/BookList'
@@ -35,6 +36,11 @@ const routes = [
     {
         path: '/buy',
         name: 'buy'
+    },
+    {
+        path: '/order',
+        name: 'order',
+        component: Order
     },
     {
         path: '/admin',
