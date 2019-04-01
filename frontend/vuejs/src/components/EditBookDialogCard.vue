@@ -24,6 +24,9 @@
             <v-flex xs12 md6 offset-md1>
                 <v-text-field label="库存量" required v-model="book.stock" />
             </v-flex>
+            <v-flex xs12>
+                <v-textarea label="描述" required v-model="book.desc" />
+            </v-flex>
         </v-layout>
     </v-card-text>
     <v-card-actions>

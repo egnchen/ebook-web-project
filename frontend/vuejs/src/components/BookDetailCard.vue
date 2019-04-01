@@ -26,6 +26,11 @@
             </v-flex>
         </v-layout>
     </v-card-title>
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn icon color="primary" class="white--text"><v-icon>add</v-icon></v-btn>
+        <v-btn icon color="pink" class="white--text"><v-icon>favorite</v-icon></v-btn>
+    </v-card-actions>
 </v-card>
 </template>
 

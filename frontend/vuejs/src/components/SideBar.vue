@@ -43,7 +43,8 @@ export default {
             navContent: [
                 {
                     title: "瀑布流视图",
-                    icon: "fas fa"
+                    icon: "fas fa-stream",
+                    path: "/flow"
                 },
                 {
                     title: "修改库存",
@@ -52,7 +53,7 @@ export default {
                 },
                 {
                     title: "我的订单",
-                    icon: "fas fa-stream",
+                    icon: "fas fa-list-alt",
                     path: "/order"
                 },
                 {
