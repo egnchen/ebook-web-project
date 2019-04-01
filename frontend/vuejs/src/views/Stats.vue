@@ -24,7 +24,12 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">更改角色</v-btn>
+                <v-dialog max-width="800px">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="primary" v-on="on">详情</v-btn>
+                    </template>
+                    <StatDetailCard></StatDetailCard>
+                </v-dialog>
             </v-card-actions>
         </v-card>
     </v-flex>
@@ -48,7 +53,12 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">更改角色</v-btn>
+                <v-dialog max-width="800px">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="primary" v-on="on">详情</v-btn>
+                    </template>
+                    <StatDetailCard></StatDetailCard>
+                </v-dialog>
             </v-card-actions>
         </v-card>
     </v-flex>
@@ -72,7 +82,12 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">更改角色</v-btn>
+                <v-dialog max-width="800px">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="primary" v-on="on">详情</v-btn>
+                    </template>
+                    <StatDetailCard></StatDetailCard>
+                </v-dialog>
             </v-card-actions>
         </v-card>
     </v-flex>
@@ -81,7 +96,10 @@
 </template>
 
 <script>
+import StatDetailCard from '../components/StatDetailCard'
+
 export default {
+    components: { StatDetailCard },
     data() {
         return {
             gradientColors: ['red', 'orange', 'yellow'],

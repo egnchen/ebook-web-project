@@ -44,7 +44,7 @@ export default {
                 {
                     title: "瀑布流视图",
                     icon: "fas fa"
-                }
+                },
                 {
                     title: "修改库存",
                     icon: "fas fa-edit",
