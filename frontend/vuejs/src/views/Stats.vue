@@ -24,6 +24,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
+                <v-btn color="primary">更换角色</v-btn>
                 <v-dialog max-width="800px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" v-on="on">详情</v-btn>
@@ -53,6 +54,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
+                <v-btn color="primary">更换角色</v-btn>
                 <v-dialog max-width="800px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" v-on="on">详情</v-btn>
@@ -82,6 +84,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
+                <v-btn color="primary">更换角色</v-btn>
                 <v-dialog max-width="800px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" v-on="on">详情</v-btn>

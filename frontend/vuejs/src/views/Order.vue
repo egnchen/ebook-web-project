@@ -11,7 +11,8 @@
 import Order from '../components/OrderList'
 
 export default {
-    components: {Order}
+    components: {Order},
+    
 }
 </script>
 
