@@ -1,7 +1,7 @@
 <template>
-<v-flex xs12 md8 offset-md2>
+<v-flex xs12 md8 class="margin-card">
     <v-card color="white" style="padding: 10px">
-        <v-layout>
+        <v-layout align-center>
             <v-flex xs3>
                 <v-img
                     :src="'/' + book.img.src"
@@ -29,6 +29,12 @@
     </v-card>
 </v-flex>
 </template>
+
+<style scoped>
+.margin-card {
+    margin: 0.25em;
+}
+</style>
 
 <script>
 export default {

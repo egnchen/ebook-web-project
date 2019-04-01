@@ -1,8 +1,10 @@
 <template>
-<div>
-    <h2>订单管理</h2>
-    <Order></Order>
-</div>
+<v-layout justify-center>
+    <v-flex sm12 lg9>
+        <h2>订单管理</h2>
+        <Order></Order>
+    </v-flex>
+</v-layout>
 </template>
 
 <script>

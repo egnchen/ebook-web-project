@@ -2,21 +2,22 @@
 <!-- <v-layout row wrap>
     <BookCard v-for="(book,idx) in books" :key="idx" :book="book"/>
 </v-layout> -->
-<div>
-<v-flex sm12>
-    <v-text-field solo label="搜索" prepend-inner-icon="fas fa-search"
-        @keyup.enter="bookSearch" v-model="searchString">
-    </v-text-field>
-</v-flex>
-<div style="text-align:center" v-if="books_display.length === 0">
-    结果为空
-</div>
-<v-flex>
-    <component xs-12 :is="bookCardType"
+<v-layout row wrap justify-center>
+    <v-flex xs12>
+        <v-text-field solo label="搜索" prepend-inner-icon="fas fa-search"
+            @keyup.enter="bookSearch" v-model="searchString">
+        </v-text-field>
+    </v-flex>
+    <div style="text-align:center" v-if="books_display.length === 0">
+        结果为空
+    </div>
+    <v-flex xs12 md8>
+        <v-breadcrumbs :items="path" divider=">" />
+    </v-flex>
+    <component :is="bookCardType"
         v-for="(book,idx) in books_display" :key="idx" :book="book"
         :idxData="idx" @delete-item="delItem"/>
-</v-flex>
-</div>
+</v-layout>
 </template>
 
 <script>
@@ -48,7 +49,19 @@ export default {
         return {
             searchString: '',
             books_display: [],
-            bookCardType: ''
+            bookCardType: '',
+            path: [
+                {
+                    text: '游览',
+                    disabled: true,
+                    href: '/'
+                },
+                {
+                    text: '所有图书',
+                    disabled: false,
+                    href: '/'
+                }
+            ]
         }
     },
     created() {

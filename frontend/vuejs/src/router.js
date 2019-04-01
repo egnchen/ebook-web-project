@@ -1,10 +1,10 @@
 import Login from './views/Login'
 import Register from './views/Register'
-import Cart from './views/Cart'
 import Detail from  './views/Detail'
 import Order from './views/Order'
+import Stats from './views/Stats'
+import BookFlow from './components/BookFlow'
 import AdminContainer from './views/AdminContainer'
-// import BookFlow from './components/BookFlow'
 import BookList from './components/BookList'
 
 const routes = [
@@ -43,6 +43,11 @@ const routes = [
         component: Order
     },
     {
+        path: '/flow',
+        name: 'bookflow',
+        component: BookFlow
+    },
+    {
         path: '/admin',
         name: 'admin',
         component: AdminContainer,
@@ -51,6 +56,11 @@ const routes = [
                 path: 'edit-stock',
                 name: 'admin-edit-stock',
                 component: BookList
+            },
+            {
+                path: 'stats',
+                name: 'admin-view-stats',
+                component: Stats
             }
         ]
     }

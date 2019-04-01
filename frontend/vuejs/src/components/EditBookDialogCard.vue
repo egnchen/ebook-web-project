@@ -18,17 +18,17 @@
                 <v-text-field label="出版社" required v-model="book.publisher" />
             </v-flex>
             <v-flex xs12 md5>
-                <v-text-field label="ISBN" required v-model="ISBN" />
+                <v-text-field label="ISBN" required v-model="book.ISBN" />
             </v-flex>
             
             <v-flex xs12 md6 offset-md1>
-                <v-text-field label="库存量" required v-model="stock" />
+                <v-text-field label="库存量" required v-model="book.stock" />
             </v-flex>
         </v-layout>
     </v-card-text>
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="dialogVis = false">保存</v-btn>
+        <v-btn color="primary" @click="$emit('close-dialog')">保存</v-btn>
     </v-card-actions>
 </v-card>
 </template>

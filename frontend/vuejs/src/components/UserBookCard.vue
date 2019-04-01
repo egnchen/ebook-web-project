@@ -2,8 +2,8 @@
 <BookCard :book="book">
     <template v-slot:action="bookProps">
         <div class="action-container">
-            <span>评分</span>
-            <v-rating v-model="book.score" dense hover half-increments />
+            <span>评分 {{ book.stars }}</span>
+            <v-rating v-model="rating" dense hover half-increments readonly />
             <span class="black--text">
                 <v-btn icon dark color="primary" to="{name: 'buy', params: { id: bookProps.idxData }}">
                     <v-icon dark>add</v-icon>
@@ -26,8 +26,7 @@
 </template>
 
 <style scoped>
-.action-contianer {
-    height: 100%;
+.action-container {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -44,6 +43,11 @@ import BookCard from './BookCard'
 import BookDetailCard from './BookDetailCard'
 export default {
     props: ['book', 'idxData'],
-    components: {BookCard, BookDetailCard}
+    components: {BookCard, BookDetailCard},
+    computed: {
+        rating() {
+            return Math.round(this.book.stars) / 2;
+        }
+    }
 }
 </script>

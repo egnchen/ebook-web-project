@@ -12,22 +12,17 @@
                 <div>
                     <div class="display-2">{{ book.title }}</div>
                     <div class="subheading">{{ book.author }}</div>
+                    <div>评分:{{ book.stars }}
+                        <v-rating style="display:inline"
+                            v-model="rating"
+                            dense half-increments hover />
+                    </div>
+                    <div>出版商：{{ book.publisher }}</div>
+                    <div>ISBN：{{ book.ISBN || '1234567890' }}</div>
+                    <div>库存：{{ book.stock || 100 }}</div>
+                    
+                    <div>简介: {{ book.desc }}</div>
                 </div>
-            </v-flex>
-            <v-flex xs12><div style="height:50px"></div></v-flex>
-            <v-flex xs5 offset-xs1>
-                <div>
-                    评分:{{ book.rating }}
-                    <v-rating style="display:inline"
-                        v-model="book.rating"
-                        dense half-increments hover />
-                </div>
-                <div>出版商：{{ book.publisher }}</div>
-                <div>ISBN：{{ book.ISBN || '1234567890' }}</div>
-                <div>库存：{{ book.stock || 100 }}</div>
-            </v-flex>
-            <v-flex xs6>
-                {{ book.desc }}
             </v-flex>
         </v-layout>
     </v-card-title>
@@ -36,6 +31,16 @@
 
 <script>
 export default {
-    props: ['book']
+    props: ['book'],
+    computed: {
+        rating: {
+            get() {
+                return Math.round(this.book.stars) / 2
+            },
+            set(v) {
+                this.book.stars = v * 2;
+            }
+        }
+    }
 }
 </script>

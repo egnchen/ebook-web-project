@@ -1,25 +1,26 @@
 <template>
 <BookCard :book="book" :idxData="idxData">
     <template v-slot:action="bookProps">
-        <span>数量</span>
-        <v-text-field type="number" v-model="count" />
-        <v-btn icon @click="$emit('delete-item', bookProps.idxData)">
-            <v-icon>fas fa-minus-square</v-icon>
-        </v-btn>
+        <div class="action-container">
+            <span>数量：<v-text-field type="number" v-model="count" class="amount-text-field"/></span>
+            <v-btn color="error" @click="$emit('delete-item', bookProps.idxData)">
+                <v-icon>fas fa-minus-square</v-icon>删除
+            </v-btn>
+        </div>
     </template>
 </BookCard>
 </template>
 
 <style scoped>
-.card-score {
+.action-container {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
 }
 
-.card-score span {
-    display: block
+.amount-text-field {
+    display: inline-block;
 }
 </style>
 

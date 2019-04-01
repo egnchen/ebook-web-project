@@ -42,6 +42,10 @@ export default {
         return {
             navContent: [
                 {
+                    title: "瀑布流视图",
+                    icon: "fas fa"
+                }
+                {
                     title: "修改库存",
                     icon: "fas fa-edit",
                     path: "/admin/edit-stock"
@@ -50,6 +54,11 @@ export default {
                     title: "我的订单",
                     icon: "fas fa-stream",
                     path: "/order"
+                },
+                {
+                    title: "统计信息",
+                    icon: "fas fa-asterisk",
+                    path: "/admin/stats"
                 }
             ]
         }

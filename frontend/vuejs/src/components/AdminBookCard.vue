@@ -9,7 +9,7 @@
                         编辑
                     </v-btn>
                 </template>
-                <EditBookDialogCard :book="book"></EditBookDialogCard>
+                <EditBookDialogCard :book="book" @close-dialog="dialogVis = false"></EditBookDialogCard>
             </v-dialog>
         </div>
     </template>
