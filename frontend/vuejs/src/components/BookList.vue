@@ -9,7 +9,10 @@
         </v-text-field>
     </v-flex>
     <div style="text-align:center" v-if="books_display.length === 0">
-        结果为空
+        {{ prompt }}
+    </div>
+    <div>
+        <v-btn color="primary" @click="getBookList">获取图书数据</v-btn>
     </div>
     <v-flex xs12 md8>
         <v-breadcrumbs :items="path" divider=">" />
@@ -25,6 +28,8 @@ import UserBookCard from './UserBookCard'
 import AdminBookCard from './AdminBookCard'
 import CartBookCard from './CartBookCard'
 import default_bookdata from '../data/books'
+
+import axios from 'axios';
 
 export default {
     props: {
@@ -43,6 +48,19 @@ export default {
         delItem(key){
             console.log(key)
             this.books_display.splice(key,1)
+        },
+        getBookList() {
+            var vm = this;
+            this.prompt = "正在取回数据"
+            axios.get("http://localhost:8081/ebook_war_exploded/bookList")
+            .then(function(response){
+                console.log("book fetch success")
+                console.log(response)
+                vm.books_display = JSON.parse(response.data).book_list
+            })
+            .catch(function(error){
+                vm.prompt = "取回数据失败，错误：" + error
+            })
         }
     },
     data() {
@@ -50,6 +68,7 @@ export default {
             searchString: '',
             books_display: [],
             bookCardType: '',
+            prompt: "数据为空",
             path: [
                 {
                     text: '游览',
@@ -65,7 +84,8 @@ export default {
         }
     },
     created() {
-        this.books_display = this.books
+        var vm = this;
+        
         // choose book card type
         if(this.$route.name === 'admin-edit-stock')
             this.bookCardType = 'AdminBookCard'

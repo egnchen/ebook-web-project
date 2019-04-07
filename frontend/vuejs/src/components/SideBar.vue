@@ -19,7 +19,7 @@
         <v-list-tile
             v-for="(item, idx) in this.navContent"
             :key="idx"
-            @click="$router.push(item.path)">
+            @click="$router.push({name: item.pathName })">
             <v-list-tile-action>
                 <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -44,22 +44,22 @@ export default {
                 {
                     title: "瀑布流视图",
                     icon: "fas fa-stream",
-                    path: "/flow"
+                    pathName: "flow"
                 },
                 {
                     title: "修改库存",
                     icon: "fas fa-edit",
-                    path: "/admin/edit-stock"
+                    pathName: "admin-edit-stock"
                 },
                 {
                     title: "我的订单",
                     icon: "fas fa-list-alt",
-                    path: "/order"
+                    pathName: "order"
                 },
                 {
                     title: "统计信息",
                     icon: "fas fa-asterisk",
-                    path: "/admin/stats"
+                    pathName: "admin-stats"
                 }
             ]
         }

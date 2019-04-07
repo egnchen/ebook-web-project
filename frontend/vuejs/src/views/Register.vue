@@ -60,7 +60,7 @@ export default {
             ],
             emailRules: [
                 v => !!v || '邮箱不能为空！',
-                v => /[^@]+@[^\.]+\.\w+/.test(v) || '格式不正确！'
+                v => /[^@]+@[^\\.]+\.\w+/.test(v) || '格式不正确！'
             ],
             passwordRules: [
                 v => !!v || '密码不能为空！',

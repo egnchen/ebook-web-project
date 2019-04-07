@@ -11,9 +11,10 @@ import 'vuetify/dist/vuetify.min.css'
 import waterfall from 'vue-waterfall2'
 import App from './App.vue'
 
+import axois from 'axios'
+
 Vue.use(VueRouter);
 const router = new VueRouter({
-  mode: 'history',
   routes: routes
 })
 

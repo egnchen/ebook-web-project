@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.4.2",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "vue": "^2.6.6",
     "vue-lazyload": "^1.2.6",
