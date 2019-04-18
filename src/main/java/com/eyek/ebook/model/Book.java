@@ -1,31 +1,47 @@
 package com.eyek.ebook.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.math.BigInteger;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @NotEmpty
+    @Column(length = 63, nullable = false)
     private String title;
+
+    @NotEmpty
+    @Column(length = 63, nullable = false)
     private String author;
+
+    @NotEmpty
+    @Column(length = 63, nullable = false)
     private String publisher;
-    private BigInteger ISBN;
+
+    @NotEmpty
+    @Column(unique = true, length = 15, nullable = false)
+    private long ISBN;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Picture picture;
+
+    @NotNull
+    private int stock;
 
     private String description;
     private float score;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,12 +69,28 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public BigInteger getISBN() {
+    public long getISBN() {
         return ISBN;
     }
 
-    public void setISBN(BigInteger ISBN) {
+    public void setISBN(long ISBN) {
         this.ISBN = ISBN;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getDescription() {

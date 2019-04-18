@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
-    publicPath: '/ebook_war_exploded/'
+  outputDir: path.resolve(__dirname, "../src/main/resources/static")
 }

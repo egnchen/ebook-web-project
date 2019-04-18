@@ -52,11 +52,11 @@ export default {
         getBookList() {
             var vm = this;
             this.prompt = "正在取回数据"
-            axios.get("/bookList")
+            axios.get("http://localhost:8080/books")
             .then(function(response){
                 console.log("book fetch success")
                 console.log(response)
-                vm.books_display = JSON.parse(response.data)
+                vm.books_display = response.data
             })
             .catch(function(error){
                 vm.prompt = "取回数据失败，错误：" + error
