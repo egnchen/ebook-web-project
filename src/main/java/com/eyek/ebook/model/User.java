@@ -1,9 +1,12 @@
 package com.eyek.ebook.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -31,13 +34,8 @@ public class User {
     @NotNull
     private boolean enabled;
 
-    public enum UserRole {
-        ADMIN,
-        USER
-    }
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @ManyToMany
+    private Set<Role> roles;
 
     public int getId() {
         return id;
@@ -71,19 +69,19 @@ public class User {
         this.email = email;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
