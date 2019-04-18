@@ -1,6 +1,5 @@
 package com.eyek.ebook.model;
 
-import com.eyek.ebook.util.JpaConverterJson;
 import com.eyek.ebook.util.PictureSize;
 
 import javax.persistence.*;
@@ -19,8 +18,7 @@ public class Picture {
     private String name;
 
     @Column(length = 15, nullable = false)
-    @Convert(converter = JpaConverterJson.class)
-    private PictureSize size;
+    private String size;
 
     @NotNull
     @NotEmpty
@@ -60,11 +58,21 @@ public class Picture {
         this.thumbPath = thumbPath;
     }
 
-    public PictureSize getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(PictureSize size) {
+    public PictureSize getSizeObject() throws Exception{
+        return PictureSize.fromString(size);
+    }
+
+    public void setSize(String size) {
         this.size = size;
     }
+
+    public void setSizeObject(PictureSize size) {
+        this.size = size.toString();
+    }
+
+
 }

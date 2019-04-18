@@ -13,22 +13,22 @@ public class Book {
     private int id;
 
     @NotEmpty
-    @Column(length = 63, nullable = false)
+    @NotNull
     private String title;
 
     @NotEmpty
-    @Column(length = 63, nullable = false)
+    @NotNull
     private String author;
 
     @NotEmpty
-    @Column(length = 63, nullable = false)
+    @NotNull
     private String publisher;
 
-    @NotEmpty
-    @Column(unique = true, length = 15, nullable = false)
+    @NotNull
+    @Column(unique = true)
     private long ISBN;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Picture picture;
 
     @NotNull

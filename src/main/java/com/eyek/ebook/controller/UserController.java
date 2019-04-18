@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 public class UserController {
 
     @Autowired
@@ -33,6 +33,8 @@ public class UserController {
 
         if(newUser.getRole() == User.UserRole.ADMIN)
             return new Message("Operation not permitted", "You're not allowed to create admin users.");
+        if(userRepository.findByUsername(newUser.getUsername()) != null)
+            return new Message("Operation not permitted", "Username already exists.");
         userRepository.save(newUser);
         return new Message("OK", null);
     }

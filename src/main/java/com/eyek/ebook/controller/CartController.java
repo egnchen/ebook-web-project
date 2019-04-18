@@ -9,9 +9,7 @@ import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
-import javax.validation.Valid;
-
+@RequestMapping("/api")
 @RestController
 public class CartController {
 
@@ -26,7 +24,13 @@ public class CartController {
 
     @GetMapping("/cart")
     public Order getCart() {
-        return cartRepository.getCartOrder();
+        Order cart = cartRepository.getCartOrder();
+        if(cart == null) {
+            cart = new Order();
+            cart.setStatus(Order.OrderStatus.cart);
+            cartRepository.save(cart);
+        }
+        return cart;
     }
 
     @PostMapping("/cart")

@@ -4,7 +4,7 @@
         <v-layout align-center>
             <v-flex xs3>
                 <v-img
-                    :src="'/' + book.img.src"
+                    :src="'/' + book.picture.path"
                     height="125px"
                     contain />
             </v-flex>
@@ -17,7 +17,7 @@
                         <span>{{ book.publisher }}</span>
                         ISBN:<span>{{ book.ISBN || '1234567890' }}</span>
                     </div>
-                    <div>库存：{{ book.stock || 100 }}</div>
+                    <div>库存：{{ book.stock === undefined ? 100 : book.stock}}</div>
                 </div>
             </v-card-title>
             </v-flex>
