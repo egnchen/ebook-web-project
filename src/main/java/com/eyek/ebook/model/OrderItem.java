@@ -1,5 +1,6 @@
 package com.eyek.ebook.model;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,6 +23,7 @@ public class OrderItem {
     private Book book;
 
     @NotNull
+    @ColumnDefault("1")
     private int amount;
 
     @CreationTimestamp

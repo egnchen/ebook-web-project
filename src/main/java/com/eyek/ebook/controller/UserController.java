@@ -32,7 +32,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Message register(@RequestParam @Valid User newUser) {
+    public Message register(@RequestBody @Valid User newUser) {
+        if(newUser.getRoles().isEmpty()) {
+        }
         userService.save(newUser);
 //        if(newUser.getRole() == User.UserRole.ADMIN)
 //            return new Message("Operation not permitted", "You're not allowed to create admin users.");

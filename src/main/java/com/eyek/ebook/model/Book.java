@@ -28,7 +28,7 @@ public class Book {
     @Column(unique = true)
     private long ISBN;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Picture picture;
 
     @NotNull

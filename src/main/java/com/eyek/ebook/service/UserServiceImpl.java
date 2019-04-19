@@ -5,9 +5,11 @@ import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.validation.Valid;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -17,10 +19,11 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public void save(User user) {
+    public void save(@Valid User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
-        userRepository.save(user);
+        if(userRepository.findByUsername(user.getUsername()) == null &&
+                userRepository.findByEmail(user.getEmail()) == null)
+            userRepository.save(user);
     }
 
     @Override

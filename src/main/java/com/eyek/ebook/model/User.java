@@ -1,11 +1,12 @@
 package com.eyek.ebook.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,26 +17,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    @NotEmpty
-    @Column(unique = true, length = 31)
+    @NotBlank
+    @Length(max = 31)
+    @Column(unique = true)
     private String username;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
+    @Length(min = 6)
     private String password;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
+    @Length(max = 31)
     @Email
-    @Column(unique = true, length = 31)
+    @Column(unique = true)
     private String email;
 
     @NotNull
-    private boolean enabled;
+    private boolean enabled = true;
 
     @ManyToMany
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public int getId() {
         return id;
@@ -84,4 +85,5 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

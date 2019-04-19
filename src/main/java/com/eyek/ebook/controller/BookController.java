@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api")
 @RestController
 public class BookController {
@@ -23,7 +25,7 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public Message addBook(@RequestParam Book book) {
+    public Message addBook(@RequestBody @Valid Book book) {
         System.out.println(book.getTitle());
         bookRepository.save(book);
         return new Message("OK", null);

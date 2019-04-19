@@ -2,8 +2,7 @@ package com.eyek.ebook.model;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -14,12 +13,20 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
+
+    public Role() {
+
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

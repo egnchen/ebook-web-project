@@ -2,8 +2,10 @@ package com.eyek.ebook.service;
 
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
+import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +18,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Primary
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -35,13 +41,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 
-//    public User registerNewUserAccount(User newUser)
-//            throws UserAlreadyExistsException, EmailAlreadyExistsException{
-//        if(userRepository.findByUsername(newUser.getUsername()) != null)
-//            throw new UserAlreadyExistsException();
-//        if(userRepository.findByEmail(newUser.getEmail()) != null)
-//            throw new EmailAlreadyExistsException();
-//        userRepository.save(newUser);
-//        return newUser;
-//    }
+    public boolean registerNewUserAccount(User newUser) {
+        if(userRepository.findByUsername(newUser.getUsername()) != null)
+            return false;
+        if(userRepository.findByEmail(newUser.getEmail()) != null)
+            return false;
+        if(newUser.getRoles().isEmpty())
+            newUser.setRoles(Set.of(roleRepository.findByName("ROLE_ADMIN")));
+
+        return true;
+    }
 }

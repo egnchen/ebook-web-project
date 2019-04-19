@@ -52,6 +52,7 @@ form {
 </style>
 
 <script>
+import Axios from 'axios';
 export default {
     data() {
         return {
@@ -70,8 +71,12 @@ export default {
     },
     methods: {
         loginSubmit(){
+            axios.post("http://localhost:8080/perform-login", {
+                params: {
+                    username
+                }
+            })
             setTimeout(() => {
-                console.log("called")
                 this.snackBarPrompt = `登录成功！用户名：${this.username}`
                 this.snackBarVis = true
             }, 500)

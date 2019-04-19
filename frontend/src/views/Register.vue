@@ -43,13 +43,15 @@
 </style>
 
 <script>
+import axios from 'axios'
+
 export default {
     data(){
         return {
-            username: '',
-            email: '',
-            password: '',
-            password_check: '',
+            username: "eyek",
+            email: "cyj205@sjtu.edu.cn",
+            password: "123456",
+            password_check: "123456",
             passwordVis: false,
             valid: false,
             snackBarPrompt: '',
@@ -73,12 +75,24 @@ export default {
     },
     methods: {
         registerSubmit() {
-            console.log("!!!!")
+            console.log("trying to register...")
+            // build user
+            var newUser = {
+                username: this.username,
+                password: this.password,
+                email: this.email
+            }
             var vm = this
-            setTimeout(function(){
+            axios.post("http://localhost:8080/api/register", newUser)
+            .then(function(response){
                 vm.snackBarPrompt = `注册成功！用户名：${vm.username}`
                 vm.snackBarVis = true
-            }, 500);
+                console.log(response)
+            })
+            .catch(function(error){
+                vm.snackBarPrompt = `失败！错误：${error}`
+                vm.snackBarVis = true
+            });
         }
     }
 

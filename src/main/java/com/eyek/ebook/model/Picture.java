@@ -3,8 +3,7 @@ package com.eyek.ebook.model;
 import com.eyek.ebook.util.PictureSize;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "pictures")
@@ -20,8 +19,7 @@ public class Picture {
     @Column(length = 15, nullable = false)
     private String size;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String path;
 
     private String thumbPath;
