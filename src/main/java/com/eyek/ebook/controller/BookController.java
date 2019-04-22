@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @PutMapping("/book")
-    public Message modifyBook(@RequestBody Book book) {
+    public Message modifyBook(@RequestBody @Valid Book book) {
         if(bookRepository.findById(book.getId()).isEmpty())
             return new Message("NOT FOUND", "Check book id.");
         bookRepository.save(book);
@@ -51,16 +51,16 @@ public class BookController {
     public Page<Book> getBooks(
             @RequestParam(required = false) String bookTitle,
             @RequestParam(defaultValue = "0") int pageNumber) {
-        Pageable pageRequest = PageRequest.of(pageNumber, 10);
+        Pageable pageable = PageRequest.of(pageNumber, 10);
         if(bookTitle == null)
-            return bookRepository.findAll(pageRequest);
+            return bookRepository.findAll(pageable);
         else {
             ExampleMatcher matcher = ExampleMatcher.matching()
                     .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
             Book bookExample = new Book();
             bookExample.setTitle(bookTitle);
             Example<Book> example = Example.of(bookExample, matcher);
-            return bookRepository.findAll(example, pageRequest);
+            return bookRepository.findAll(example, pageable);
         }
     }
 }

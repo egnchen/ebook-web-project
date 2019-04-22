@@ -36,15 +36,11 @@ import AdminBookCard from './AdminBookCard'
 import CartBookCard from './CartBookCard'
 import default_bookdata from '../data/books'
 
-import axios from 'axios';
-
 export default {
     props: {
         books: {
             type: Array,
-            default: function() {
-                return default_bookdata.book_list;
-            }
+            default: () => default_bookdata.book_list
         }
     },
     methods: {
@@ -56,13 +52,17 @@ export default {
             }
             if(this.search_string)
                 req_params.bookTitle = this.search_string
-            axios.get("http://localhost:8080/api/books", {
+            
+            var url = this.$route.name === "cart" ? "/cart" : "/books"
+            this.prompt = "取回数据中"
+            this.$axios.get(url, {
                 params: req_params
             })
             .then(function(response){
                 vm.books_display = response.data.content
-                vm.page = response.data.pageNumber + 1
+                vm.page = response.data.pageable.pageNumber + 1
                 vm.page_count = response.data.totalPages
+                vm.prompt = "数据为空"
             })
             .catch(function(error){
                 vm.prompt = "取回数据失败，错误：" + error

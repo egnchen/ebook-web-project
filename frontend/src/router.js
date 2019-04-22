@@ -6,6 +6,7 @@ import Stats from './views/Stats'
 import BookFlow from './components/BookFlow'
 import AdminContainer from './views/AdminContainer'
 import BookList from './components/BookList'
+import Cart from './views/Cart'
 
 const routes = [
     {
@@ -26,7 +27,7 @@ const routes = [
     {
         path: '/cart',
         name: 'cart',
-        component: BookList
+        component: Cart
     },
     {
         path: '/detail',

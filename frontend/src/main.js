@@ -10,6 +10,11 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import waterfall from 'vue-waterfall2'
 import App from './App.vue'
+import axios from 'axios'
+
+// axios config
+axios.defaults.baseURL = 'http://localhost:8080/api/';
+Vue.prototype.$axios = axios;
 
 Vue.use(VueRouter);
 const router = new VueRouter({

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CartServiceImpl implements CartService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepository;
@@ -45,4 +45,13 @@ public class CartServiceImpl implements CartService {
             orderRepository.delete(order);
     }
 
+    @Override
+    public void submitCurrentCartOrder() {
+        User user = authenticationFacade.getCurrentUser();
+        Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
+        if(order != null) {
+            order.setStatus(Order.OrderStatus.submitted);
+            orderRepository.save(order);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.eyek.ebook.service;
 
+import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
@@ -31,12 +32,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        if (user == null) throw new UsernameNotFoundException(username);
+        if (user == null) throw new UsernameNotFoundException("User " + username + " not found.");
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
+
+        LoggerFacade.getLogger().info("Loading user, username: " + user.getUsername());
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }

@@ -1,6 +1,6 @@
 package com.eyek.ebook.model;
 
-import com.eyek.ebook.util.PictureSize;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,8 +16,11 @@ public class Picture {
     @Column(length = 63)
     private String name;
 
-    @Column(length = 15, nullable = false)
-    private String size;
+    @ColumnDefault("0")
+    private int sizeW;
+
+    @ColumnDefault("0")
+    private int sizeH;
 
     @NotBlank
     private String path;
@@ -56,21 +59,19 @@ public class Picture {
         this.thumbPath = thumbPath;
     }
 
-    public String getSize() {
-        return size;
+    public int getSizeW() {
+        return sizeW;
     }
 
-    public PictureSize getSizeObject() throws Exception{
-        return PictureSize.fromString(size);
+    public void setSizeW(int sizeW) {
+        this.sizeW = sizeW;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public int getSizeH() {
+        return sizeH;
     }
 
-    public void setSizeObject(PictureSize size) {
-        this.size = size.toString();
+    public void setSizeH(int sizeH) {
+        this.sizeH = sizeH;
     }
-
-
 }

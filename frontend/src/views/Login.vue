@@ -52,7 +52,7 @@ form {
 </style>
 
 <script>
-import Axios from 'axios';
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -71,15 +71,19 @@ export default {
     },
     methods: {
         loginSubmit(){
-            axios.post("http://localhost:8080/perform-login", {
-                params: {
-                    username
-                }
+            var vm = this;
+            axios.post("http://localhost:8080/api/auth/login", {
+                username: vm.username,
+                password: vm.password
             })
-            setTimeout(() => {
-                this.snackBarPrompt = `登录成功！用户名：${this.username}`
+            .then(function(response){
+                this.snackBarPrompt = `登录成功！消息：${response}`
                 this.snackBarVis = true
-            }, 500)
+            })
+            .catch(function(error){
+                this.snackBarPrompt = `登录失败！消息：${error}`
+                this.snackBarVis = true
+            })
         },
         loginReset() {
             this.$refs.loginForm.reset();

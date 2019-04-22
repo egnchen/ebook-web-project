@@ -1,5 +1,6 @@
 package com.eyek.ebook.config;
 
+import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
@@ -28,6 +29,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup)
             return;
+
+        LoggerFacade.getLogger().info("Seeding default user...");
 
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN");
         Role userRole = createRoleIfNotFound("ROLE_USER");

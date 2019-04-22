@@ -1,5 +1,6 @@
 package com.eyek.ebook.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,9 +18,10 @@ public class OrderItem {
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Order order;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Book book;
 
     @NotNull

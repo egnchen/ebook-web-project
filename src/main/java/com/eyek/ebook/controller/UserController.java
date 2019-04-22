@@ -1,7 +1,9 @@
 package com.eyek.ebook.controller;
 
+import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.UserRepository;
+import com.eyek.ebook.service.SecurityService;
 import com.eyek.ebook.service.UserService;
 import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,12 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SecurityService securityService;
+
     @GetMapping("/user/profile")
     public User getCurrentUser(Principal principal) {
+        LoggerFacade.getLogger().info(principal.toString());
         if(principal instanceof UserDetails) {
             String username = ((UserDetails)principal).getUsername();
             User user = userRepository.findByUsername(username);
@@ -43,4 +49,12 @@ public class UserController {
         userRepository.save(newUser);
         return new Message("OK", null);
     }
+
+    @PostMapping("/auth/post-login")
+    public String postLogin(@RequestBody String username, @RequestParam String password) {
+        // save session
+        LoggerFacade.getLogger().debug("postLogin: saving login session information.");
+        return "OK";
+    }
+
 }

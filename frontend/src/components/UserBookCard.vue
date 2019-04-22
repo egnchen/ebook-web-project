@@ -5,7 +5,7 @@
             <span>评分 {{ book.stars }}</span>
             <v-rating v-model="rating" dense hover half-increments readonly />
             <span class="black--text">
-                <v-btn icon dark color="primary" to="{name: 'buy', params: { id: bookProps.idxData }}">
+                <v-btn icon dark color="primary" @click="addToCart(book.id)">
                     <v-icon dark>add</v-icon>
                 </v-btn>
                 <v-btn icon dark color="pink" to="/">
@@ -47,6 +47,19 @@ export default {
     computed: {
         rating() {
             return Math.round(this.book.stars) / 2;
+        }
+    },
+    methods: {
+        addToCart(bookId) {
+            this.$axios.post("/cart", {
+                "bookId": bookId
+            })
+            .then((response) => {
+                console.log("add succeed, " + response)
+            })
+            .catch((error) => {
+                console.log("add failed, " + error)
+            })
         }
     }
 }
