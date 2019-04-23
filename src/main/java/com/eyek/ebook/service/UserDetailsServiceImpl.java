@@ -1,21 +1,17 @@
 package com.eyek.ebook.service;
 
 import com.eyek.ebook.facade.LoggerFacade;
-import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
-import com.eyek.ebook.repository.UserRepository;
+import com.eyek.ebook.util.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -24,30 +20,23 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) throw new UsernameNotFoundException("User " + username + " not found.");
-
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        User user = userService.findByUsername(username);
+        if (user == null)
+            throw new UsernameNotFoundException("User " + username + " not found.");
 
         LoggerFacade.getLogger().info("Loading user, username: " + user.getUsername());
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+        return new SecurityUser(user);
     }
 
     public boolean registerNewUserAccount(User newUser) {
-        if(userRepository.findByUsername(newUser.getUsername()) != null)
-            return false;
-        if(userRepository.findByEmail(newUser.getEmail()) != null)
+        if(userService.findByUsername(newUser.getUsername()) != null)
             return false;
         if(newUser.getRoles().isEmpty())
             newUser.setRoles(Set.of(roleRepository.findByName("ROLE_ADMIN")));

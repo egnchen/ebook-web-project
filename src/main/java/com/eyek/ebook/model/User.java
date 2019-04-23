@@ -35,7 +35,7 @@ public class User {
     @NotNull
     private boolean enabled = true;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     public int getId() {

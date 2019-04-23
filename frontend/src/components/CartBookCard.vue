@@ -25,6 +25,7 @@
 </style>
 
 <script>
+import axios from 'axios'
 import BookCard from './BookCard'
 export default {
     props: ['book', 'idxData'],

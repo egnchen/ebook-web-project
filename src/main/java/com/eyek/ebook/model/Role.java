@@ -1,6 +1,8 @@
 package com.eyek.ebook.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -18,6 +20,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
     private Set<User> users;
 
     public Role() {
