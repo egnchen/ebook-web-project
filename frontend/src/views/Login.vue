@@ -31,9 +31,6 @@
         </v-form>
     </v-card>
 </v-flex>
-<v-snackbar v-model="snackBarVis" :top="true" :timeout="2000">
-    {{ snackBarPrompt }}
-</v-snackbar>
 </div>
 </template>
 
@@ -52,10 +49,10 @@ form {
 </style>
 
 <script>
-import axios from 'axios'
-import qs from 'querystring'
+    import axios from 'axios'
+    import qs from 'querystring'
 
-export default {
+    export default {
     data() {
         return {
             username: '',
@@ -67,8 +64,7 @@ export default {
             passwordRules: [
                 v => v.length >= 6 || '密码不得少于6位'
             ],
-            snackBarVis: false,
-            snackBarPrompt: ''
+            valid: false
         }
     },
     methods: {
@@ -79,12 +75,18 @@ export default {
                 password: vm.password
             }), {withCredentials: true})
             .then(function(response){
-                this.snackBarPrompt = `登录成功！消息：${response}`
-                this.snackBarVis = true
+                axios.get("/profile")
+                .then((response) => {
+                    vm.$store.commit("setUser", response.data)
+                })
+                .catch((error) => {
+                    vm.$store.commit("invalidateUser")
+                })
+                vm.$store.commit("setPrompt", `登录成功！用户名：${response.data.message}`)
             })
             .catch(function(error){
-                this.snackBarPrompt = `登录失败！消息：${error}`
-                this.snackBarVis = true
+                vm.snackBarPrompt = `登录失败！消息：${error}`
+                vm.snackBarVis = true
             })
         },
         loginReset() {

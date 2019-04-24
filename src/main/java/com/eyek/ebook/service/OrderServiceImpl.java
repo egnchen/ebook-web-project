@@ -1,6 +1,5 @@
 package com.eyek.ebook.service;
 
-import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.OrderRepository;
@@ -17,14 +16,14 @@ public class OrderServiceImpl implements OrderService {
     UserService userService;
 
     @Autowired
-    AuthenticationFacade authenticationFacade;
+    SecurityService securityService;
 
     @Override
     public Order getCurrentCartOrder() {
-        User user = authenticationFacade.getCurrentUser();
+        User user = securityService.getCurrentUser();
         if(user != null) {
             Order order = orderRepository.findByStatusAndUser(
-                    Order.OrderStatus.cart, authenticationFacade.getCurrentUser());
+                    Order.OrderStatus.cart, user);
             if(order == null) {
                 order = new Order();
                 order.setUser(user);
@@ -39,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteCurrentCartOrder() {
-        User user = authenticationFacade.getCurrentUser();
+        User user = securityService.getCurrentUser();
         Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
         if(order != null)
             orderRepository.delete(order);
@@ -47,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void submitCurrentCartOrder() {
-        User user = authenticationFacade.getCurrentUser();
+        User user = securityService.getCurrentUser();
         Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
         if(order != null) {
             order.setStatus(Order.OrderStatus.submitted);

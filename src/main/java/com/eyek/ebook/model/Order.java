@@ -22,7 +22,7 @@ public class Order {
             orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private User user;
 
     public enum OrderStatus {

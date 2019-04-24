@@ -1,5 +1,5 @@
 <template>
-<v-navigation-drawer v-model="value" style="margin-top: 64px" app flat>
+<v-navigation-drawer style="margin-top: 64px" app flat>
     <v-toolbar flat>
         <v-list class="pa-0">
             <v-list-tile avatar>
@@ -7,7 +7,7 @@
                     <img src="/static/user.svg">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{ "管理员爸爸" }}</v-list-tile-title>
+                    <v-list-tile-title>{{ this.$store.getters.user.username }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>

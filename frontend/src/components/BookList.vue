@@ -12,7 +12,7 @@
         {{ prompt }}
     </div>
     <div>
-        <v-btn color="primary" @click="getBookList">获取图书数据</v-btn>
+        <v-btn color="primary" @click="getBookList">刷新列表</v-btn>
     </div>
     <v-flex xs12 md8>
         <v-breadcrumbs :items="path" divider=">" />
@@ -31,12 +31,11 @@
 </template>
 
 <script>
-import UserBookCard from './UserBookCard'
-import AdminBookCard from './AdminBookCard'
-import CartBookCard from './CartBookCard'
-import default_bookdata from '../data/books'
+    import UserBookCard from './UserBookCard'
+    import AdminBookCard from './AdminBookCard'
+    import default_bookdata from '../data/books'
 
-export default {
+    export default {
     props: {
         books: {
             type: Array,
@@ -99,11 +98,10 @@ export default {
         // choose book card type
         if(this.$route.name === 'admin-edit-stock')
             this.bookCardType = 'AdminBookCard'
-        else if(this.$route.name === 'cart')
-            this.bookCardType = 'CartBookCard'
         else
             this.bookCardType = 'UserBookCard'
+        this.getBookList()
     },
-    components: {UserBookCard, AdminBookCard, CartBookCard}
+    components: {UserBookCard, AdminBookCard}
 }
 </script>

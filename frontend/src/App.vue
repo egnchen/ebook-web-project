@@ -53,13 +53,17 @@
             <router-view></router-view>
         </v-container>
     </v-content>
+
+    <v-snackbar v-model="snackBarVis" :top="true" :timeout="2000">
+        {{ this.$store.getters.prompt }}
+    </v-snackbar>
 </v-app>
 </template>
 
 <script>
-import SideBar from './components/SideBar'
+    import SideBar from './components/SideBar'
 
-export default {
+    export default {
     name: 'App',
     components: {
         SideBar
@@ -70,6 +74,17 @@ export default {
             navContent: [
                 {icon: 'fas fa-book', title: '编程'}
             ]
+        }
+    },
+    computed: {
+        snackBarVis: {
+            get() {
+                console.log(!!(this.$store.getters.prompt))
+                return !!(this.$store.getters.prompt)
+            },
+            set() {
+                // emitted as it will be automatically handled
+            }
         }
     }
 }

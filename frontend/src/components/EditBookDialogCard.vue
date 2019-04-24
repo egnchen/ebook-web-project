@@ -37,13 +37,10 @@
 </template>
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
+    export default {
     props: ['book'],
-    created() {
-        console.log(this.book);
-    },
     methods: {
         saveBook() {
             axios.put("/book", this.book)

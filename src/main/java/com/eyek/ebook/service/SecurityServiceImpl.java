@@ -1,6 +1,9 @@
 package com.eyek.ebook.service;
 
+import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.facade.LoggerFacade;
+import com.eyek.ebook.model.User;
+import com.eyek.ebook.util.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +17,9 @@ public class SecurityServiceImpl implements SecurityService{
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -40,6 +46,19 @@ public class SecurityServiceImpl implements SecurityService{
             LoggerFacade.getLogger().info(String.format("Login %s successfully!", username));
         } else {
             LoggerFacade.getLogger().info(String.format("Login %s failed.", username));
+        }
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Object principal = authenticationFacade.getAuthentication().getPrincipal();
+        if(principal instanceof SecurityUser) {
+            System.out.println("Got user, username = " + ((SecurityUser) principal).getUsername());
+            return ((SecurityUser)principal).getUser();
+        } else {
+            // anonymous user
+            System.out.println("Anonymous user");
+            return null;
         }
     }
 }

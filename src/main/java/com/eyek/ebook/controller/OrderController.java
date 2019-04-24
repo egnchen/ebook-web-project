@@ -1,7 +1,6 @@
 package com.eyek.ebook.controller;
 
 import com.eyek.ebook.controller.dto.OrderItemDto;
-import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.OrderItem;
@@ -11,6 +10,7 @@ import com.eyek.ebook.repository.OrderItemRepository;
 import com.eyek.ebook.repository.OrderRepository;
 import com.eyek.ebook.repository.UserRepository;
 import com.eyek.ebook.service.OrderService;
+import com.eyek.ebook.service.SecurityService;
 import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,7 +43,7 @@ public class OrderController {
     private UserRepository userRepository;
 
     @Autowired
-    private AuthenticationFacade authenticationFacade;
+    private SecurityService securityService;
 
     @GetMapping("/cart")
     public Page<OrderItem> getCart(@RequestParam(defaultValue = "0") int pageId) {
@@ -109,7 +109,7 @@ public class OrderController {
     public List<Order> getOrders(@RequestParam(required = false) Integer userId, @Positive@RequestParam(required = false) Integer pageNumber) {
         User user;
         if(userId == null)
-            user = authenticationFacade.getCurrentUser();
+            user = securityService.getCurrentUser();
         else {
             user = userRepository.findById(userId).get();
             if (user == null)

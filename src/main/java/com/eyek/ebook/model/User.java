@@ -35,7 +35,7 @@ public class User {
     @NotNull
     private boolean enabled = true;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private Set<Role> roles = new HashSet<>();
 
     public int getId() {

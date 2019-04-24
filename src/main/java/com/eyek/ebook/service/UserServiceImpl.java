@@ -1,10 +1,12 @@
 package com.eyek.ebook.service;
 
 import com.eyek.ebook.controller.dto.NewUserDto;
+import com.eyek.ebook.controller.dto.UserProfileDto;
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    SecurityService securityService;
 
     @Override
     public void save(@Valid NewUserDto newUserDto) {
@@ -46,5 +54,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserProfileDto getUserProfile(User user) {
+        UserProfileDto userProfileDto = modelMapper.map(user, UserProfileDto.class);
+        return userProfileDto;
     }
 }

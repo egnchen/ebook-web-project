@@ -17,11 +17,11 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JsonBackReference
     private Order order;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private Book book;
 
     @NotNull
