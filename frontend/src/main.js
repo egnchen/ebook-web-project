@@ -13,7 +13,8 @@ import App from './App.vue'
 import axios from 'axios'
 
 // axios config
-axios.defaults.baseURL = 'http://localhost:8080/api/';
+axios.defaults.baseURL = 'http://localhost:8080/api/'
+axios.defaults.withCredentials=true
 Vue.prototype.$axios = axios;
 
 Vue.use(VueRouter);

@@ -4,7 +4,9 @@ import com.eyek.ebook.model.Book;
 import com.eyek.ebook.repository.BookRepository;
 import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,16 +53,13 @@ public class BookController {
     public Page<Book> getBooks(
             @RequestParam(required = false) String bookTitle,
             @RequestParam(defaultValue = "0") int pageNumber) {
+        if(pageNumber > 0)
+            pageNumber -= 1;
         Pageable pageable = PageRequest.of(pageNumber, 10);
         if(bookTitle == null)
             return bookRepository.findAll(pageable);
         else {
-            ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
-            Book bookExample = new Book();
-            bookExample.setTitle(bookTitle);
-            Example<Book> example = Example.of(bookExample, matcher);
-            return bookRepository.findAll(example, pageable);
+            return bookRepository.findBooksByTitleContaining(bookTitle, pageable);
         }
     }
 }

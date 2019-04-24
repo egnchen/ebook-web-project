@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Set;
 
 @Service
 @Primary
@@ -33,14 +32,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         LoggerFacade.getLogger().info("Loading user, username: " + user.getUsername());
         return new SecurityUser(user);
-    }
-
-    public boolean registerNewUserAccount(User newUser) {
-        if(userService.findByUsername(newUser.getUsername()) != null)
-            return false;
-        if(newUser.getRoles().isEmpty())
-            newUser.setRoles(Set.of(roleRepository.findByName("ROLE_ADMIN")));
-
-        return true;
     }
 }

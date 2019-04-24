@@ -10,27 +10,34 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SecurityUser extends User implements UserDetails {
+public class SecurityUser implements UserDetails {
+
+    private User user;
 
     public SecurityUser(User user) {
         if(user != null) {
             // copy the User object passed in
-            this.setId(user.getId());
-            this.setUsername(user.getUsername());
-            this.setEmail(user.getEmail());
-            this.setPassword(user.getPassword());
-            this.setEnabled(user.isEnabled());
-            this.setRoles(user.getRoles());
+            this.user = user;
         }
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : this.getRoles()){
+        for (Role role : user.getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return grantedAuthorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUsername();
     }
 
     @Override
@@ -46,5 +53,14 @@ public class SecurityUser extends User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.isEnabled();
+    }
+
+    public User getUser() {
+        return user;
     }
 }

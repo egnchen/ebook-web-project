@@ -74,10 +74,10 @@ export default {
     methods: {
         loginSubmit(){
             var vm = this;
-            axios.post("http://localhost:8080/api/auth/login", {
+            axios.post("/auth/login", qs.stringify({
                 username: vm.username,
                 password: vm.password
-            })
+            }), {withCredentials: true})
             .then(function(response){
                 this.snackBarPrompt = `登录成功！消息：${response}`
                 this.snackBarVis = true

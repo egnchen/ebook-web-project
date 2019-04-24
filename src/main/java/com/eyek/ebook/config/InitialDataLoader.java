@@ -1,8 +1,8 @@
 package com.eyek.ebook.config;
 
+import com.eyek.ebook.controller.dto.NewUserDto;
 import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.Role;
-import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
+import java.util.Arrays;
 
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -35,12 +35,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN");
         Role userRole = createRoleIfNotFound("ROLE_USER");
 
-        User user = new User();
+        NewUserDto user = new NewUserDto();
         user.setUsername("admin");
-        user.setPassword("adminSecret");
+        user.setPasswordNotEncrypted("adminSecret");
         user.setEmail("admin@ebook.com");
-        user.setRoles(Set.of(adminRole, userRole));
-        user.setEnabled(true);
+        user.setRoles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
         userService.save(user);
 
         alreadySetup = true;

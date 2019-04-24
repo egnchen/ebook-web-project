@@ -22,12 +22,13 @@ public class Order {
             orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     private User user;
 
     public enum OrderStatus {
         cart,
         submitted,
+        paid,
         cancelled
     };
 

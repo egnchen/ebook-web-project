@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
@@ -25,12 +26,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -59,6 +62,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+                SecurityUser securityUser = (SecurityUser)authentication.getPrincipal();
+                httpServletResponse.setContentType("application/json");
+                Message message = new Message("OK", securityUser.getUsername());
+                PrintWriter out = httpServletResponse.getWriter();
+                out.println(new ObjectMapper().writeValueAsString(message));
+                out.flush();
+                out.close();
+                HttpSession httpSession = httpServletRequest.getSession();
+                System.out.println(httpSession.getId());
+            }
+        };
+    }
+
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+                httpServletResponse.setContentType("application/json");
+                Message message = new Message("Error", e.getMessage());
+                PrintWriter out = httpServletResponse.getWriter();
+                out.println(new ObjectMapper().writeValueAsString(message));
+                out.flush();
+                out.close();
+            }
+        };
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8081", "http://127.0.0.1:8081", "http://localhost:8080", "http://127.0.0.1:8080"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(Long.valueOf(3600));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
@@ -84,34 +132,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .permitAll()
-                    .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                            SecurityUser securityUser = (SecurityUser)authentication.getPrincipal();
-                            httpServletResponse.setContentType("application/json");
-                            Message message = new Message("OK", securityUser.getUsername());
-                            PrintWriter out = httpServletResponse.getWriter();
-                            out.println(new ObjectMapper().writeValueAsString(message));
-                            out.flush();
-                            out.close();
-                        }
-                    })
-                    .failureHandler(new AuthenticationFailureHandler() {
-                        @Override
-                        public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                            httpServletResponse.setContentType("application/json");
-                            Message message = new Message("Error", e.getMessage());
-                            PrintWriter out = httpServletResponse.getWriter();
-                            out.println(new ObjectMapper().writeValueAsString(message));
-                            out.flush();
-                            out.close();
-                        }
-                    })
+                    .successHandler(authenticationSuccessHandler())
+                    .failureHandler(authenticationFailureHandler())
+
                     .and()
 
                 .logout()
                     .logoutUrl("/api/auth/logout")
-                    .logoutSuccessUrl("/logout")
+                    .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                     .permitAll();
     }
@@ -126,17 +154,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081", "http://127.0.0.1:8081"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        // configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 }
