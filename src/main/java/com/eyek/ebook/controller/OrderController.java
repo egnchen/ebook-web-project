@@ -1,7 +1,6 @@
 package com.eyek.ebook.controller;
 
 import com.eyek.ebook.controller.dto.OrderItemDto;
-import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.OrderItem;
 import com.eyek.ebook.model.User;
@@ -12,6 +11,7 @@ import com.eyek.ebook.repository.UserRepository;
 import com.eyek.ebook.service.OrderService;
 import com.eyek.ebook.service.SecurityService;
 import com.eyek.ebook.util.Message;
+import com.eyek.ebook.util.OutOfStockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -55,24 +56,33 @@ public class OrderController {
     // add order item to cart
     // add new item or add amount to item that already exists
     @PostMapping("/cart")
-    public Message addCartItem(@RequestBody OrderItemDto orderItemDto) {
-        Order cart = orderService.getCurrentCartOrder();
-        for (OrderItem item : cart.getOrderItems()) {
-            if(item.getBook().getId() == orderItemDto.getBookId()) {
-                item.setAmount(item.getAmount() + orderItemDto.getAmount());
-                orderRepository.save(cart);
-                return new Message("OK", null);
+    public Message addCartItem(@RequestBody OrderItemDto orderItemDto, HttpServletResponse response) {
+        try {
+            Order cart = orderService.getCurrentCartOrder();
+            for (OrderItem item : cart.getOrderItems()) {
+                if (item.getBook().getId() == orderItemDto.getBookId()) {
+                    item.setAmount(item.getAmount() + orderItemDto.getAmount());
+                    if (item.getAmount() > item.getBook().getStock())
+                        throw new OutOfStockException(item);
+                    orderRepository.save(cart);
+                    return new Message("OK", null);
+                }
             }
+            // add new one
+            OrderItem orderItem = new OrderItem();
+            orderItem.setAmount(orderItemDto.getAmount());
+            orderItem.setBook(bookRepository.getOne(orderItemDto.getBookId()));
+            orderItem.setOrder(cart);
+            if (orderItemDto.getAmount() > bookRepository.getOne(orderItemDto.getBookId()).getStock()) {
+                // out of stock
+                throw new OutOfStockException(orderItem);
+            }
+            orderRepository.save(cart);
+            return new Message("OK", null);
+        } catch (OutOfStockException e) {
+            response.setStatus(400);
+            return new Message("error", String.format("book %s out of stock.", e.getOrderItem().getBook().getTitle()));
         }
-        // add new one
-        OrderItem orderItem = new OrderItem();
-        orderItem.setAmount(orderItemDto.getAmount());
-        orderItem.setBook(bookRepository.getOne(orderItemDto.getBookId()));
-        orderItem.setOrder(cart);
-        orderItemRepository.save(orderItem);
-        LoggerFacade.getLogger().debug("orderItem saved.");
-        orderRepository.save(cart);
-        return new Message("OK", null);
     }
 
     // TODO security exploitable
@@ -100,8 +110,13 @@ public class OrderController {
     }
 
     @PostMapping("/cart/submit")
-    public Message submitOrder() {
-        orderService.submitCurrentCartOrder();
+    public Message submitOrder(HttpServletResponse response) {
+        try {
+            orderService.submitCurrentCartOrder();
+        } catch(OutOfStockException e) {
+            response.setStatus(400);
+            return new Message("Error", String.format("order for book %s out of stock.", e.getOrderItem().getBook().getTitle()));
+        }
         return new Message("OK", null);
     }
 

@@ -40,19 +40,16 @@
     import axios from 'axios';
 
     export default {
-    props: ['book'],
-    methods: {
-        saveBook() {
-            axios.put("/book", this.book)
-            .then(function(response){
-                console.log("Success!" + response)
-            })
-            .catch(function(error){
-                console.log("Failed!" + error)
-            })
-            this.$emit("close-dialog")
-        }
+props: ['book'],
+methods: {
+    saveBook() {
+        axios.put("/book", this.book)
+        .catch((error) => {
+            this.$store.commit("setPrompt", `修改失败，错误${error}`)
+        })
+        this.$emit("close-dialog")
     }
+}
 }
 </script>
 

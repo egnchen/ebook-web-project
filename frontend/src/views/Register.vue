@@ -43,9 +43,9 @@
 </style>
 
 <script>
-import axios from 'axios'
+    import axios from 'axios'
 
-export default {
+    export default {
     data(){
         return {
             username: "eyek",
@@ -79,7 +79,7 @@ export default {
             // build user
             var newUser = {
                 username: this.username,
-                password: this.password,
+                passwordNotEncrypted: this.password,
                 email: this.email
             }
             var vm = this

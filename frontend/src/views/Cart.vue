@@ -31,6 +31,10 @@
             </v-alert>
         </template>
     </v-data-table>
+    <v-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="submitOrder">提交订单</v-btn>
+    </v-actions>
 </v-card>
 </template>
 
@@ -58,6 +62,16 @@ export default {
             })
             .catch(error => {
                 console.log("Failed, " + error)
+            })
+        },
+        submitOrder() {
+            let vm = this
+            this.$axios.post("/cart/submit")
+            .then(response => {
+                vm.$store.commit("setPrompt", "提交成功！")
+            })
+            .catch(error => {
+                vm.$store.commit("setPrompt", `提交失败，提示信息：${error}`)
             })
         }
     },

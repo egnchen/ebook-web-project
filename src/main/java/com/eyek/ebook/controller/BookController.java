@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,13 +20,14 @@ public class BookController {
     private BookRepository bookRepository;
 
     @GetMapping("/book")
-    public Book getBook(@RequestParam int id) {
-        Book book = bookRepository.findById(id).get();
+    public Book getBook(@RequestParam int bookId) {
+        Book book = bookRepository.findById(bookId).get();
         System.out.println(book.getTitle());
         System.out.println(book.getAuthor());
         return book;
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/book")
     public Message addBook(@RequestBody @Valid Book book) {
         System.out.println(book.getTitle());
@@ -33,6 +35,7 @@ public class BookController {
         return new Message("OK", null);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/book")
     public Message modifyBook(@RequestBody @Valid Book book) {
         if(bookRepository.findById(book.getId()).isEmpty())
@@ -41,9 +44,10 @@ public class BookController {
         return new Message("OK", null);
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/book")
-    public Message deleteBook(@RequestParam int id) {
-        Book book = bookRepository.findById(id).get();
+    public Message deleteBook(@RequestParam int bookId) {
+        Book book = bookRepository.getOne(bookId);
         if(book == null) return new Message("NOT FOUND", "Check book id.");
         bookRepository.delete(book);
         return new Message("OK", null);

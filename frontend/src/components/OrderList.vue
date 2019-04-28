@@ -9,18 +9,19 @@
     </v-card-title>
     <v-data-table :headers="headers" :items="order" class="elevation-1" :search="searchString">
         <template v-slot:items="props">
-            <td>{{ props.item.title }}</td>
-            <td>
-                <v-edit-dialog :return-value.sync="props.item.amount" lazy> 
-                    {{ props.item.amount }}
-                    <template v-slot:input>
-                        <v-text-field
-                        v-model="props.item.amount"
-                        type="number" label="编辑"
-                        single-line counter />
-                    </template>
-                </v-edit-dialog>
-            </td>
+            <tr @click="props.expanded = !props.expanded">
+                <td>{{ props.item.updateTime }}</td>
+                <td>{{ props.item.status }}</td>
+            </tr>
+        </template>
+        <template v-slot:expand="props">
+          <v-card flat>
+              <v-layout>
+                  <v-flex xs12 v-for="(itm,idx) in props.item.orderItems" :key="idx">
+                      书名：{{ itm.book.title }} 数量：{{ itm.amount }}
+                  </v-flex>
+              </v-layout>
+          </v-card>
         </template>
         <v-alert v-slot:no-results :value="true" color="error" icon="fas fa-warning">
           Your search for "{{ searchString }}" found no results.
@@ -33,44 +34,29 @@
 export default {
     data() {
         return {
-            order: [
-                {
-                    title: 'bookA',
-                    amount: 1
-                },
-                {
-                    title: 'bookB',
-                    amount: 2
-                },
-                {
-                    title: 'bookC',
-                    amount: 1
-                },
-                {
-                    title: 'bookD',
-                    amount: 2
-                },
-                {
-                    title: 'bookE',
-                    amount: 1
-                },
-                {
-                    title: 'bookF',
-                    amount: 2
-                }
-            ],
+            order: [],
             headers: [
                 {
-                    text: '书名',
-                    value: 'title'
+                    text: '日期',
+                    value: 'updateTime'
                 },
                 {
-                    text: '数目',
-                    value: 'amount'
+                    text: '状态',
+                    value: 'status'
                 }
             ],
             searchString: ''
         }
+    },
+    created() {
+        let vm = this
+        this.$axios.get("/orders")
+        .then(response => {
+            vm.order = response.data
+        })
+        .catch(error => {
+            vm.$state.commit("setPrompt", `error, ${error}`)
+        })
     }
 }
 </script>

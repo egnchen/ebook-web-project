@@ -83,7 +83,7 @@
                 return !!(this.$store.getters.prompt)
             },
             set() {
-                // emitted as it will be automatically handled
+                this.$store.commit("setPrompt", "")
             }
         }
     }

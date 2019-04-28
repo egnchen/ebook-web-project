@@ -3,6 +3,7 @@ package com.eyek.ebook.controller.dto;
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Arrays;
 import java.util.List;
 
 public class NewUserDto {
@@ -17,7 +18,7 @@ public class NewUserDto {
     private String passwordNotEncrypted;
 
     @Column(nullable = true)
-    private List<String> roles;
+    private List<String> roles = Arrays.asList("ROLE_USER");
 
     public String getUsername() {
         return username;

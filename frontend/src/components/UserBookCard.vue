@@ -17,7 +17,7 @@
                             <v-icon dark>list</v-icon>
                         </v-btn>
                     </template>
-                    <BookDetailCard :book="book" />
+                    <BookDetailCard :bookId="book.id" />
                 </v-dialog>
             </span>
         </div>
@@ -39,9 +39,10 @@
 </style>
 
 <script>
-import BookCard from './BookCard'
-import BookDetailCard from './BookDetailCard'
-export default {
+    import BookCard from './BookCard'
+    import BookDetailCard from './BookDetailCard'
+
+    export default {
     props: ['book', 'idxData'],
     components: {BookCard, BookDetailCard},
     computed: {
@@ -55,10 +56,10 @@ export default {
                 "bookId": bookId
             })
             .then((response) => {
-                console.log("add succeed, " + response)
+                this.$store.commit("setPrompt", `添加成功`)
             })
             .catch((error) => {
-                console.log("add failed, " + error)
+                this.$store.commit("setPrompt", `添加失败`)
             })
         }
     }

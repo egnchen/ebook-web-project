@@ -44,13 +44,14 @@
     },
     methods: {
         getBookList() {
-            var vm = this;
+            let vm = this;
             this.prompt = "正在取回数据"
-            var req_params = {
-                pageNumber: this.page
-            }
-            if(this.search_string)
+            let req_params = {}
+            if(this.search_string) {
                 req_params.bookTitle = this.search_string
+                req_params.pageNumber = 1
+            } else
+                req_params.pageNumber = this.page
             
             var url = this.$route.name === "cart" ? "/cart" : "/books"
             this.prompt = "取回数据中"

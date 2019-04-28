@@ -19,9 +19,9 @@
                     </div>
                     <div>出版商：{{ book.publisher }}</div>
                     <div>ISBN：{{ book.ISBN || '1234567890' }}</div>
-                    <div>库存：{{ book.stock || 100 }}</div>
+                    <div>库存：{{ book.stock || "未知"}}</div>
                     
-                    <div>简介: {{ book.desc }}</div>
+                    <div>简介: {{ book.description }}</div>
                 </div>
             </v-flex>
         </v-layout>
@@ -36,7 +36,30 @@
 
 <script>
 export default {
-    props: ['book'],
+    props: ['bookId'],
+    data() {
+        return {
+            book: {
+                picture: {
+                    path: "loading.gif"
+                }
+            }
+        }
+    },
+    created() {
+        let vm = this
+        this.$axios.get("/book", {
+            params: {
+                bookId: this.bookId
+            }
+        })
+        .then(response => {
+            vm.book = response.data
+        })
+        .catch(error => {
+            vm.$store.commit("setPrompt", `取回数据失败，error：${error}`)
+        })
+    },
     computed: {
         rating: {
             get() {

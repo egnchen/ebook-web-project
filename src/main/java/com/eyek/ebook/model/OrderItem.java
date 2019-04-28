@@ -21,7 +21,7 @@ public class OrderItem {
     @JsonBackReference
     private Order order;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private Book book;
 
     @NotNull
