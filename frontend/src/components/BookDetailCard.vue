@@ -46,19 +46,21 @@ export default {
             }
         }
     },
-    created() {
-        let vm = this
-        this.$axios.get("/book", {
-            params: {
-                bookId: this.bookId
-            }
-        })
-        .then(response => {
-            vm.book = response.data
-        })
-        .catch(error => {
-            vm.$store.commit("setPrompt", `取回数据失败，error：${error}`)
-        })
+    watch: {
+        bookId(newVal) {
+            let vm = this
+            this.$axios.get("/book", {
+                params: {
+                    bookId: this.bookId
+                }
+            })
+            .then(response => {
+                vm.book = response.data
+            })
+            .catch(error => {
+                vm.$store.commit("setPrompt", `取回数据失败，error：${error}`)
+            })
+        }
     },
     computed: {
         rating: {

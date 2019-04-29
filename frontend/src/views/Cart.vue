@@ -57,11 +57,12 @@ export default {
     methods: {
         updateOrderItem(orderItem) {
             this.$axios.put("/cart", orderItem)
+            let vm = this
             .then(response => {
-                console.log("Success, " + response)
+                vm.$store.commit("setPrompt", `修改成功`)
             })
             .catch(error => {
-                console.log("Failed, " + error)
+                vm.$store.commit("setPrompt", `修改失败，${error}`)
             })
         },
         submitOrder() {

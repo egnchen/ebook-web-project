@@ -86,11 +86,15 @@ public class OrderController {
         }
     }
 
-    // TODO security exploitable
     @PutMapping("/cart")
-    public Message modifyCartItem(@RequestBody OrderItem orderItem) {
+    public Message modifyCartItem(@RequestBody OrderItem orderItem, HttpServletResponse response) {
         OrderItem orderItemInRepo = orderItemRepository.getOne(orderItem.getId());
         if(orderItemInRepo != null) {
+            if(orderItemInRepo.getOrder() != orderService.getCurrentCartOrder()) {
+                // illegal option - modifying other user's order item
+                response.setStatus(403);
+                return new Message("Input error", "Wrong order id.");
+            }
             if(orderItem.getAmount() == 0) orderItemRepository.delete(orderItemInRepo);
             else {
                 orderItemInRepo.setAmount(orderItem.getAmount());
@@ -102,11 +106,17 @@ public class OrderController {
     }
 
     @DeleteMapping("/cart")
-    public Message removeCartItem(@RequestParam int orderItemId) {
+    public Message removeCartItem(@RequestParam int orderItemId, HttpServletResponse response) {
         OrderItem orderItem = orderItemRepository.getOne(orderItemId);
-        if(orderItem.getOrder().getStatus() == Order.OrderStatus.cart) {
-            orderItemRepository.delete(orderItem);
-            return new Message("OK", null);
+        if(orderItem != null) {
+            if(orderItem.getOrder() != orderService.getCurrentCartOrder()) {
+                response.setStatus(403);
+                return new Message("Input error", "Wrong order id.");
+            }
+            if(orderItem.getOrder().getStatus() == Order.OrderStatus.cart) {
+                orderItemRepository.delete(orderItem);
+                return new Message("OK", null);
+            } else return new Message("Input error", "Wrong order item id.");
         } else return new Message("Input error", "Wrong order item id.");
     }
 

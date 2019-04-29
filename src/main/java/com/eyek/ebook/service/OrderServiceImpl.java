@@ -54,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
             // check storage
             for(OrderItem orderItem: order.getOrderItems()) {
                 Book book = orderItem.getBook();
-                System.out.println(String.format("Checking book[%s] stock=%d amount=%d",book.getTitle(), book.getStock(), orderItem.getAmount()));
                 if(orderItem.getAmount() <= book.getStock()) {
                     book.setStock(book.getStock() - orderItem.getAmount());
                 } else {
