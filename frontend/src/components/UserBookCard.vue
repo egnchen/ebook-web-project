@@ -52,14 +52,16 @@
     },
     methods: {
         addToCart(bookId) {
+            let vm = this
             this.$axios.post("/cart", {
                 "bookId": bookId
             })
             .then((response) => {
-                this.$store.commit("setPrompt", `添加成功`)
+                vm.$store.commit("setPrompt", `添加成功`)
             })
             .catch((error) => {
-                this.$store.commit("setPrompt", `添加失败`)
+                let resp = error.response
+                vm.$store.commit("setPrompt", `添加失败，${resp.data ? resp.data.status + ' ' + resp.data.message : error}`)
             })
         }
     }

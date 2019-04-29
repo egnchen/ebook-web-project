@@ -39,7 +39,6 @@ const store = new Vuex.Store({
             }
         },
         setPrompt(state, prompt) {
-            console.log(prompt)
             state.prompt = prompt
         }
     }

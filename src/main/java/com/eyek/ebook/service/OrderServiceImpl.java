@@ -25,19 +25,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getCurrentCartOrder() {
         User user = securityService.getCurrentUser();
-        if(user != null) {
-            Order order = orderRepository.findByStatusAndUser(
-                    Order.OrderStatus.cart, user);
-            if(order == null) {
-                order = new Order();
-                order.setUser(user);
-                order.setStatus(Order.OrderStatus.cart);
-                orderRepository.save(order);
-            }
-            return order;
-        }
-        else
+        if(user == null)
             return null;
+        Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
+        if(order == null) {
+            order = new Order();
+            order.setUser(user);
+            order.setStatus(Order.OrderStatus.cart);
+            orderRepository.save(order);
+        }
+        return order;
     }
 
     @Override

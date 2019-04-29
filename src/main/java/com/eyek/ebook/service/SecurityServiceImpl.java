@@ -53,11 +53,9 @@ public class SecurityServiceImpl implements SecurityService{
     public User getCurrentUser() {
         Object principal = authenticationFacade.getAuthentication().getPrincipal();
         if(principal instanceof SecurityUser) {
-            System.out.println("Got user, username = " + ((SecurityUser) principal).getUsername());
             return ((SecurityUser)principal).getUser();
         } else {
             // anonymous user
-            System.out.println("Anonymous user");
             return null;
         }
     }

@@ -1,8 +1,9 @@
 package com.eyek.ebook.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "books")
@@ -12,27 +13,30 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String title;
 
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String author;
 
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String publisher;
 
     @NotNull
-    @Column(unique = true)
-    private long ISBN;
+    @Column(unique = true, length = 13)
+    private String ISBN;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Picture picture;
 
     @NotNull
+    @PositiveOrZero
     private int stock;
+
+    @NotNull
+    @PositiveOrZero
+    @Column(precision = 8, scale = 2)
+    private float price;
 
     private String description;
     private float score;
@@ -69,11 +73,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public long getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(long ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -107,5 +111,13 @@ public class Book {
 
     public void setScore(float score) {
         this.score = score;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

@@ -73,6 +73,7 @@ public class OrderController {
             orderItem.setAmount(orderItemDto.getAmount());
             orderItem.setBook(bookRepository.getOne(orderItemDto.getBookId()));
             orderItem.setOrder(cart);
+            orderItemRepository.save(orderItem);
             if (orderItemDto.getAmount() > bookRepository.getOne(orderItemDto.getBookId()).getStock()) {
                 // out of stock
                 throw new OutOfStockException(orderItem);
