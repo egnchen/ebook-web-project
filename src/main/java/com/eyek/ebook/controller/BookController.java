@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,15 +23,12 @@ public class BookController {
     @GetMapping("/book")
     public Book getBook(@RequestParam int bookId) {
         Book book = bookRepository.findById(bookId).get();
-        System.out.println(book.getTitle());
-        System.out.println(book.getAuthor());
         return book;
     }
 
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/book")
     public Message addBook(@RequestBody @Valid Book book) {
-        System.out.println(book.getTitle());
         bookRepository.save(book);
         return new Message("OK", null);
     }
@@ -60,10 +58,11 @@ public class BookController {
         if(pageNumber > 0)
             pageNumber -= 1;
         Pageable pageable = PageRequest.of(pageNumber, 10);
-        if(bookTitle == null)
-            return bookRepository.findAll(pageable);
+        if(bookTitle == null) {
+            return bookRepository.findBooksWithPic(pageable);
+        }
         else {
-            return bookRepository.findBooksByTitleContaining(bookTitle, pageable);
+            return bookRepository.findBooksWithPicByTitleContaining(bookTitle, pageable);
         }
     }
 }

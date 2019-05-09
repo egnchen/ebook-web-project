@@ -43,12 +43,13 @@
 props: ['book'],
 methods: {
     saveBook() {
+        let vm = this
         axios.put("/book", this.book)
         .then(response => {
-            this.$store.commit("setPrompt", "修改成功")
+            vm.$store.commit("setPrompt", "修改成功")
         })
         .catch(error => {
-            this.$store.commit("setPrompt", `修改失败，错误${error}`)
+            vm.$store.commit("setPrompt", `修改失败，错误${error}`)
         })
         this.$emit("close-dialog")
     }

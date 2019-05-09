@@ -56,10 +56,19 @@ export default {
     },
     methods: {
         updateOrderItem(orderItem) {
-            this.$axios.put("/cart", orderItem)
             let vm = this
+            this.$axios.put("/cart", orderItem)
             .then(response => {
                 vm.$store.commit("setPrompt", `修改成功`)
+                if(orderItem.amount == 0) {
+                    // delete the entry
+                    console.log(`orderItem.id=${orderItem.id}`)
+                    console.log(vm.order)
+                    for(let orderitm in vm.order) {
+                        console.log(orderitm.id)
+                    }
+                    vm.order = vm.order.filter(item => (item.id !== orderItem.id))
+                }
             })
             .catch(error => {
                 vm.$store.commit("setPrompt", `修改失败，${error}`)
@@ -70,6 +79,7 @@ export default {
             this.$axios.post("/cart/submit")
             .then(response => {
                 vm.$store.commit("setPrompt", "提交成功！")
+                vm.order = []
             })
             .catch(error => {
                 vm.$store.commit("setPrompt", `提交失败，提示信息：${error}`)

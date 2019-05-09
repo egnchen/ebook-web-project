@@ -56,6 +56,11 @@ const router = new VueRouter({
 // axios config
 axios.defaults.baseURL = 'http://localhost:8080/api/'
 axios.defaults.withCredentials=true
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if(error.response.status == 302) console.log("Hey!")
+    })
 Vue.prototype.$axios = axios;
 
 Vue.use(Vuetify, {

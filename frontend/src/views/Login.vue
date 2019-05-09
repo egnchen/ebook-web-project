@@ -83,7 +83,7 @@ form {
                     vm.$store.commit("invalidateUser")
                 })
                 vm.$store.commit("setPrompt", `登录成功！用户名：${response.data.message}`)
-                vm.$route.push("/")
+                vm.$route.push("index")
             })
             .catch(function(error){
                 vm.snackBarPrompt = `登录失败！消息：${error}`

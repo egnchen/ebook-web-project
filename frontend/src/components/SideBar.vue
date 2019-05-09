@@ -44,7 +44,7 @@ export default {
                 {
                     title: "瀑布流视图",
                     icon: "fas fa-stream",
-                    pathName: "flow"
+                    pathName: "bookflow"
                 },
                 {
                     title: "修改库存",
@@ -59,7 +59,7 @@ export default {
                 {
                     title: "统计信息",
                     icon: "fas fa-asterisk",
-                    pathName: "admin-stats"
+                    pathName: "admin-view-stats"
                 }
             ]
         }

@@ -17,17 +17,13 @@
 <script>
 import { Waterfall, WaterfallItem } from 'vue2-waterfall'
 import BookCover from './BookCover'
-import default_book_data from '../data/books'
+// import default_book_data from '../data/books'
 
 export default {
     components: {
         Waterfall, WaterfallItem, BookCover
     },
     props: {
-        books: {
-            type: Array,
-            default: function() { return default_book_data.book_list; }
-        },
         minColumn: {
             required: false,
             default: function() {return 2;}
@@ -44,6 +40,20 @@ export default {
             required: false,
             default: function() {return 15;}
         }
+    },
+    data() {
+        return {
+            books: []
+        }
+    },
+    created() {
+        this.$axios.get("/books")
+        .then(response => {
+            this.books = response.data.content
+        })
+        .catch(error => {
+            this.$store.commit("setPrompt", `错误，${error}`)
+        })
     }
 }
 </script>

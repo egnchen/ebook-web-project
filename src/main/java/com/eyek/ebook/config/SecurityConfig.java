@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -107,6 +109,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new AccessDeniedHandler() {
+            @Override
+            public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+                httpServletResponse.setStatus(403);
+                httpServletResponse.respon
+            }
+        }
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
@@ -127,7 +140,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
 
                 .formLogin()
-                    .loginPage("http://localhost:8081/login")
+                    .loginPage("/login")
                     .loginProcessingUrl("/api/auth/login")
                     .usernameParameter("username")
                     .passwordParameter("password")
@@ -136,6 +149,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(authenticationFailureHandler())
 
                     .and()
+
+                .exceptionHandling()
+                    .accessDeniedHandler()
 
                 .logout()
                     .logoutUrl("/api/auth/logout")
