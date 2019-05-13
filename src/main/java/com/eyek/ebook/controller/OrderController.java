@@ -8,15 +8,15 @@ import com.eyek.ebook.repository.BookRepository;
 import com.eyek.ebook.repository.OrderItemRepository;
 import com.eyek.ebook.repository.OrderRepository;
 import com.eyek.ebook.repository.UserRepository;
+import com.eyek.ebook.security.SecurityService;
 import com.eyek.ebook.service.OrderService;
-import com.eyek.ebook.service.SecurityService;
 import com.eyek.ebook.util.Message;
 import com.eyek.ebook.util.OutOfStockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RequestMapping("/api")
-@Secured({"ROLE_ADMIN", "ROLE_USER"})
+@PreAuthorize("hasRole('ROLE_USER')")
 @RestController
 public class OrderController {
 
@@ -73,11 +73,11 @@ public class OrderController {
             orderItem.setAmount(orderItemDto.getAmount());
             orderItem.setBook(bookRepository.getOne(orderItemDto.getBookId()));
             orderItem.setOrder(cart);
-            orderItemRepository.save(orderItem);
             if (orderItemDto.getAmount() > bookRepository.getOne(orderItemDto.getBookId()).getStock()) {
                 // out of stock
                 throw new OutOfStockException(orderItem);
             }
+            orderItemRepository.save(orderItem);
             orderRepository.save(cart);
             return new Message("OK", null);
         } catch (OutOfStockException e) {
@@ -148,4 +148,9 @@ public class OrderController {
             return orderRepository.findOrdersByUser(user);
     }
 
+//    @GetMapping("/stats")
+//    public Map<String, String> getStat() {
+//        User user = securityService.getCurrentUser();
+//        List<Order> orders = orderRepository.findAllWithItemByUser(user);
+//    }
 }

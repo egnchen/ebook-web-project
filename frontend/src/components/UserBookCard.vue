@@ -17,7 +17,7 @@
                             <v-icon dark>list</v-icon>
                         </v-btn>
                     </template>
-                    <BookDetailCard :bookId="book.id" />
+                    <BookDetailCard :bookId="book.id"/>
                 </v-dialog>
             </span>
         </div>

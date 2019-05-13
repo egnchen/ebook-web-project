@@ -1,5 +1,8 @@
 package com.eyek.ebook.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,7 +29,8 @@ public class Book {
     @Column(unique = true, length = 13)
     private String ISBN;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Fetch(FetchMode.JOIN)
     private Picture picture;
 
     @NotNull

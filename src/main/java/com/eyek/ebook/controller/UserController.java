@@ -2,7 +2,7 @@ package com.eyek.ebook.controller;
 
 import com.eyek.ebook.controller.dto.NewUserDto;
 import com.eyek.ebook.controller.dto.UserProfileDto;
-import com.eyek.ebook.service.SecurityService;
+import com.eyek.ebook.security.SecurityService;
 import com.eyek.ebook.service.UserService;
 import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;

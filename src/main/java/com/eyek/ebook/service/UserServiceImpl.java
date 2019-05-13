@@ -6,6 +6,7 @@ import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.repository.UserRepository;
+import com.eyek.ebook.security.SecurityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

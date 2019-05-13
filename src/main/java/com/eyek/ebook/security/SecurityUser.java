@@ -1,4 +1,4 @@
-package com.eyek.ebook.util;
+package com.eyek.ebook.security;
 
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;

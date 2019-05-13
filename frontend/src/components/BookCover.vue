@@ -1,11 +1,11 @@
 <template>
 <v-card class="book-cover">
     <div class="book-cover-img-container"
-        :style="{height: book.img.size[1]/book.img.size[0]*itemWidth + 'px'}">
+        :style="{height: book.picture.sizeH/book.picture.sizeW*itemWidth + 'px'}">
         <v-dialog max-width="800px">
             <template v-slot:activator="{ on }">
                 <v-img class="book-cover-img" :alt="'public/static/book.svg'"
-                    :src="book.img.src" v-on="on">
+                    :src="book.picture.path" v-on="on">
                 </v-img>
             </template>
             <BookDetailCard :book="book" />
@@ -71,9 +71,9 @@
 
 <script>
 
-import BookDetailCard from './BookDetailCard'
+    import BookDetailCard from './BookDetailCard'
 
-export default {
+    export default {
     components: { BookDetailCard },
     props: ['book', 'itemWidth'],
 }

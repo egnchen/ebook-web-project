@@ -1,9 +1,8 @@
-package com.eyek.ebook.service;
+package com.eyek.ebook.security;
 
-import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
-import com.eyek.ebook.util.SecurityUser;
+import com.eyek.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.logging.Logger;
 
 @Service
 @Primary
@@ -27,10 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userService.findByUsername(username);
+        Logger.getLogger(this.getClass().getName()).info("Loading user, username: " + username);
         if (user == null)
             throw new UsernameNotFoundException("User " + username + " not found.");
 
-        LoggerFacade.getLogger().info("Loading user, username: " + user.getUsername());
         return new SecurityUser(user);
     }
 }

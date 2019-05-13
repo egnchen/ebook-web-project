@@ -30,7 +30,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         if (alreadySetup)
             return;
 
-        LoggerFacade.getLogger().info("Seeding default user...");
+        LoggerFacade.getLogger(this).info("Seeding default user...");
 
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN");
         Role userRole = createRoleIfNotFound("ROLE_USER");
