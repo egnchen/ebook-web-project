@@ -1,5 +1,8 @@
 package com.eyek.ebook.security;
 
+/*
+JWT payload subject.
+ */
 public class AuthUserDto {
     private String username;
 

@@ -6,7 +6,4 @@ public interface SecurityService {
 
     String getLoggedInUsername();
     User getCurrentUser();
-
-    //boolean login(String username, String password);
-    boolean loginJwt(String jwtToken);
 }

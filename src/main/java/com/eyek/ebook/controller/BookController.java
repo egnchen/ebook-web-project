@@ -2,12 +2,12 @@ package com.eyek.ebook.controller;
 
 import com.eyek.ebook.model.Book;
 import com.eyek.ebook.repository.BookRepository;
-import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,27 +28,27 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/book")
-    public Message addBook(@RequestBody @Valid Book book) {
+    public ResponseEntity addBook(@RequestBody @Valid Book book) {
         bookRepository.save(book);
-        return new Message("OK", null);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/book")
-    public Message modifyBook(@RequestBody @Valid Book book) {
+    public ResponseEntity<String> modifyBook(@RequestBody @Valid Book book) {
         if(bookRepository.findById(book.getId()).isEmpty())
-            return new Message("NOT FOUND", "Check book id.");
+            return new ResponseEntity<>("Book not found, check bookId.", HttpStatus.NOT_FOUND);
         bookRepository.save(book);
-        return new Message("OK", null);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/book")
-    public Message deleteBook(@RequestParam int bookId) {
+    public ResponseEntity<String> deleteBook(@RequestParam int bookId) {
         Book book = bookRepository.getOne(bookId);
-        if(book == null) return new Message("NOT FOUND", "Check book id.");
+        if(book == null) return new ResponseEntity<>("Book not found, check bookId.", HttpStatus.NOT_FOUND);
         bookRepository.delete(book);
-        return new Message("OK", null);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/books")
@@ -64,5 +64,11 @@ public class BookController {
         else {
             return bookRepository.findBooksWithPicByTitleContaining(bookTitle, pageable);
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/test")
+    public ResponseEntity testRequest() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

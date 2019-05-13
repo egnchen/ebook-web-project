@@ -9,6 +9,20 @@ import waterfall from 'vue-waterfall2'
 import App from './App.vue'
 import axios from 'axios'
 
+// axios config
+axios.defaults.baseURL = 'http://localhost:8080/api/'
+axios.defaults.withCredentials=true
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if(error.response.status == 302) console.log("Hey!")
+    })
+if(localStorage.getItem("JWT") !== undefined) {
+    axios.defaults.headers.common["Authorization"] = 
+        "Bearer " + localStorage.getItem("JWT")
+}
+Vue.prototype.$axios = axios;
+
 // Vuex
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -26,6 +40,9 @@ const store = new Vuex.Store({
         },
         prompt(state) {
             return state.prompt
+        },
+        JWT(state) {
+            return localStorage.getItem("JWT")
         }
     },
     mutations: {
@@ -40,6 +57,11 @@ const store = new Vuex.Store({
         },
         setPrompt(state, prompt) {
             state.prompt = prompt
+        },
+        setJWT(state, JWT) {
+            localStorage.setItem("JWT", JWT)
+            axios.defaults.headers.common["Authorization"] = 
+                "Bearer " + JWT
         }
     }
 })
@@ -53,15 +75,6 @@ const router = new VueRouter({
     routes
 })
 
-// axios config
-axios.defaults.baseURL = 'http://localhost:8080/api/'
-axios.defaults.withCredentials=true
-axios.interceptors.response.use(
-    response => response,
-    error => {
-        if(error.response.status == 302) console.log("Hey!")
-    })
-Vue.prototype.$axios = axios;
 
 Vue.use(Vuetify, {
     iconfont: 'fa',

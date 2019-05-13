@@ -1,10 +1,6 @@
 package com.eyek.ebook.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.eyek.ebook.facade.AuthenticationFacade;
-import com.eyek.ebook.facade.LoggerFacade;
 import com.eyek.ebook.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,31 +52,31 @@ public class SecurityServiceImpl implements SecurityService{
 //        }
 //    }
 
-    @Override
-    public boolean loginJwt(String jwtToken) {
-        try {
-            DecodedJWT decodedJWT = JWT.decode(jwtToken);
-            String username = objectMapper.readValue(decodedJWT.getSubject(), AuthUserDto.class).getUsername();
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            JwtAuthenticationToken authentication = new JwtAuthenticationToken(userDetails);
-            authentication.setToken(jwtToken);
-
-            if(authentication.isAuthenticated()) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                LoggerFacade.getLogger(this).info(String.format("Login %s successfully!", username));
-                return true;
-            } else {
-                System.out.println(String.format("Login %s failed.", username));
-                return false;
-            }
-        } catch(JWTDecodeException e) {
-            e.printStackTrace();
-            return false;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    @Override
+//    public boolean loginJwt(String jwtToken) {
+//        try {
+//            DecodedJWT decodedJWT = JWT.decode(jwtToken);
+//            String username = objectMapper.readValue(decodedJWT.getSubject(), AuthUserDto.class).getUsername();
+//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//            JwtAuthenticationToken authentication = new JwtAuthenticationToken(userDetails);
+//            authentication.setToken(jwtToken);
+//
+//            if(authentication.isAuthenticated()) {
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//                LoggerFacade.getLogger(this).info(String.format("Login %s successfully!", username));
+//                return true;
+//            } else {
+//                System.out.println(String.format("Login %s failed.", username));
+//                return false;
+//            }
+//        } catch(JWTDecodeException e) {
+//            e.printStackTrace();
+//            return false;
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     @Override
     public User getCurrentUser() {

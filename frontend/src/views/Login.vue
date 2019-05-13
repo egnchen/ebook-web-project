@@ -75,15 +75,19 @@ form {
                 password: vm.password
             }), {withCredentials: true})
             .then(function(response){
-                axios.get("/profile")
-                .then((response) => {
-                    vm.$store.commit("setUser", response.data)
-                })
-                .catch((error) => {
-                    vm.$store.commit("invalidateUser")
-                })
-                vm.$store.commit("setPrompt", `登录成功！用户名：${response.data.message}`)
-                vm.$route.push("index")
+                // store JWT in localStorage
+                if(response.data.statusCodeValue === 200) {
+                    vm.$store.commit("setJWT", response.data.body)
+                    axios.get("/profile")
+                    .then((response) => {
+                        vm.$store.commit("setUser", response.data)
+                    })
+                    .catch((error) => {
+                        vm.$store.commit("invalidateUser")
+                    })
+                    vm.$store.commit("setPrompt", `登录成功！`)
+                    vm.$route.push("index")
+                }
             })
             .catch(function(error){
                 vm.snackBarPrompt = `登录失败！消息：${error}`
