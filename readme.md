@@ -1,4 +1,5 @@
 # Ebook
+[![Build Status](https://www.travis-ci.org/eyeKill/ebook-web-project.svg?branch=master)](https://www.travis-ci.org/eyeKill/ebook-web-project)
 
 Ebook website - web development course final assignment @ sophomore B.
 
