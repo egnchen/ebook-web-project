@@ -33,9 +33,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private String tokenPrefix;
 
     @Autowired
-    private SecurityService securityService;
-
-    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired

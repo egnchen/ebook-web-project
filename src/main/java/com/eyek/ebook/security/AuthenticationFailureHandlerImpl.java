@@ -24,12 +24,12 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
     ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setStatus(200);
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.setContentType("application/json; charset=utf-8");
+        response.setStatus(200);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
         ResponseEntity<String> responseEntity = new ResponseEntity<>("Authentication failed", HttpStatus.BAD_REQUEST);
-        objectMapper.writeValue(httpServletResponse.getWriter(), responseEntity);
+        objectMapper.writeValue(response.getWriter(), responseEntity);
     }
 }

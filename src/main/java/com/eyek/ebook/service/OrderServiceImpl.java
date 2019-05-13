@@ -1,11 +1,11 @@
 package com.eyek.ebook.service;
 
+import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.model.Book;
 import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.OrderItem;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.OrderRepository;
-import com.eyek.ebook.security.SecurityService;
 import com.eyek.ebook.util.OutOfStockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +21,11 @@ public class OrderServiceImpl implements OrderService {
     UserService userService;
 
     @Autowired
-    SecurityService securityService;
+    AuthenticationFacade authenticationFacade;
 
     @Override
     public Order getCurrentCartOrder() {
-        User user = securityService.getCurrentUser();
+        User user = authenticationFacade.getCurrentUser();
         if(user == null)
             return null;
         Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteCurrentCartOrder() {
-        User user = securityService.getCurrentUser();
+        User user = authenticationFacade.getCurrentUser();
         Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
         if(order != null)
             orderRepository.delete(order);
@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void submitCurrentCartOrder() throws OutOfStockException {
-        User user = securityService.getCurrentUser();
+        User user = authenticationFacade.getCurrentUser();
         Order order = orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
         if(order != null) {
             // check storage

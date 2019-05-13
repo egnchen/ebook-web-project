@@ -8,6 +8,7 @@
                     <v-icon large color="white">book</v-icon>
                     <span class="font-weight-bold">E</span>
                     <span class="font-weight-light">Book</span>
+                    <span class="font-weight-light">  图书集市</span>
                 </span>
             </v-hover>
         </v-toolbar-title>

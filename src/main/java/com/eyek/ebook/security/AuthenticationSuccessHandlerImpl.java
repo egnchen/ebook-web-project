@@ -2,6 +2,7 @@ package com.eyek.ebook.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,10 @@ Generate the Json Web Token and send it back to the client.
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Autowired
-    SecurityService securityService;
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -38,10 +39,10 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     private long expiration;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         // generate jwt token on login success
-        User user = securityService.getCurrentUser();
+        User user = authenticationFacade.getCurrentUser();
         AuthUserDto authUserDto = new AuthUserDto();
         authUserDto.setUsername(user.getUsername());
 
@@ -53,9 +54,9 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                 .withExpiresAt(new Date(nowMillis + this.expiration))
                 .sign(Algorithm.HMAC512(this.secret.getBytes()));
 
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.setContentType("application/json; charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
         ResponseEntity<String> responseEntity = new ResponseEntity<>(jwtToken, HttpStatus.OK);
-        objectMapper.writeValue(httpServletResponse.getWriter(), responseEntity);
+        objectMapper.writeValue(response.getWriter(), responseEntity);
     }
 }

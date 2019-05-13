@@ -24,8 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
     ObjectMapper objectMapper;
 
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
+    public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         System.out.println("Authentication failed, " + authException.getMessage());
         response.setStatus(200);
