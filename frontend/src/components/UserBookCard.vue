@@ -1,37 +1,65 @@
 <template>
-<BookCard :book="book" @click="$emit('show-dialog', book.id)">
-    <template v-slot:action="bookProps">
-        <div class="action-container">
-            <span>评分 {{ book.stars }}</span>
-            <v-rating v-model="rating" dense hover half-increments readonly />
-            <span class="black--text">
-                <v-btn icon dark color="primary" @click="addToCart(book.id)">
-                    <v-icon dark>add</v-icon>
-                </v-btn>
-                <v-btn icon dark color="pink" to="/">
-                    <v-icon dark>favorite</v-icon>
-                </v-btn>
-                <!-- detail button - invoke dialog -->
-                <v-btn icon dark color="teal" @click.stop="$emit('show-dialog', book.id)">
-                    <v-icon dark>list</v-icon>
-                </v-btn>
-            </span>
+<BookCard :book="book" >
+    <template v-slot="props">
+        <div class="rating-section">
+            <span class="rating">评分 {{ props.book.score }}/10</span>
+            <v-rating v-model="book_rating" half-increments readonly hover
+            style="display:inline" dense background-color="white" color="blue accent-1" />
+            <span class="caption" style="color:grey">评分数据来自豆瓣</span>
+        </div>
+    </template>
+    <template v-slot:action="props">
+        <div class="actions">
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon dark color="primary" v-on="on"
+                        @click="addToCart(book.id)">
+                        <v-icon dark>add</v-icon>
+                    </v-btn>
+                </template>
+                <span>添加到购物车</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon dark color="pink" v-on="on" to="/">
+                        <v-icon dark>favorite</v-icon>
+                    </v-btn>
+                </template>
+                <span>喜欢</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon dark color="teal"
+                        v-on="on" @click.stop="$emit('show-dialog', props.book.id)">
+                        <v-icon dark>list</v-icon>
+                    </v-btn>
+                </template>
+                <span>查看详情</span>
+            </v-tooltip>
         </div>
     </template>
 </BookCard>
 </template>
 
 <style scoped>
-.action-container {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
+.rating {
+    font-size: 20px;
+    text-align: center;
+    display: block;
 }
 
-.action-container span {
-    display: block
+.rating-section {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
+
+.actions>button {
+    margin: 0px 10px;
+}
+
 </style>
 
 <script>
@@ -42,8 +70,8 @@
     props: ['book', 'idxData'],
     components: {BookCard, BookDetailCard},
     computed: {
-        rating() {
-            return Math.round(this.book.stars) / 2;
+        book_rating() {
+            return Math.round(this.book.score) / 2;
         }
     },
     methods: {

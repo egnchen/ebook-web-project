@@ -7,7 +7,7 @@
                     <img src="/static/user.svg">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{ this.$store.getters.user.username }}</v-list-tile-title>
+                    <v-list-tile-title>{{ this.$store.getters.user.username || "未登录" }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>

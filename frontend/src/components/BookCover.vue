@@ -1,7 +1,6 @@
 <template>
 <v-card class="book-cover">
-    <div class="book-cover-img-container"
-        :style="{height: book.picture.sizeH/book.picture.sizeW*itemWidth + 'px'}">
+    <div class="book-cover-img-container">
         <v-dialog max-width="800px">
             <template v-slot:activator="{ on }">
                 <v-img class="book-cover-img" :alt="'public/static/book.svg'"

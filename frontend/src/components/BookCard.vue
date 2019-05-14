@@ -5,27 +5,35 @@
             <v-flex xs3>
                 <v-img
                     :src="'/' + book.picture.path"
-                    height="125px"
+                    style="margin: 10px; max-height: 200px;"
                     contain />
             </v-flex>
-            <v-flex xs6>
-            <v-card-title primary-title>
-                <div>
-                    <div class="headline">{{ book.title }}</div>
-                    <div>{{ book.author }}</div>
-                    <div>
-                        <span>{{ book.publisher }}</span>
-                        ISBN:<span>{{ book.ISBN || '1234567890' }}</span>
-                    </div>
-                    <div>库存：{{ book.stock === undefined ? 100 : book.stock}}</div>
-                </div>
-            </v-card-title>
-            </v-flex>
-            <v-flex xs3 class="card-action">
-                <slot name="action" :idxData="idxData"></slot>
+            <v-flex xs9>
+                <v-layout row wrap>
+                    <v-flex xs8>
+                        <v-card-title primary-title>
+                            <div>
+                                <div class="headline">{{ book.title }}</div>
+                                <div>{{ book.author }}</div>
+                                <div class="book-info">
+                                    <span>{{ book.publisher }}</span>
+                                    <span>ISBN：{{ book.ISBN || "未知"}}</span>
+                                    <span>库存：{{ book.stock || "未知" }}</span>
+                                </div>
+                            </div>
+                        </v-card-title>
+                    </v-flex>
+                    <v-flex xs4>
+                        <slot :book="book"></slot>
+                    </v-flex>
+                </v-layout>
+                <v-divider />
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <slot name="action" :book="book"></slot>
+                </v-card-actions>
             </v-flex>
         </v-layout>
-        <v-divider light></v-divider>
     </v-card>
 </v-flex>
 </template>
@@ -34,11 +42,19 @@
 .margin-card {
     margin: 0.25em;
 }
+.book-info span {
+    display: block;
+}
 </style>
 
 <script>
 export default {
-    props: ['book', 'idxData']
+    props: ['book', 'idxData'],
+    computed: {
+        book_rating(){
+            return Math.round(this.book.score) / 2
+        }
+    }
 }
 </script>
 

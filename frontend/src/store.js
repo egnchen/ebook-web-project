@@ -1,9 +1,6 @@
 export default {
     state: {
-        user: {
-            username: "未登录",
-            roles: {}
-        },
+        user: {},
         prompt: ""
     },
     getters: {
@@ -22,10 +19,7 @@ export default {
             state.user = user
         },
         invalidateUser(state) {
-            state.user = {
-                username: "未登录",
-                roles: {}
-            }
+            state.user = {}
         },
         setPrompt(state, prompt) {
             state.prompt = prompt
@@ -34,6 +28,10 @@ export default {
             localStorage.setItem("JWT", JWT)
             axios.defaults.headers.common["Authorization"] = 
                 "Bearer " + JWT
+        },
+        removeJWT(state) {
+            localStorage.removeItem("JWT")
+            axios.defaults.headers.common["Authorization"] = undefined
         }
     }
 }
