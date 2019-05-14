@@ -1,11 +1,16 @@
 # Ebook
+
+![logo](logo.png)
+
 [![Build Status](https://www.travis-ci.org/eyeKill/ebook-web-project.svg?branch=master)](https://www.travis-ci.org/eyeKill/ebook-web-project)
 
 Ebook website - web development course final assignment @ sophomore B.
 
 ## Architecture
 
-This project features a front-rear separated architecture, being composed of a frontend implemented in `VueJS` and backend implemented with powerful `Spring` framework.
+This project features a **separated front & backend** architecture, being composed of a `Vue` frontend and an API service built with powerful `Spring` framework.
+
+The frontend would make RESTful API requests to the backend service with authorization token in `JWT` format, and the backend would return RESTful API responses with JSON objects as payload.
 
 ## Installation & running
 
