@@ -1,15 +1,8 @@
 import Vue from 'vue'
 import 'babel-polyfill'
 
-
-// vue frameworks & plugins
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import waterfall from 'vue-waterfall2'
-import App from './App.vue'
-import axios from 'axios'
-
 // axios config
+import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8080/api/'
 axios.defaults.withCredentials=true
 axios.interceptors.response.use(
@@ -23,50 +16,13 @@ if(localStorage.getItem("JWT") !== undefined) {
 }
 Vue.prototype.$axios = axios;
 
-// Vuex
+// Vuex config
 import Vuex from 'vuex'
+import storeContent from './store'
 Vue.use(Vuex)
-const store = new Vuex.Store({
-    state: {
-        user: {
-            username: "未登录",
-            roles: {}
-        },
-        prompt: ""
-    },
-    getters: {
-        user(state) {
-            return state.user
-        },
-        prompt(state) {
-            return state.prompt
-        },
-        JWT(state) {
-            return localStorage.getItem("JWT")
-        }
-    },
-    mutations: {
-        setUser(state, user) {
-            state.user = user
-        },
-        invalidateUser(state) {
-            state.user = {
-                username: "未登录",
-                roles: {}
-            }
-        },
-        setPrompt(state, prompt) {
-            state.prompt = prompt
-        },
-        setJWT(state, JWT) {
-            localStorage.setItem("JWT", JWT)
-            axios.defaults.headers.common["Authorization"] = 
-                "Bearer " + JWT
-        }
-    }
-})
+const store = new Vuex.Store(storeContent)
 
-// router
+// router config
 import VueRouter from 'vue-router'
 import routes from './router'
 Vue.use(VueRouter)
@@ -75,22 +31,26 @@ const router = new VueRouter({
     routes
 })
 
-
+// vuetify framework
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import waterfall from 'vue-waterfall2'
 Vue.use(Vuetify, {
     iconfont: 'fa',
     theme: {
-        primary: '#3f51b5',
-        secondary: '#03a9f4',
-        accent: '#00bcd4',
+        primary: '#03a9f4',
+        secondary: '#00bcd4',
+        accent: '#ffc107',
         error: '#ff5722',
-        warning: '#ffc107',
+        warning: '#ff9800',
         info: '#607d8b',
         success: '#4caf50'
-        }
+    }
 })
 Vue.use(waterfall)
 Vue.config.productionTip = false
 
+import App from './App.vue'
 new Vue({
     el: '#app',
     render: h => h(App),

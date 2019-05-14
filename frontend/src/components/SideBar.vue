@@ -63,6 +63,19 @@ export default {
                 }
             ]
         }
+    },
+    created() {
+        if(localStorage.getItem("JWT") !== null) {
+            // logged in, get user profile
+            let vm = this
+            this.$axios.get("/profile")
+                .then((response) => {
+                    vm.$store.commit("setUser", response.data)
+                })
+                .catch((error) => {
+                    vm.$store.commit("invalidateUser")
+                })
+        }
     }
 }
 </script>

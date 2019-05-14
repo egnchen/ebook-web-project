@@ -78,7 +78,7 @@ form {
                 // store JWT in localStorage
                 if(response.data.statusCodeValue === 200) {
                     vm.$store.commit("setJWT", response.data.body)
-                    axios.get("/profile")
+                    vm.$axios.get("/profile")
                     .then((response) => {
                         vm.$store.commit("setUser", response.data)
                     })

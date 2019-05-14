@@ -1,26 +1,32 @@
 <template>
-<!-- <v-layout row wrap>
-    <BookCard v-for="(book,idx) in books" :key="idx" :book="book"/>
-</v-layout> -->
-<v-layout row wrap justify-center>
+<v-layout row wrap justify-center @>
+    <!-- search bar -->
     <v-flex xs12>
         <v-text-field solo label="搜索" prepend-inner-icon="fas fa-search"
             @keyup.enter="getBookList" v-model="search_string">
         </v-text-field>
     </v-flex>
+    <!-- empty list prompt -->
     <div style="text-align:center" v-if="books_display.length === 0">
         {{ prompt }}
     </div>
+    <!-- refresh list button -->
     <div>
         <v-btn color="primary" @click="getBookList">刷新列表</v-btn>
     </div>
+    <!-- path breadcrumb -->
     <v-flex xs12 md8>
         <v-breadcrumbs :items="path" divider=">" />
     </v-flex>
+    <!-- list items -->
+    <!-- wrap a public dialog outside list items-->
     <component :is="bookCardType"
         v-for="(book,idx) in books_display" :key="idx" :book="book"
-        :idxData="idx" @delete-item="delItem"/>
-    
+        :idxData="idx" @delete-item="delItem" @show-dialog="showDialog" />
+    <v-dialog v-model="show_dialog" max-width="800px">
+        <BookDetailCard :bookId="dialog_book_id"/>
+    </v-dialog>
+    <!-- pagination -->
     <v-flex xs12 md8>
         <div class="text-xs-center">
         <v-pagination v-model="page" @input="getBookList"
@@ -34,6 +40,7 @@
     import UserBookCard from './UserBookCard'
     import AdminBookCard from './AdminBookCard'
     import default_bookdata from '../data/books'
+    import BookDetailCard from './BookDetailCard'
 
     export default {
     props: {
@@ -53,7 +60,7 @@
             } else
                 req_params.pageNumber = this.page
             
-            var url = this.$route.name === "cart" ? "/cart" : "/books"
+            var url = "/books"
             this.prompt = "取回数据中"
             this.$axios.get(url, {
                 params: req_params
@@ -68,7 +75,11 @@
                 vm.prompt = "取回数据失败，错误：" + error
             })
         },
-        delItem(key){
+        showDialog(book_id) {
+            this.dialog_book_id = book_id
+            this.show_dialog = true;
+        },
+        delItem(key) {
             console.log(key)
             this.books_display.splice(key,1)
         }
@@ -77,10 +88,12 @@
         return {
             search_string: '',
             books_display: [],
-            bookCardType: '',
             page: 1,
             page_count: 1,
             prompt: "数据为空",
+            show_dialog: false,
+            dialog_book_id: -1,
+            bookCardType: '',
             path: [
                 {
                     text: '游览',
@@ -103,6 +116,10 @@
             this.bookCardType = 'UserBookCard'
         this.getBookList()
     },
-    components: {UserBookCard, AdminBookCard}
+    components: {
+        UserBookCard,
+        AdminBookCard,
+        BookDetailCard
+    }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-<BookCard :book="book">
+<BookCard :book="book" @click="$emit('show-dialog', book.id)">
     <template v-slot:action="bookProps">
         <div class="action-container">
             <span>评分 {{ book.stars }}</span>
@@ -11,14 +11,10 @@
                 <v-btn icon dark color="pink" to="/">
                     <v-icon dark>favorite</v-icon>
                 </v-btn>
-                <v-dialog max-width="800px">
-                    <template v-slot:activator="{ on }">
-                        <v-btn icon dark color="teal" v-on="on">
-                            <v-icon dark>list</v-icon>
-                        </v-btn>
-                    </template>
-                    <BookDetailCard :bookId="book.id"/>
-                </v-dialog>
+                <!-- detail button - invoke dialog -->
+                <v-btn icon dark color="teal" @click.stop="$emit('show-dialog', book.id)">
+                    <v-icon dark>list</v-icon>
+                </v-btn>
             </span>
         </div>
     </template>
