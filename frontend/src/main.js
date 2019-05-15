@@ -8,7 +8,8 @@ axios.defaults.withCredentials=true
 axios.interceptors.response.use(
     response => response,
     error => {
-        if(error.response.status == 302) console.log("Hey!")
+        if(error.response.status == 403)
+            console.log("returned 403, data:", error.response.data)
     })
 if(localStorage.getItem("JWT") !== undefined) {
     axios.defaults.headers.common["Authorization"] = 

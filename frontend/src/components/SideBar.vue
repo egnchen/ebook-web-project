@@ -66,11 +66,19 @@ export default {
     },
     created() {
         if(localStorage.getItem("JWT") !== null) {
-            // logged in, get user profile
+            // previously logged in, get user profile
             let vm = this
             this.$axios.get("/profile")
                 .then((response) => {
-                    vm.$store.commit("setUser", response.data)
+                    if(response.data.statusCodeValue === 403) {
+                        // failed
+                        vm.$store.commit("removeJWT")
+                        vm.$store.commit("invalidateUser")
+                        vm.$store.commit("setPrompt", response.data.body)
+                    } else {
+                        vm.$store.commit("setUser", response.data)
+                        vm.$store.commit("setPrompt", "已登录，用户名：" + response.data.username)
+                    }
                 })
                 .catch((error) => {
                     vm.$store.commit("invalidateUser")

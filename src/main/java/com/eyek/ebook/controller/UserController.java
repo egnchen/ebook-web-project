@@ -4,8 +4,9 @@ import com.eyek.ebook.controller.dto.NewUserDto;
 import com.eyek.ebook.controller.dto.UserProfileDto;
 import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.service.UserService;
-import com.eyek.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,9 +27,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Message register(@RequestBody @Valid NewUserDto newUser) {
+    public ResponseEntity<String> register(@RequestBody @Valid NewUserDto newUser) {
         userService.save(newUser);
-        return new Message("OK", null);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -1,6 +1,9 @@
 <template>
 <div class="waterfall-container" transition="slide-y-transition">
-    <Waterfall :maxCol='maxColumn' :minCol='minColumn' :gutterWidth='gutterWidth' :gutterHeight='gutterWidth + 5'
+    <Waterfall
+        @loadmore="loadMore"
+        :maxCol='maxColumn' :minCol='minColumn'
+        :gutterWidth='gutterWidth' :gutterHeight='gutterWidth + 5'
         :fixWidth='0'>
         <WaterfallItem :width='itemWidth' v-for="(item, index) in books" :key="index">
             <BookCover :book="item" :key="index" :itemWidth="250"> </BookCover>
@@ -9,7 +12,7 @@
 </div>
 </template>
 
-<style scoped>
+<style>
 .waterfall-container {
     margin: 10px;
 }
@@ -43,7 +46,8 @@ export default {
     },
     data() {
         return {
-            books: []
+            books: [],
+            pageNumber: 1
         }
     },
     created() {
@@ -54,6 +58,17 @@ export default {
         .catch(error => {
             this.$store.commit("setPrompt", `错误，${error}`)
         })
+    },
+    methods: {
+        loadMore() {
+            this.$axois.get("/books", params = { pageNumber })
+            .then(response => {
+                this.books = this.books.concat(response.data.content)
+            })
+            .catch(error => {
+                this.$store.commit("setPrompt", `错误，${error}`)
+            })
+        }
     }
 }
 </script>

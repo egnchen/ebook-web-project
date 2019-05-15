@@ -74,9 +74,9 @@ form {
                 username: vm.username,
                 password: vm.password
             }), {withCredentials: true})
-            .then(function(response){
+            .then(response => {
                 if(response.data.statusCodeValue === 200) {
-                    vm.$store.commit("setJWT", response.data.body);
+                    vm.$store.commit("setJWT", response.data.body)
                     vm.$axios.get("/profile")
                     .then((response) => {
                         vm.$store.commit("setUser", response.data)
@@ -88,7 +88,7 @@ form {
                     vm.$route.push("index")
                 }
             })
-            .catch(function(error){
+            .catch(error => {
                 vm.snackBarPrompt = `登录失败！消息：${error}`
                 vm.snackBarVis = true
             })

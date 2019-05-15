@@ -28,7 +28,7 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/book")
-    public ResponseEntity addBook(@RequestBody @Valid Book book) {
+    public ResponseEntity<String> addBook(@RequestBody @Valid Book book) {
         bookRepository.save(book);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -64,11 +64,5 @@ public class BookController {
         else {
             return bookRepository.findBooksWithPicByTitleContaining(bookTitle, pageable);
         }
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/test")
-    public ResponseEntity testRequest() {
-        return new ResponseEntity(HttpStatus.OK);
     }
 }

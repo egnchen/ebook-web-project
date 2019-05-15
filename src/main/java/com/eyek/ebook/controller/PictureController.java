@@ -18,7 +18,7 @@ public class PictureController {
 
     // This is for database seeding purposes
 //    @GetMapping("/picture/fill")
-//    public Message fillDatabase() throws Exception{
+//    public ResponseEntity<String> fillDatabase() throws Exception{
 //        MessageDigest md = MessageDigest.getInstance("SHA-1");
 //        for (Book book: bookRepository.findAll()){
 //            Picture picture = new Picture();
@@ -31,6 +31,6 @@ public class PictureController {
 //            book.setPicture(picture);
 //            bookRepository.save(book);
 //        }
-//        return new Message("OK", null);
+//        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 }
