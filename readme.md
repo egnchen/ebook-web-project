@@ -15,21 +15,24 @@ The frontend would make RESTful API requests to the backend service with authori
 ## Installation & running
 
 1. Clone the project(needless to say)
-2. `cd` into `frontend` directory and build the frontend
+2. Build the frontend
 
     ```
-    cd frontend
+    cd ebook-web-project/frontend
     yarn install
     yarn build
     ```
-    All built frontend file will be gracefully handled and put into `/src/main/resources/static` directory, so that Tomcat can serve them as static contents.
+    All built frontend file will be gracefully handled and put into `src/main/resources/static` directory, so that Tomcat can serve them as static contents.
 
 3. Initialize the database and database user
 
     You have to create your database in your local DBMS first. The project uses `MySQL` by default. To see & modify its configurations(database name & user config), check out `src/resources/application.properties`.
+
 3. Seed the database(optional)
 
-    Currently the database is empty and I haven't synced any `sql` dump file into this repo. A `Douban Book` Crawler is implemented and placed in `spider` directory. You can see what you can do.
+    The default admin user would be seeded by the backend application first time it is started. Check out `src/main/java/com/eyek/ebook/config/InitialDataLoader` if you want access to the default username and password. Apart from that, the database is empty and I haven't uploaded any sql dump file into this repo.
+    
+    A **Douban Book Spider** is implemented and placed in `spider` directory. Try to run it, or seed the database by yourself.
 
 4. Run the application
 
