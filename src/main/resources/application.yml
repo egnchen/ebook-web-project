@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost/ebook?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CST
+    username: ebook
+    password: ebookSecret
+
+logging:
+  level:
+    web: debug
+    sql: debug
+
+security:
+  defaultAllowedOrigins:
+    - "http://localhost:8080"
+    - "http://localhost:8081"
+    - "http://127.0.0.1:8080"
+    - "http://127.0.0.1:8081"
+    - "http://ebook.eyek1.com"
+
+jwt:
+  header: Authorization
+  secret: ThisIsAJwtSecret
+  expirationTimeMillis: 43200000
+  tokenPrefix: "Bearer "
+
+ebook:
+  paging:
+    pageSize: 10

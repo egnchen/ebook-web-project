@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class BookDaoImpl implements BookDao {
 
     @Value("${ebook.paging.pageSize}")
-    static private Integer defaultPageSize;
+    Integer defaultPageSize;
 
     @Autowired
     private BookRepository bookRepository;
