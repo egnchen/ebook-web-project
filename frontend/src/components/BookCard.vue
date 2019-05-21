@@ -17,7 +17,7 @@
                                 <div>{{ book.author }}</div>
                                 <div class="book-info">
                                     <span>{{ book.publisher }}</span>
-                                    <span>ISBN：{{ book.ISBN || "未知"}}</span>
+                                    <span>ISBN：{{ book.isbn || "未知"}}</span>
                                     <span>库存：{{ book.stock || "未知" }}</span>
                                 </div>
                             </div>

@@ -9,10 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookDaoImpl implements BookDao {
-
-    @Value("${ebook.paging.pageSize}")
-    Integer defaultPageSize;
+public abstract class BookDaoImpl implements BookDao {
 
     @Autowired
     private BookRepository bookRepository;
@@ -28,8 +25,32 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Page<Book> search(String title, Integer pageNumber) {
-        return search(title, pageNumber, defaultPageSize);
+    public Integer addOne(Book book) {
+        return bookRepository.save(book).getId();
+    }
+
+    @Override
+    public Boolean modifyOne(Integer id, Book book) {
+        if(bookRepository.existsById(id)) {
+            bookRepository.save(book);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean delOne(Integer id) {
+        if(bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Page<Book> getAll(Integer pageNumber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return bookRepository.findAll(pageRequest);
     }
 
     @Override
@@ -46,11 +67,6 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getOneWithDetail(String title) {
         return bookRepository.findBookByTitle(title);
-    }
-
-    @Override
-    public Page<Book> searchWithDetail(String title, Integer pageNumber) {
-        return searchWithDetail(title, pageNumber, defaultPageSize);
     }
 
     @Override

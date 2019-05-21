@@ -8,13 +8,16 @@ public interface BookDao {
     Book getOne(Integer id);
     Book getOne(String tile);
 
-    Page<Book> search(String title, Integer pageNumber);
+    Integer addOne(Book book);
+    Boolean modifyOne(Integer id, Book book);
+    Boolean delOne(Integer id);
+
+    Page<Book> getAll(Integer pageNumber, Integer pageSize);
+
     Page<Book> search(String title, Integer pageNumber, Integer pageSize);
 
     Book getOneWithDetail(Integer id);
     Book getOneWithDetail(String title);
 
-    Page<Book> searchWithDetail(String title, Integer pageNumber);
     Page<Book> searchWithDetail(String title, Integer pageNumber, Integer pageSize);
-
 }

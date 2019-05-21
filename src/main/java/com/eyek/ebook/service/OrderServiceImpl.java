@@ -8,11 +8,15 @@ import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.OrderRepository;
 import com.eyek.ebook.util.OutOfStockException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Value("${ebook.page.pageSize}")
+    private Integer defaultPageSize;
 
     @Autowired
     OrderRepository orderRepository;

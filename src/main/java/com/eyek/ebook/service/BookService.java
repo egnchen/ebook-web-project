@@ -13,5 +13,6 @@ public interface BookService {
 
     Page<Book> getAll(Integer pageNumber, Integer pageSize);
     Page<Book> getAll(Integer pageNumber);
-    Page<Book> search(String query);
+
+    Page<Book> search(String query, Integer pageNumber);
 }

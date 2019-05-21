@@ -12,16 +12,29 @@
                 <div>
                     <div class="display-2">{{ book.title }}</div>
                     <div class="subheading">{{ book.author }}</div>
-                    <div>评分:{{ book.stars }}
+                    <div>
+                        <span class="prefix">评分:</span>
+                        {{ book.score }}
                         <v-rating style="display:inline"
                             v-model="rating"
                             dense half-increments hover />
                     </div>
-                    <div>出版商：{{ book.publisher }}</div>
-                    <div>ISBN：{{ book.ISBN || '1234567890' }}</div>
-                    <div>库存：{{ book.stock || "未知"}}</div>
-                    
-                    <div>简介: {{ book.description }}</div>
+                    <div>
+                        <span class="prefix">出版商：</span>
+                        {{ book.publisher }}
+                    </div>
+                    <div>
+                        <span class="prefix">ISBN：</span>
+                        {{ book.isbn || "未知" }}
+                    </div>
+                    <div>
+                        <span class="prefix">库存：</span>
+                        {{ book.stock || "未知" }}
+                    </div>
+                    <div><span class="prefix">简介:</span>
+                        <br />
+                        {{ book.description }}
+                    </div>
                 </div>
             </v-flex>
         </v-layout>
@@ -33,6 +46,13 @@
     </v-card-actions>
 </v-card>
 </template>
+
+<style scoped>
+.prefix {
+    color: grey
+}
+
+</style>
 
 <script>
 export default {
@@ -65,13 +85,8 @@ export default {
         }
     },
     computed: {
-        rating: {
-            get() {
-                return Math.round(this.book.stars) / 2
-            },
-            set(v) {
-                this.book.stars = v * 2;
-            }
+        rating(){
+            return Math.round(this.book.score) / 2;
         }
     }
 }

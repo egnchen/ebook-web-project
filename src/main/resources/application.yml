@@ -7,6 +7,8 @@ spring:
     url: jdbc:mysql://localhost/ebook?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CST
     username: ebook
     password: ebookSecret
+    hikari:
+      connection-init-sql: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
 
 logging:
   level:

@@ -5,7 +5,6 @@ import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -15,9 +14,6 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Component
 public class OrderDaoImpl implements OrderDao {
-
-    @Value("${ebook.page.pageSize}")
-    private static Integer defaultPageSize;
 
     @Autowired
     private OrderRepository orderRepository;
