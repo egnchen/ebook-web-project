@@ -3,13 +3,12 @@ package com.eyek.ebook.dao;
 import com.eyek.ebook.model.Book;
 import com.eyek.ebook.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class BookDaoImpl implements BookDao {
+public class BookDaoImpl implements BookDao {
 
     @Autowired
     private BookRepository bookRepository;

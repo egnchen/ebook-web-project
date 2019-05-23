@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-@RequestMapping("/api/cart")
 @PreAuthorize("hasRole('ROLE_USER')")
+@RequestMapping("/api")
 @RestController
 public class CartController {
 
@@ -41,13 +41,7 @@ public class CartController {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
-
-    @GetMapping("/")
+    @GetMapping("/cart")
     public Page<OrderItem> getCart(@RequestParam(defaultValue = "0") int pageId) {
         Pageable pageable = PageRequest.of(pageId, 5);
         Order order = orderService.getCurrentCartOrder();
@@ -56,7 +50,7 @@ public class CartController {
 
     // add order item to cart
     // add new item or add amount to item that already exists
-    @PostMapping("/")
+    @PostMapping("/cart")
     public ResponseEntity<String> addCartItem(@RequestBody OrderItemDto orderItemDto, HttpServletResponse response) {
         try {
             Order cart = orderService.getCurrentCartOrder();
@@ -89,7 +83,7 @@ public class CartController {
         }
     }
 
-    @PutMapping("/")
+    @PutMapping("/cart")
     public ResponseEntity<String> modifyCartItem(@RequestBody OrderItem orderItem, HttpServletResponse response) {
         OrderItem orderItemInRepo = orderItemRepository.getOne(orderItem.getId());
         if(orderItemInRepo != null) {
@@ -110,7 +104,7 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/cart")
     public ResponseEntity<String> removeCartItem(@RequestParam int orderItemId, HttpServletResponse response) {
         OrderItem orderItem = orderItemRepository.getOne(orderItemId);
         if(orderItem != null) {
@@ -131,7 +125,7 @@ public class CartController {
         }
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/cart/submit")
     public ResponseEntity<String> submitOrder(HttpServletResponse response) {
         try {
             orderService.submitCurrentCartOrder();

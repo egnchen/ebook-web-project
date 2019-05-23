@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Value("${ebook.page.pageSize}")
+    @Value("${ebook.paging.pageSize}")
     private Integer defaultPageSize;
 
     @Autowired

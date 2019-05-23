@@ -13,8 +13,12 @@ public class BookServiceImpl implements BookService {
     @Value("${ebook.paging.pageSize}")
     private Integer defaultPageSize;
 
-    @Autowired
     private BookDao bookDao;
+
+    @Autowired
+    BookServiceImpl(BookDao bookDao) {
+        this.bookDao = bookDao;
+    }
 
     @Override
     public Book getBook(Integer id) {

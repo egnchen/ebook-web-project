@@ -61,8 +61,9 @@ export default {
     methods: {
         logout() {
             // just delete the Json Web Token and user info
-            this.$store.commit("removeJWT")
-            this.$store.commit("invalidateUser")
+            this.$store.commit("removeJWT", this.$axios)
+            this.$store.commit("removeUser")
+            this.$store.commit("setPrompt", "已登出")
         }
     }
 }

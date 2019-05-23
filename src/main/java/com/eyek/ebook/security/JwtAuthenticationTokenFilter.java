@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /*
 JWT filter.
@@ -52,7 +53,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 LoggerFacade.getLogger(this).debug(String.format("Added auth to context, username : %s", username));
             } catch(Exception e) {
-                e.printStackTrace();
+                LoggerFacade.getLogger(this).info(e.getMessage());
             }
         }
         chain.doFilter(request, response);

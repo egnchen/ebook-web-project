@@ -69,28 +69,30 @@ form {
     },
     methods: {
         loginSubmit(){
-            var vm = this;
-            axios.post("/auth/login", qs.stringify({
+            let vm = this;
+            vm.$axios.post("/auth/login", qs.stringify({
                 username: vm.username,
                 password: vm.password
-            }), {withCredentials: true})
+            }), { withCredentials: true })
             .then(response => {
+                console.log("then response")
                 if(response.data.statusCodeValue === 200) {
-                    vm.$store.commit("setJWT", response.data.body)
+                    console.log(vm.$store.state)
+                    vm.$store.commit("setJWT", { JWT: response.data.body, axios: vm.$axios})
                     vm.$axios.get("/profile")
                     .then((response) => {
                         vm.$store.commit("setUser", response.data)
                     })
                     .catch((error) => {
-                        vm.$store.commit("invalidateUser")
+                        vm.$store.commit("removeJWT", vm.$axios)
+                        vm.$store.commit("removeUser")
                     })
-                    vm.$store.commit("setPrompt", `登录成功！`)
-                    vm.$route.push("index")
+                    vm.$store.commit("setPrompt", "登录成功！")
+                    vm.$router.push({name: "index"})
                 }
             })
             .catch(error => {
-                vm.snackBarPrompt = `登录失败！消息：${error}`
-                vm.snackBarVis = true
+                vm.$store.commit("setPrompt", `登录失败！消息：${error}`)
             })
         },
         loginReset() {
