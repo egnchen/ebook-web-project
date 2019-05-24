@@ -1,9 +1,3 @@
-import VuexPersist from 'vuex-persist'
-const store_persist = new VuexPersist({
-    key: "data",
-    storage: localStorage
-})
-
 export default {
     state: {
         user: {},
@@ -33,14 +27,15 @@ export default {
         },
         setJWT(state, {JWT, axios}) {
             state.JWT = JWT
+            localStorage.setItem("JWT", JWT)
             axios.defaults.headers.common["Authorization"] = 
                 "Bearer " + JWT
         },
         removeJWT(state, axios) {
             state.JWT = null
-            console.log("HERE")
+            localStorage.removeItem("JWT")
             delete axios.defaults.headers.common.Authorization
+            console.log(axios.defaults.headers.common)
         }
-    },
-    plugins: [store_persist.plugin]
+    }
 }

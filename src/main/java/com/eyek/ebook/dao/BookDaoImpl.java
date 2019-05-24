@@ -49,7 +49,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Page<Book> getAll(Integer pageNumber, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-        return bookRepository.findAll(pageRequest);
+        return bookRepository.findBooksWithPic(pageRequest);
     }
 
     @Override

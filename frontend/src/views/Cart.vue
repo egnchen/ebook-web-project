@@ -1,7 +1,10 @@
 <template>
 <v-card>
     <v-card-title>
-        购物车
+        <span class="headline">
+            <v-icon>fas fa-shopping-cart</v-icon>
+            购物车
+        </span>
         <v-spacer></v-spacer>
         <v-text-field
             v-model="searchString"
@@ -31,10 +34,10 @@
             </v-alert>
         </template>
     </v-data-table>
-    <v-actions>
+    <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" @click="submitOrder">提交订单</v-btn>
-    </v-actions>
+    </v-card-actions>
 </v-card>
 </template>
 

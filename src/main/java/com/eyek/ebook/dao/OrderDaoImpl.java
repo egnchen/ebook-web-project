@@ -2,7 +2,9 @@ package com.eyek.ebook.dao;
 
 import com.eyek.ebook.model.Book;
 import com.eyek.ebook.model.Order;
+import com.eyek.ebook.model.OrderItem;
 import com.eyek.ebook.model.User;
+import com.eyek.ebook.repository.OrderItemRepository;
 import com.eyek.ebook.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,12 +13,55 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @Component
 public class OrderDaoImpl implements OrderDao {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Override
+    public Order getCartOrder(User user) {
+        return orderRepository.findByStatusAndUser(Order.OrderStatus.cart, user);
+    }
+
+    @Override
+    public Order createCartOrder(User user) {
+        Order order = new Order();
+        order.setUser(user);
+        order.setStatus(Order.OrderStatus.cart);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Override
+    public Boolean deleteCartOrder(User user) {
+        Order order = getCartOrder(user);
+        if(order != null) {
+            orderRepository.delete(order);
+            return true;
+        } else return false;
+    }
+
+    @Override
+    public Page<OrderItem> getOrderItems(Order order, int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return orderItemRepository.findByOrder(order, pageRequest);
+    }
+
+    @Override
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public void deleteOrder(Order order) {
+        orderRepository.delete(order);
+    }
 
     @Override
     public Page<Order> getOrders(User user, Integer pageNumber, Integer pageSize) {
@@ -40,5 +85,22 @@ public class OrderDaoImpl implements OrderDao {
     public Page<Order> getBookOrders(Book book, @PositiveOrZero Integer pageNumber, @Positive Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return orderRepository.findOrdersByBook(book, pageRequest);
+    }
+
+    @Override
+    public Boolean addCartItem(Order order, OrderItem orderItem) {
+        List<OrderItem> items = order.getOrderItems();
+        for (OrderItem item : items) {
+            if (item.getBook() == orderItem.getBook()) {
+                item.setAmount(item.getAmount() + orderItem.getAmount());
+                order.setOrderItems(items);
+                orderRepository.save(order);
+                return true;
+            }
+        }
+        items.add(orderItem);
+        order.setOrderItems(items);
+        orderRepository.save(order);
+        return true;
     }
 }

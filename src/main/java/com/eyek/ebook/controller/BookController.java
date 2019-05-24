@@ -1,11 +1,9 @@
 package com.eyek.ebook.controller;
 
 import com.eyek.ebook.model.Book;
-import com.eyek.ebook.repository.BookRepository;
+import com.eyek.ebook.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,38 +15,48 @@ import javax.validation.Valid;
 @RestController
 public class BookController {
 
+    private BookService bookService;
+
     @Autowired
-    private BookRepository bookRepository;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
-    @GetMapping("/book")
-    public Book getBook(@RequestParam int bookId) {
-        Book book = bookRepository.findById(bookId).get();
-        return book;
+    @GetMapping("/book/{id}")
+    public Book getBook(@PathVariable("id") int id) {
+        return bookService.getBook(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/book")
-    public ResponseEntity<String> addBook(@RequestBody @Valid Book book) {
-        bookRepository.save(book);
-        return new ResponseEntity(HttpStatus.OK);
+    @PostMapping("/book/{id}")
+    public ResponseEntity<String> addBook(@PathVariable("id") Integer id, @RequestBody @Valid Book book) {
+        if(bookService.addBook(book) > 0)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/book")
-    public ResponseEntity<String> modifyBook(@RequestBody @Valid Book book) {
-        if(bookRepository.findById(book.getId()).isEmpty())
+    @PutMapping("/book/{id}")
+    public ResponseEntity<String> modifyBook(@PathVariable("id") Integer id, @RequestBody @Valid Book book) {
+        if(bookService.modifyBook(id, book)) {
+            // success
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            // not found
             return new ResponseEntity<>("Book not found, check bookId.", HttpStatus.NOT_FOUND);
-        bookRepository.save(book);
-        return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/book")
-    public ResponseEntity<String> deleteBook(@RequestParam int bookId) {
-        Book book = bookRepository.getOne(bookId);
-        if(book == null) return new ResponseEntity<>("Book not found, check bookId.", HttpStatus.NOT_FOUND);
-        bookRepository.delete(book);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/book/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable("id") Integer id) {
+        if(bookService.deleteBook(id)) {
+            // success
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Book not found, check id.", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/books")
@@ -57,12 +65,10 @@ public class BookController {
             @RequestParam(defaultValue = "0") int pageNumber) {
         if(pageNumber > 0)
             pageNumber -= 1;
-        Pageable pageable = PageRequest.of(pageNumber, 10);
         if(bookTitle == null) {
-            return bookRepository.findBooksWithPic(pageable);
-        }
-        else {
-            return bookRepository.findBooksWithPicByTitleContaining(bookTitle, pageable);
+            return bookService.getAll(pageNumber);
+        } else {
+            return bookService.search(bookTitle, pageNumber);
         }
     }
 }

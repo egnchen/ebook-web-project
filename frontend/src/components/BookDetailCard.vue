@@ -70,11 +70,7 @@ export default {
         bookId(newVal) {
             if(newVal > 0) {
                 let vm = this
-                this.$axios.get("/book", {
-                    params: {
-                        bookId: this.bookId
-                    }
-                })
+                this.$axios.get("/book/" + newVal)
                 .then(response => {
                     vm.book = response.data
                 })
