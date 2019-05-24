@@ -22,7 +22,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
     }
 
     @Override
-    public Boolean deleteOrderItem(int id) {
+    public boolean deleteOrderItem(int id) {
         if(orderItemRepository.existsById(id)) {
             orderItemRepository.deleteById(id);
             return true;
