@@ -6,6 +6,9 @@ import com.eyek.ebook.model.OrderItem;
 import com.eyek.ebook.model.User;
 import org.springframework.data.domain.Page;
 
+import java.util.Date;
+import java.util.List;
+
 public interface OrderDao {
 
     Page<Order> getAllOrders(int pageNumber, int pageSize);
@@ -26,4 +29,6 @@ public interface OrderDao {
     Page<Order> getOrdersByBook(Book book, int pageNumber, int pageSize);
 
     Boolean addCartItem(Order order, OrderItem orderItem);
+
+    List<Order> getOrderByUserBetween(User user, Date startTime, Date endTime);
 }

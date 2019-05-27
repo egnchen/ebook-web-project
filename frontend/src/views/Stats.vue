@@ -4,6 +4,19 @@
     <v-flex sm12>
         <v-breadcrumbs :items="path" divider='>' />
     </v-flex>
+    <v-flex sm12>
+        <v-card color="grey lighten-4">
+            <v-card-title>
+                <v-layout column align-start>
+                    <div class="display-2 text-uppercase">购书统计</div>
+                    <div class="subheader grey--text text-uppercase">{{ role }}</div>
+                </v-layout>
+            </v-card-title>
+            <v-card-text>
+                <v-chart :options="bookStat" />
+            </v-card-text>
+        </v-card>
+    </v-flex>
     <v-flex sm12 md6>
         <v-card color="grey lighten-4">
             <v-card-title>
@@ -98,11 +111,20 @@
 </v-container>
 </template>
 
+<style scoped>
+.echarts {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+}
+</style>
+
+
 <script>
 import StatDetailCard from '../components/StatDetailCard'
-
+import ECharts from 'vue-echarts';
 export default {
-    components: { StatDetailCard },
+    components: { StatDetailCard, 'v-chart': ECharts },
     data() {
         return {
             gradientColors: ['red', 'orange', 'yellow'],
@@ -117,8 +139,39 @@ export default {
                     disabled: false,
                     href: 'admin/stats'
                 }
-            ]
+            ],
+            bookStat: {
+                legend: {},
+                tooltip: {},
+                dataset: {
+                    source: [
+                        ['book', 'amount']
+                    ]
+                },
+                xAxis: {type: 'category'},
+                yAxis: {},
+                // Declare several bar series, each will be mapped
+                // to a column of dataset.source by default.
+                series: [
+                    {type: 'bar'}
+                ]
+            }
         }
+    },
+    created() {
+        this.$axios.get("/stats/books")
+        .then(response => {
+            let ret = response.data
+            let arr = []
+            for(var prop in ret) {
+                arr.push([prop, ret[prop]])
+            }
+            this.bookStat.dataset.source = 
+                this.bookStat.dataset.source[0].concat(arr)
+        })
+        .error(error => {
+            this.$store.commit("setPrompt", "请求失败")
+        })
     }
 }
 </script>

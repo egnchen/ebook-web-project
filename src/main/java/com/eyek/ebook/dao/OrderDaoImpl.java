@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -118,5 +119,10 @@ public class OrderDaoImpl implements OrderDao {
         orderItem.setOrder(order);
         orderItemRepository.save(orderItem);
         return true;
+    }
+
+    @Override
+    public List<Order> getOrderByUserBetween(User user, Date startTime, Date endTime) {
+        return orderRepository.findOrdersWithItemByUserAndUpdateTimeBetween(user, startTime, endTime);
     }
 }

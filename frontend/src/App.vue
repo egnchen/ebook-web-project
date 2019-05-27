@@ -47,7 +47,6 @@ export default {
     computed: {
         snackBarVis: {
             get() {
-                console.log(!!(this.$store.getters.prompt))
                 return !!(this.$store.getters.prompt)
             },
             set() {

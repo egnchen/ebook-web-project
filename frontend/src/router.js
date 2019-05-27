@@ -12,41 +12,65 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: Login
+        component: Login,
+        meta: {
+            title: "登录"
+        }
     },
     {
         path: '/register',
         name: 'register',
-        component: Register
+        component: Register,
+        meta: {
+            title: "注册"
+        }
     },
     {
         path: '/',
         name: 'index',
-        component: BookList
+        component: BookList,
+        meta: {
+            title: "首页"
+        }
     },
     {
         path: '/cart',
         name: 'cart',
-        component: Cart
+        component: Cart,
+        meta: {
+            title: "购物车"
+        }
     },
     {
         path: '/detail',
         name: 'detail',
-        component: Detail
+        component: Detail,
+        meta: {
+            title: "图书详情"
+        }
     },
     {
         path: '/buy',
-        name: 'buy'
+        name: 'buy',
+        meta: {
+            title: "购买页面"
+        }
     },
     {
         path: '/order',
         name: 'order',
-        component: Order
+        component: Order,
+        meta: {
+            title: "订单管理"
+        }
     },
     {
         path: '/flow',
         name: 'bookflow',
-        component: BookFlow
+        component: BookFlow,
+        meta: {
+            title: "瀑布流视图"
+        }
     },
     {
         path: '/admin',
@@ -56,12 +80,18 @@ const routes = [
             {
                 path: 'edit-stock',
                 name: 'admin-edit-stock',
-                component: BookList
+                component: BookList,
+                meta: {
+                    title: "编辑库存"
+                }
             },
             {
                 path: 'stats',
                 name: 'admin-view-stats',
-                component: Stats
+                component: Stats,
+                meta: {
+                    title: "统计信息"
+                }
             }
         ]
     }

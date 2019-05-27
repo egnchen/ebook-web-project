@@ -52,7 +52,7 @@ export default {
         let vm = this
         this.$axios.get("/orders")
         .then(response => {
-            vm.order = response.data
+            vm.order = response.data.content
         })
         .catch(error => {
             vm.$state.commit("setPrompt", `error, ${error}`)

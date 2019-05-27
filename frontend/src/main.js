@@ -32,6 +32,12 @@ const router = new VueRouter({
     mode: "history",
     routes
 })
+router.beforeEach((to, from, next) => {
+    if(to.meta.title) {
+        document.title = to.meta.title + " - Ebook图书集市"
+    }
+    next()
+})
 
 // vuetify framework
 import Vuetify from 'vuetify'
@@ -52,8 +58,15 @@ Vue.use(Vuetify, {
 Vue.use(waterfall)
 Vue.config.productionTip = false
 
+// Echart
+import ECharts from 'vue-echarts'
+
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/component/tooltip'
+Vue.component('v-chart', ECharts)
+
 import App from './App.vue'
-var app = new Vue({
+new Vue({
     el: '#app',
     render: h => h(App),
     router: router,
