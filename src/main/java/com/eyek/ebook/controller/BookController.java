@@ -15,12 +15,8 @@ import javax.validation.Valid;
 @RestController
 public class BookController {
 
-    private BookService bookService;
-
     @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
+    private BookService bookService;
 
     @GetMapping("/book/{id}")
     public Book getBook(@PathVariable("id") int id) {
@@ -62,9 +58,8 @@ public class BookController {
     @GetMapping("/books")
     public Page<Book> getBooks(
             @RequestParam(required = false) String bookTitle,
-            @RequestParam(defaultValue = "0") int pageNumber) {
-        if(pageNumber > 0)
-            pageNumber -= 1;
+            @RequestParam(defaultValue = "1") int pageNumber) {
+        pageNumber -= 1;
         if(bookTitle == null) {
             return bookService.getAll(pageNumber);
         } else {

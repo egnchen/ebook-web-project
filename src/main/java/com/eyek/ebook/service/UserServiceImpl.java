@@ -2,10 +2,10 @@ package com.eyek.ebook.service;
 
 import com.eyek.ebook.controller.dto.NewUserDto;
 import com.eyek.ebook.controller.dto.UserProfileDto;
+import com.eyek.ebook.dao.UserDao;
 import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import com.eyek.ebook.repository.RoleRepository;
-import com.eyek.ebook.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,18 +22,18 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserDao userDao;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     ModelMapper modelMapper;
 
     @Override
     public void save(@Valid NewUserDto newUserDto) {
-        if(userRepository.findByUsername(newUserDto.getUsername()) == null &&
-            userRepository.findByEmail(newUserDto.getEmail()) == null) {
+        if(userDao.getUserByUsername(newUserDto.getUsername()) == null &&
+            userDao.getUserByEmail(newUserDto.getEmail()) == null) {
             User newUser = new User();
             newUser.setUsername(newUserDto.getUsername());
             newUser.setEmail(newUserDto.getEmail());
@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
             }
             newUser.setRoles(roleSet);
             newUser.setEnabled(true);
-            userRepository.save(newUser);
+            userDao.saveUser(newUser);
         }
     }
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userDao.getUserByUsername(username);
     }
 
     @Override

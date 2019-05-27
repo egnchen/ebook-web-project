@@ -23,19 +23,17 @@ public class OrderServiceImpl implements OrderService {
     @Value("${ebook.paging.pageSize}")
     private Integer defaultPageSize;
 
+    @Autowired
     private OrderDao orderDao;
-    private BookDao bookDao;
-    private OrderItemDao orderItemDao;
-    private AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao, BookDao bookDao,
-                            OrderItemDao orderItemDao, AuthenticationFacade authenticationFacade) {
-        this.orderDao = orderDao;
-        this.bookDao = bookDao;
-        this.orderItemDao = orderItemDao;
-        this.authenticationFacade = authenticationFacade;
-    }
+    private BookDao bookDao;
+
+    @Autowired
+    private OrderItemDao orderItemDao;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Override
     public boolean addOrderItem(@Positive int bookId, @Positive int amount) {
@@ -100,5 +98,30 @@ public class OrderServiceImpl implements OrderService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Page<Order> getCurrentUserOrders(int pageNumber) {
+        return getOrdersByUser(authenticationFacade.getCurrentUser(), pageNumber);
+    }
+
+    @Override
+    public Page<Order> getOrdersByUser(User user, int pageNumber) {
+        return orderDao.getOrders(user, pageNumber, defaultPageSize);
+    }
+
+    @Override
+    public Page<Order> getOrdersByBook(Book book, int pageNumber) {
+        return orderDao.getOrdersByBook(book, pageNumber, defaultPageSize);
+    }
+
+    @Override
+    public Page<Order> getOrdersByBook(int bookId, int pageNumber) {
+        return orderDao.getOrdersByBook(bookDao.getOne(bookId), pageNumber, defaultPageSize);
+    }
+
+    @Override
+    public Page<Order> getAllOrders(int pageNumber) {
+        return orderDao.getAllOrders(pageNumber, defaultPageSize);
     }
 }

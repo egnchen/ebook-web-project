@@ -64,25 +64,43 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Page<Order> getOrders(User user, Integer pageNumber, Integer pageSize) {
+    public Page<Order> getOrders(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return orderRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public Page<Order> getAllOrders(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return orderRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public Page<Order> getOrders(User user, int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return orderRepository.findOrdersByUser(user, pageRequest);
     }
 
     @Override
-    public Page<Order> getOrdersDetailed(User user, Integer pageNumber, Integer pageSize) {
+    public Page<Order> getOrdersDetailed(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return orderRepository.findOrdersWIthItem(pageRequest);
+    }
+
+    @Override
+    public Page<Order> getOrdersDetailed(User user, int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return orderRepository.findOrdersWithItemByUser(user, pageRequest);
     }
 
     @Override
-    public Page<Order> searchBookOrders(String query, Integer pageNumber, Integer pageSize) {
+    public Page<Order> searchBookOrders(String query, int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return orderRepository.findOrdersByBookTitleContaining(query, pageRequest);
     }
 
     @Override
-    public Page<Order> getBookOrders(Book book, @PositiveOrZero Integer pageNumber, @Positive Integer pageSize) {
+    public Page<Order> getOrdersByBook(Book book, @PositiveOrZero int pageNumber, @Positive int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return orderRepository.findOrdersByBook(book, pageRequest);
     }
@@ -93,14 +111,12 @@ public class OrderDaoImpl implements OrderDao {
         for (OrderItem item : items) {
             if (item.getBook() == orderItem.getBook()) {
                 item.setAmount(item.getAmount() + orderItem.getAmount());
-                order.setOrderItems(items);
-                orderRepository.save(order);
+                orderItemRepository.save(item);
                 return true;
             }
         }
-        items.add(orderItem);
-        order.setOrderItems(items);
-        orderRepository.save(order);
+        orderItem.setOrder(order);
+        orderItemRepository.save(orderItem);
         return true;
     }
 }

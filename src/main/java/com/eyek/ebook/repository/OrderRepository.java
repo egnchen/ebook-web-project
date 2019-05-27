@@ -9,6 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
+
+    @Query(value = "FROM Order o INNER JOIN FETCH o.orderItems",
+    countQuery = "SELECT COUNT(o) FROM Order o")
+    Page<Order> findOrdersWIthItem(PageRequest pageRequest);
+
     Order findByStatusAndUser(Order.OrderStatus status, User user);
 
     Page<Order> findOrdersByUser(User user, PageRequest pageRequest);

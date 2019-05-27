@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 public interface OrderDao {
 
+    Page<Order> getAllOrders(int pageNumber, int pageSize);
     Order getCartOrder(User user);
     Order createCartOrder(User user);
     Boolean deleteCartOrder(User user);
@@ -17,10 +18,12 @@ public interface OrderDao {
     Order saveOrder(Order order);
     void deleteOrder(Order order);
 
-    Page<Order> getOrders(User user, Integer pageNumber, Integer pageSize);
-    Page<Order> getOrdersDetailed(User user, Integer pageNumber, Integer pageSize);
-    Page<Order> searchBookOrders(String query, Integer pageNumber, Integer pageSize);
-    Page<Order> getBookOrders(Book book, Integer pageNumber, Integer pageSize);
+    Page<Order> getOrders(int pageNumber, int pageSize);
+    Page<Order> getOrders(User user, int pageNumber, int pageSize);
+    Page<Order> getOrdersDetailed(int pageNumber, int pageSize);
+    Page<Order> getOrdersDetailed(User user, int pageNumber, int pageSize);
+    Page<Order> searchBookOrders(String query, int pageNumber, int pageSize);
+    Page<Order> getOrdersByBook(Book book, int pageNumber, int pageSize);
 
     Boolean addCartItem(Order order, OrderItem orderItem);
 }

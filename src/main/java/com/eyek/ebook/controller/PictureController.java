@@ -1,6 +1,5 @@
 package com.eyek.ebook.controller;
 
-import com.eyek.ebook.repository.BookRepository;
 import com.eyek.ebook.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RestController
 public class PictureController {
-
-    @Autowired
-    BookRepository bookRepository;
 
     @Autowired
     PictureRepository pictureRepository;
