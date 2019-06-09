@@ -1,8 +1,11 @@
 package com.eyek.ebook.config;
 
+import com.mongodb.MongoClient;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
@@ -30,5 +33,13 @@ public class AppConfig {
         registrar.registerFormatters(conversionService);
 
         return conversionService;
+    }
+
+    @Value("${spring.data.mongodb.database}")
+    private String mongoDatabase;
+
+    @Bean
+    public MongoTemplate mongoTemplate(MongoClient mongoClient) {
+        return new MongoTemplate(mongoClient, mongoDatabase);
     }
 }

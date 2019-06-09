@@ -5,6 +5,7 @@ import com.eyek.ebook.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +13,9 @@ public class BookDaoImpl implements BookDao {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Override
     public Book getOne(Integer id) {

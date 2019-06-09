@@ -63,10 +63,10 @@
 </style>
 
 <script>
-    import BookCard from './BookCard'
-    import BookDetailCard from './BookDetailCard'
+import BookCard from './BookCard'
+import BookDetailCard from './BookDetailCard'
 
-    export default {
+export default {
     props: ['book', 'idxData'],
     components: {BookCard, BookDetailCard},
     computed: {
@@ -76,7 +76,7 @@
     },
     methods: {
         addToCart(bookId) {
-            let vm = this
+            let vm = thpis
             this.$axios.post("/cart", {
                 "bookId": bookId
             })

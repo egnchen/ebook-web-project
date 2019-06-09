@@ -5,7 +5,7 @@
             <v-flex xs5>
                 <v-img
                     :src="'/' + book.picture.path"
-                    height="250px"
+       一个             height="250px"
                     contain />
             </v-flex>
             <v-flex xs7>
