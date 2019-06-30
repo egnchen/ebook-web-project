@@ -1,7 +1,6 @@
 package com.eyek.ebook.security;
 
 import com.eyek.ebook.model.User;
-import com.eyek.ebook.repository.RoleRepository;
 import com.eyek.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -20,9 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {

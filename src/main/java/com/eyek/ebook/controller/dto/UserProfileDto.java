@@ -1,14 +1,12 @@
 package com.eyek.ebook.controller.dto;
 
 
-import com.eyek.ebook.model.Role;
-
-import java.util.List;
+import com.eyek.ebook.model.User;
 
 public class UserProfileDto {
     private String username;
     private String email;
-    private List<Role> roles;
+    private User.Role role;
 
     public String getUsername() {
         return username;
@@ -26,11 +24,11 @@ public class UserProfileDto {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public User.Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(User.Role role) {
+        this.role = role;
     }
 }

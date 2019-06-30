@@ -83,7 +83,7 @@
                 email: this.email
             }
             var vm = this
-            axios.post("http://localhost:8080/api/register", newUser)
+            axios.post("/register", newUser)
             .then(function(response){
                 vm.snackBarPrompt = `注册成功！用户名：${vm.username}`
                 vm.snackBarVis = true

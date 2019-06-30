@@ -8,5 +8,8 @@ public interface UserService {
 
     void save(NewUserDto user);
     User findByUsername(String username);
-    UserProfileDto getUserProfile(User user);
+
+    UserProfileDto getUserProfile(int userId);
+
+    boolean setUserStatus(int userId, boolean enabled);
 }

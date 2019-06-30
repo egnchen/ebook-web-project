@@ -1,13 +1,11 @@
 package com.eyek.ebook.security;
 
-import com.eyek.ebook.model.Role;
 import com.eyek.ebook.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 public class SecurityUser implements UserDetails {
@@ -23,11 +21,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return grantedAuthorities;
+        return Set.of(new SimpleGrantedAuthority(user.getRole().name()));
     }
 
     @Override

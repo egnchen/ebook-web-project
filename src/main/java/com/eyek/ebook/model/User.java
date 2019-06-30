@@ -6,8 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -35,8 +33,14 @@ public class User {
     @NotNull
     private boolean enabled = true;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private Set<Role> roles = new HashSet<>();
+    public enum Role {
+        ROLE_USER, ROLE_ADMIN
+    }
+
+    ;
+
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     public int getId() {
         return id;
@@ -78,12 +82,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

@@ -3,29 +3,26 @@ package com.eyek.ebook.service;
 import com.eyek.ebook.controller.dto.NewUserDto;
 import com.eyek.ebook.controller.dto.UserProfileDto;
 import com.eyek.ebook.dao.UserDao;
-import com.eyek.ebook.model.Role;
+import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.model.User;
-import com.eyek.ebook.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     private UserDao userDao;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
     ModelMapper modelMapper;
@@ -38,11 +35,7 @@ public class UserServiceImpl implements UserService {
             newUser.setUsername(newUserDto.getUsername());
             newUser.setEmail(newUserDto.getEmail());
             newUser.setPassword(passwordEncoder.encode(newUserDto.getPasswordNotEncrypted()));
-            Set<Role> roleSet = new HashSet<Role>();
-            for (String roleString: newUserDto.getRoles()) {
-                roleSet.add(roleRepository.findByName(roleString));
-            }
-            newUser.setRoles(roleSet);
+            newUser.setRole(newUserDto.getRole());
             newUser.setEnabled(true);
             userDao.saveUser(newUser);
         }
@@ -54,8 +47,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileDto getUserProfile(User user) {
+    public UserProfileDto getUserProfile(int userId) {
+        User user = userDao.getUser(userId);
         UserProfileDto userProfileDto = modelMapper.map(user, UserProfileDto.class);
         return userProfileDto;
     }
+
+    @Override
+    public boolean setUserStatus(int userId, boolean enabled) {
+        User user = userDao.getUser(userId);
+        if (user == null)
+            throw new RuntimeException("User not found.");
+        if (user.getRole() == User.Role.ROLE_ADMIN)
+            throw new RuntimeException("You cannot modify an admin user's status.");
+        if (user.getId() == authenticationFacade.getCurrentUser().getId())
+            throw new RuntimeException("You cannot modify your own status.");
+
+        if (user.isEnabled() == enabled)
+            return false;
+        user.setEnabled(enabled);
+        userDao.saveUser(user);
+        return true;
+    }
+
 }
