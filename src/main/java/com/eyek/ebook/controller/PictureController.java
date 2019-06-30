@@ -1,16 +1,20 @@
 package com.eyek.ebook.controller;
 
-import com.eyek.ebook.repository.PictureRepository;
+import com.eyek.ebook.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("/api")
 @RestController
 public class PictureController {
 
     @Autowired
-    PictureRepository pictureRepository;
+    private PictureService pictureService;
 
     // This is for database seeding purposes
 //    @GetMapping("/picture/fill")
@@ -29,4 +33,20 @@ public class PictureController {
 //        }
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
+
+    @PostMapping("/picture")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            pictureService.save(file);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Failed to transfer file correctly.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/picture")
+    public ResponseEntity<String> deleteFile(@RequestParam int id) {
+        pictureService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

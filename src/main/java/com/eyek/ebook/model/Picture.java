@@ -3,7 +3,6 @@ package com.eyek.ebook.model;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "pictures")
@@ -22,7 +21,8 @@ public class Picture {
     @ColumnDefault("0")
     private int sizeH;
 
-    @NotBlank
+    // nullable
+    // null string indicates dynamic request
     private String path;
 
     private String thumbPath;

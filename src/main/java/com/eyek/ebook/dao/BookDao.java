@@ -13,7 +13,6 @@ public interface BookDao {
     Boolean delOne(Integer id);
 
     Page<Book> getAll(Integer pageNumber, Integer pageSize);
-
     Page<Book> search(String title, Integer pageNumber, Integer pageSize);
 
     Book getOneWithDetail(Integer id);
