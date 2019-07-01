@@ -2,6 +2,7 @@ export default {
     state: {
         user: {},
         prompt: "",
+        promptColor: "info",
         JWT: null
     },
     getters: {
@@ -10,6 +11,9 @@ export default {
         },
         prompt(state) {
             return state.prompt
+        },
+        promptColor(state) {
+            return state.promptColor
         },
         JWT(state) {
             return state.JWT
@@ -24,6 +28,15 @@ export default {
         },
         setPrompt(state, prompt) {
             state.prompt = prompt
+            state.promptColor = "info"
+        },
+        setSuccessPrompt(state, prompt) {
+            state.prompt = prompt
+            state.promptColor = "success"
+        },
+        setErrorPrompt(state, prompt) {
+            state.prompt = prompt
+            state.promptColor = "error"
         },
         setJWT(state, {JWT, axios}) {
             state.JWT = JWT

@@ -7,7 +7,8 @@
                     <img src="/static/user.svg">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{ this.$store.getters.user.username || "未登录" }}</v-list-tile-title>
+                    <v-list-tile-title>{{ this.$store.getters.user.username || "Please login" }}</v-list-tile-title>
+                    <v-list-tile-sub-title>Role: {{ roleName }}</v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -17,7 +18,21 @@
 
     <v-list dense>
         <v-list-tile
-            v-for="(item, idx) in this.navContent"
+                v-for="(item, idx) in this.ordNavContent"
+                :key="idx"
+                @click="$router.push({name: item.pathName })">
+            <v-list-tile-action>
+                <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
+    </v-list>
+    <v-divider></v-divider>
+    <v-list dense v-if="roleName === 'admin'">
+        <v-list-tile
+                v-for="(item, idx) in this.adminNavContent"
             :key="idx"
             @click="$router.push({name: item.pathName })">
             <v-list-tile-action>
@@ -38,18 +53,13 @@
 <script>
 export default {
     props: ['value'],
-    data(){
+    data() {
         return {
-            navContent: [
+            ordNavContent: [
                 {
                     title: "瀑布流视图",
                     icon: "fas fa-stream",
                     pathName: "bookflow"
-                },
-                {
-                    title: "修改库存",
-                    icon: "fas fa-edit",
-                    pathName: "admin-edit-stock"
                 },
                 {
                     title: "我的订单",
@@ -61,7 +71,33 @@ export default {
                     icon: "fas fa-asterisk",
                     pathName: "admin-view-stats"
                 }
+            ],
+            adminNavContent: [
+                {
+                    title: "库存管理",
+                    icon: "fas fa-edit",
+                    pathName: "admin-edit-stock"
+                },
+                {
+                    title: "所有订单",
+                    icon: "fas fa-list-alt",
+                    pathName: "admin-all-orders"
+                },
+                {
+                    title: "用户管理",
+                    icon: "fas fa-users",
+                    pathName: "admin-manage-users"
+                }
             ]
+        }
+    },
+    computed: {
+        roleName() {
+            let mapper = {
+                "ROLE_ADMIN": 'admin',
+                "ROLE_USER": 'user'
+            };
+            return mapper[this.$store.state.user.role];
         }
     },
     created() {
@@ -77,11 +113,12 @@ export default {
                         vm.$store.commit("setPrompt", response.data.body)
                     } else {
                         vm.$store.commit("setUser", response.data)
-                        vm.$store.commit("setPrompt", "已登录，用户名：" + response.data.username)
+                        vm.$store.commit("setSuccessPrompt", "Welcome back, " + response.data.username)
                     }
                 })
                 .catch((error) => {
                     vm.$store.commit("invalidateUser")
+                    vm.$store.commit("setErrorPrompt", "Something went wrong when trying to login again:" + error)
                 })
         }
     }

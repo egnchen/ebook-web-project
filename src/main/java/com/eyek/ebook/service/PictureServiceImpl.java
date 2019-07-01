@@ -20,7 +20,7 @@ public class PictureServiceImpl implements PictureService {
     @Autowired
     private DBPictureRepository dbPictureRepository;
 
-    public String save(MultipartFile file) throws IOException {
+    public Picture save(MultipartFile file) throws IOException {
         // save in RDBMS first
         Picture picture = new Picture();
         picture.setName(file.getOriginalFilename());
@@ -32,14 +32,19 @@ public class PictureServiceImpl implements PictureService {
         dbPicture.setFilename(file.getOriginalFilename());
         dbPicture.setRid(picture.getId());
         dbPicture.setContentType(file.getContentType());
-        dbPicture.setContent(file.getInputStream().readAllBytes());
+        dbPicture.setContent(file.getBytes());
         dbPicture.setSize(file.getSize());
         dbPictureRepository.save(dbPicture);
-        return dbPicture.getId();
+        return picture;
     }
 
     public DBPicture get(String filename) {
         return dbPictureRepository.findByFilename(filename);
+    }
+
+    @Override
+    public Picture getEntryById(int id) {
+        return pictureRepository.getOne(id);
     }
 
     @Override

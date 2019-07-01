@@ -7,6 +7,9 @@ import BookFlow from './components/BookFlow'
 import AdminContainer from './views/AdminContainer'
 import BookList from './components/BookList'
 import Cart from './views/Cart'
+import ManageUsers from './views/ManageUsers'
+import EditStock from './views/EditStock'
+import AllOrders from './views/AllOrders'
 
 const routes = [
     {
@@ -80,9 +83,17 @@ const routes = [
             {
                 path: 'edit-stock',
                 name: 'admin-edit-stock',
-                component: BookList,
+                component: EditStock,
                 meta: {
                     title: "编辑库存"
+                }
+            },
+            {
+                path: 'all-orders',
+                name: 'admin-all-orders',
+                component: AllOrders,
+                meta: {
+                    title: "所有订单"
                 }
             },
             {
@@ -91,6 +102,14 @@ const routes = [
                 component: Stats,
                 meta: {
                     title: "统计信息"
+                }
+            },
+            {
+                path: 'users',
+                name: 'admin-manage-users',
+                component: ManageUsers,
+                meta: {
+                    title: "用户管理"
                 }
             }
         ]

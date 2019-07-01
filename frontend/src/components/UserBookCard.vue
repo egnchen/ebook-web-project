@@ -63,10 +63,10 @@
 </style>
 
 <script>
-import BookCard from './BookCard'
-import BookDetailCard from './BookDetailCard'
+    import BookCard from './BookCard'
+    import BookDetailCard from './BookDetailCard'
 
-export default {
+    export default {
     props: ['book', 'idxData'],
     components: {BookCard, BookDetailCard},
     computed: {
@@ -76,12 +76,12 @@ export default {
     },
     methods: {
         addToCart(bookId) {
-            let vm = thpis
+            let vm = this
             this.$axios.post("/cart", {
                 "bookId": bookId
             })
             .then((response) => {
-                vm.$store.commit("setPrompt", `添加成功`)
+                vm.$store.commit("setPrompt", "Added")
             })
             .catch((error) => {
                 let resp = error.response

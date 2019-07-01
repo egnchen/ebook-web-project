@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,8 +44,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(int id) {
+        return userDao.getUser(id);
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userDao.getUserByUsername(username);
+    }
+
+    @Override
+    public List<UserProfileDto> listAllUsers() {
+        List<User> users = userDao.getAllUsers();
+        List<UserProfileDto> ret = new ArrayList<>();
+        for (User user: users) {
+            ret.add(modelMapper.map(user, UserProfileDto.class));
+        }
+        return ret;
     }
 
     @Override

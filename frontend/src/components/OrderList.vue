@@ -1,11 +1,10 @@
 <template>
 <v-card>
     <v-card-title>
-        所有订单
         <v-spacer></v-spacer>
         <v-text-field
-            v-model="searchString" append-icon="fas fa-search" label="搜索"
-            single-line hide-details />
+                v-model="searchString" append-icon="fas fa-search" label="按书名搜索"
+                single-line hide-details />
     </v-card-title>
     <v-data-table :headers="headers" :items="order" class="elevation-1" :search="searchString">
         <template v-slot:items="props">
@@ -50,9 +49,17 @@ export default {
     },
     created() {
         let vm = this
-        this.$axios.get("/orders")
+        let url
+        if (this.$route.name === "order")
+            url = "/orders"
+        else
+            url = "/stats/orders"
+        this.$axios.get(url)
         .then(response => {
-            vm.order = response.data.content
+            if (response.data.content)
+                vm.order = response.data.content
+            else
+                vm.order = response.data
         })
         .catch(error => {
             vm.$state.commit("setPrompt", `error, ${error}`)

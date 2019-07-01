@@ -23,7 +23,7 @@ public class AccessDeniedHandlerImpl implements org.springframework.security.web
             response.setStatus(200);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
-            ResponseEntity<String> responseEntity = new ResponseEntity<>("Privilege not enough.", HttpStatus.UNAUTHORIZED);
+            ResponseEntity<String> responseEntity = new ResponseEntity<>("Insufficient permission.", HttpStatus.UNAUTHORIZED);
             objectMapper.writeValue(response.getWriter(), responseEntity);
     }
 }

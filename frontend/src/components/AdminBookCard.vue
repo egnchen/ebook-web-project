@@ -9,7 +9,7 @@
                         编辑
                     </v-btn>
                 </template>
-                <EditBookDialogCard :book="book" @close-dialog="dialogVis = false"></EditBookDialogCard>
+                <EditBookDialogCard :book="book"></EditBookDialogCard>
             </v-dialog>
         </div>
     </template>
@@ -27,22 +27,17 @@
 </style>
 
 <script>
-import BookCard from './BookCard'
-import EditBookDialogCard from './EditBookDialogCard'
+    import BookCard from './BookCard'
+    import EditBookDialogCard from './EditBookDialogCard'
 
-export default {
+    export default {
     props: ['book', 'idxData'],
-    components: {BookCard, EditBookDialogCard},
+        components: {BookCard, EditBookDialogCard},
     data() {
         return {
             stock: 0,
             dialogVis: false,
             ISBN: 123567890
-        }
-    },
-    methods: {
-        editBook(idx){
-            new EditBookDialog().$mount(this.$refs.diag)
         }
     }
 }

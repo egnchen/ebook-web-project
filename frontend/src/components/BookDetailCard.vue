@@ -4,9 +4,9 @@
         <v-layout row wrap justify-space-between align-center>
             <v-flex xs5>
                 <v-img
-                    :src="'/' + book.picture.path"
-       一个             height="250px"
-                    contain />
+                        :src="'/' + book.picture.path"
+                        height="250px"
+                        contain />
             </v-flex>
             <v-flex xs7>
                 <div>

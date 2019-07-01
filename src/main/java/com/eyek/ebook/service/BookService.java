@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 public interface BookService {
 
     Book getBook(Integer id);
+    Book getBook(String bookTitle);
 
     Integer addBook(Book book);
     Boolean modifyBook(Integer id, Book book);

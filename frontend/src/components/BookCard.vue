@@ -3,10 +3,10 @@
     <v-card color="white" style="padding: 10px">
         <v-layout align-center>
             <v-flex xs3>
-                <v-img
-                    :src="'/' + book.picture.path"
-                    style="margin: 10px; max-height: 200px;"
-                    contain />
+                <v-img v-if="book.picture"
+                       :src="imageUrl"
+                       style="margin: 10px; max-height: 200px;"
+                       contain />
             </v-flex>
             <v-flex xs9>
                 <v-layout row wrap>
@@ -53,6 +53,15 @@ export default {
     computed: {
         book_rating(){
             return Math.round(this.book.score) / 2
+        },
+        imageUrl() {
+            if (this.book.picture.path)
+                return '/' + this.book.picture.path
+            else if (this.book.picture.id)
+                return this.$axios.defaults.baseURL +
+                    "picture?id=" + this.book.picture.id
+            else
+                return null;
         }
     }
 }

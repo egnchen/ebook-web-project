@@ -11,7 +11,8 @@
         </v-container>
     </v-content>
 
-    <v-snackbar v-model="snackBarVis" :top="true" :timeout="2000">
+    <v-snackbar v-model="snackBarVis" :color="this.$store.getters.promptColor"
+                :top="true" :timeout="2000">
         {{ this.$store.getters.prompt }}
     </v-snackbar>
 </v-app>
@@ -28,9 +29,10 @@
 
 
 <script>
-import SideBar from './components/SideBar'
-import ToolBar from './components/ToolBar'
-export default {
+    import SideBar from './components/SideBar'
+    import ToolBar from './components/ToolBar'
+
+    export default {
     name: 'App',
     components: {
         SideBar,
@@ -49,7 +51,7 @@ export default {
             get() {
                 return !!(this.$store.getters.prompt)
             },
-            set() {
+            set() { //disable
                 this.$store.commit("setPrompt", "")
             }
         }

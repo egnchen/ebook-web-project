@@ -5,6 +5,7 @@ import com.eyek.ebook.facade.AuthenticationFacade;
 import com.eyek.ebook.model.Book;
 import com.eyek.ebook.model.Order;
 import com.eyek.ebook.model.OrderItem;
+import com.eyek.ebook.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +36,20 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<Order> getPurchaseByUserBetween(Date startTime, Date endTime) {
-        return orderDao.getOrderByUserBetween(authenticationFacade.getCurrentUser(), startTime, endTime);
+    public List<Order> getPurchaseByUserBetween(Date startTime, Date endTime, User user) {
+        User currentUser = authenticationFacade.getCurrentUser();
+        if(currentUser.getRole() == User.Role.ROLE_USER || user == null)
+            user = currentUser;
+        return orderDao.getOrderByUserBetween(user, startTime, endTime);
     }
 
+    @Override
+    public List<Order> getAllPurchasesBetween(Date startTime, Date endTime) {
+        return orderDao.getOrderBetween(startTime, endTime);
+    }
+
+    @Override
+    public List<Order> getAllPurchasesForBook(Book book) {
+        return orderDao.getOrdersByBook(book, 1, 100).getContent();
+    }
 }

@@ -125,4 +125,9 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrderByUserBetween(User user, Date startTime, Date endTime) {
         return orderRepository.findOrdersWithItemByUserAndUpdateTimeBetween(user, startTime, endTime);
     }
+
+    @Override
+    public List<Order> getOrderBetween(Date startTime, Date endTime) {
+        return orderRepository.findOrdersByUpdateTimeBetween(startTime, endTime);
+    }
 }

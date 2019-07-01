@@ -29,7 +29,7 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
         response.setStatus(200);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("Authentication failed", HttpStatus.BAD_REQUEST);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         objectMapper.writeValue(response.getWriter(), responseEntity);
     }
 }

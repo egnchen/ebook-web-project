@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @Component
 public class UserDaoImpl implements UserDao {
@@ -26,6 +27,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getUserByEmail(@Email String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override

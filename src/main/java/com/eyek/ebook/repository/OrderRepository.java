@@ -35,4 +35,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value = "FROM Order o INNER JOIN FETCH o.orderItems oi INNER JOIN FETCH oi.book WHERE o.user = ?1 AND o.updateTime > ?2 AND o.updateTime < ?3 ")
     List<Order> findOrdersWithItemByUserAndUpdateTimeBetween(User user, Date startTime, Date endTime);
+
+    List<Order> findOrdersByUpdateTimeBetween(Date startTime, Date endTime);
 }

@@ -49,7 +49,6 @@ form {
 </style>
 
 <script>
-    import axios from 'axios'
     import qs from 'querystring'
 
     export default {
@@ -75,9 +74,7 @@ form {
                 password: vm.password
             }), { withCredentials: true })
             .then(response => {
-                console.log("then response")
                 if(response.data.statusCodeValue === 200) {
-                    console.log(vm.$store.state)
                     vm.$store.commit("setJWT", { JWT: response.data.body, axios: vm.$axios})
                     vm.$axios.get("/profile")
                     .then((response) => {
@@ -87,12 +84,15 @@ form {
                         vm.$store.commit("removeJWT", vm.$axios)
                         vm.$store.commit("removeUser")
                     })
-                    vm.$store.commit("setPrompt", "登录成功！")
+                    vm.$store.commit("setSuccessPrompt", "登录成功！")
                     vm.$router.push({name: "index"})
+                } else {
+                    // login error
+                    vm.$store.commit("setErrorPrompt", response.data.body);
                 }
             })
             .catch(error => {
-                vm.$store.commit("setPrompt", `登录失败！消息：${error}`)
+                vm.$store.commit("setErrorPrompt", `登录失败！消息：${error}`)
             })
         },
         loginReset() {

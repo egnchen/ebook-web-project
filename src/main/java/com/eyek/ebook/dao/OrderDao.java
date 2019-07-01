@@ -31,4 +31,5 @@ public interface OrderDao {
     Boolean addCartItem(Order order, OrderItem orderItem);
 
     List<Order> getOrderByUserBetween(User user, Date startTime, Date endTime);
+    List<Order> getOrderBetween(Date startTime, Date endTime);
 }

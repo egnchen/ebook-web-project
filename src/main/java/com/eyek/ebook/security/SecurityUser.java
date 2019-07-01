@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class SecurityUser implements UserDetails {
@@ -21,7 +22,9 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority(user.getRole().name()));
+        Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+        return authorities;
     }
 
     @Override

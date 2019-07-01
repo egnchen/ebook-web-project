@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 public interface BookDao {
 
     Book getOne(Integer id);
-    Book getOne(String tile);
+    Book getOne(String title);
 
     Integer addOne(Book book);
     Boolean modifyOne(Integer id, Book book);

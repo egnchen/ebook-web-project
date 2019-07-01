@@ -24,8 +24,8 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/book/{id}")
-    public ResponseEntity<String> addBook(@PathVariable("id") Integer id, @RequestBody @Valid Book book) {
+    @PostMapping("/book")
+    public ResponseEntity<String> addBook(@RequestBody @Valid Book book) {
         if(bookService.addBook(book) > 0)
             return new ResponseEntity<>(HttpStatus.OK);
         else
@@ -47,7 +47,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/book/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable("id") Integer id) {
-        if(bookService.deleteBook(id)) {
+        if (bookService.deleteBook(id)) {
             // success
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

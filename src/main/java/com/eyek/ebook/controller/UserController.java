@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -31,6 +32,12 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody @Valid NewUserDto newUser) {
         userService.save(newUser);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/manage/list")
+    public ResponseEntity<List<UserProfileDto>> getUserList() {
+        return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
-@PreAuthorize("hasRole('ROLE_USER')")
+@Secured({"ROLE_ADMIN", "ROLE_USER"})
 @RequestMapping("/api")
 @RestController
 public class CartController {

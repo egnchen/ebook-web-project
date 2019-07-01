@@ -1,6 +1,9 @@
 <template>
 <div>
-    <h2>系统管理</h2>
+    <h1>系统管理</h1>
+    <v-divider/>
+    <h2>{{ this.$route.meta.title }}</h2>
+    <v-divider/>
     <router-view></router-view>
 </div>
 </template>

@@ -16,6 +16,9 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
 
     @Autowired
+    private PictureService pictureService;
+
+    @Autowired
     BookServiceImpl(BookDao bookDao) {
         this.bookDao = bookDao;
     }
@@ -26,7 +29,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book getBook(String bookTitle) {
+        return bookDao.getOne(bookTitle);
+    }
+
+    @Override
     public Integer addBook(Book book) {
+        if(book.getPicture() != null) {
+            if(book.getPicture().getId() > 0)
+                book.setPicture(pictureService.getEntryById(book.getPicture().getId()));
+        }
         return bookDao.addOne(book);
     }
 

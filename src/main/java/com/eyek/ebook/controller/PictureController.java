@@ -1,5 +1,6 @@
 package com.eyek.ebook.controller;
 
+import com.eyek.ebook.model.Picture;
 import com.eyek.ebook.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,13 +36,12 @@ public class PictureController {
 //    }
 
     @PostMapping("/picture")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Picture> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            pictureService.save(file);
+            return new ResponseEntity<>(pictureService.save(file), HttpStatus.OK);
         } catch (IOException e) {
-            return new ResponseEntity<>("Failed to transfer file correctly.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @DeleteMapping("/picture")

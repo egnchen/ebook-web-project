@@ -41,27 +41,30 @@ router.beforeEach((to, from, next) => {
 
 // vuetify framework
 import Vuetify from 'vuetify'
+import UploadButton from 'vuetify-upload-button'
 import 'vuetify/dist/vuetify.min.css'
 import waterfall from 'vue-waterfall2'
 Vue.use(Vuetify, {
     iconfont: 'fa',
-    theme: {
-        primary: '#03a9f4',
-        secondary: '#00bcd4',
-        accent: '#ffc107',
-        error: '#ff5722',
-        warning: '#ff9800',
-        info: '#607d8b',
-        success: '#4caf50'
-    }
+    // theme: {
+    //     primary: '#03a9f4',
+    //     secondary: '#00bcd4',
+    //     accent: '#ffc107',
+    //     error: '#ff5722',
+    //     warning: '#ff9800',
+    //     info: '#607d8b',
+    //     success: '#4caf50'
+    // }
 })
 Vue.use(waterfall)
+Vue.use(UploadButton)
 Vue.config.productionTip = false
 
 // Echart
 import ECharts from 'vue-echarts'
 
 import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
 Vue.component('v-chart', ECharts)
 

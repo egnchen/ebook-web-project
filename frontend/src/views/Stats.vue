@@ -2,14 +2,11 @@
 <v-container fluid grid-list-md>
 <v-layout row wrap justify-space-around>
     <v-flex sm12>
-        <v-breadcrumbs :items="path" divider='>' />
-    </v-flex>
-    <v-flex sm12>
         <v-card color="grey lighten-4">
             <v-card-title>
                 <v-layout column align-start>
                     <div class="display-2 text-uppercase">购书统计</div>
-                    <div class="subheader grey--text text-uppercase">{{ role }}</div>
+                    <div class="display-1 text-uppercase">{{ role }} {{ purchasePrompt }}</div>
                 </v-layout>
             </v-card-title>
             <v-card-text>
@@ -17,7 +14,9 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer />
-                <span v-if="!!startDate && !!endDate">从{{startDate}}到{{endDate}}</span>
+                <span v-if="!!startDate && !!endDate">
+                    从{{ startDate }}到{{ endDate }}
+                </span>
                 <v-dialog v-model="datePickerDialog" width="500">
                     <template v-slot:activator="{on}">
                          <v-btn color="primary" v-on="on">修改日期</v-btn>
@@ -70,99 +69,12 @@
                                         <v-date-picker v-model="endDate" no-title @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-flex>
+                                <v-flex xm12 lg6>
+                                    <v-text-field v-model="userName" label="用户名" prepend-icon="user"/>
+                                </v-flex>
                             </v-layout>
                         </v-card-text>
                     </v-card>
-                </v-dialog>
-            </v-card-actions>
-        </v-card>
-    </v-flex>
-    <v-flex sm12 md6>
-        <v-card color="grey lighten-4">
-            <v-card-title>
-                <v-layout column align-start>
-                    <div class="display-2 text-uppercase">消费情况</div>
-                    <div class="subheader grey--text text-uppercase">{{ role }}</div>
-                </v-layout>
-            </v-card-title>
-            <v-card-text>
-                <v-sheet color="grey lighten-4">
-                    <v-sparkline :gradient="gradientColors" :gradient-direction="gradientDirection"
-                        :line-width="width" :smooth="smooth" auto-draw :value="value" padding="20">
-                        <template v-slot:label="item">
-                            ￥{{ item.value }}
-                        </template>
-                    </v-sparkline>
-                </v-sheet>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary">更换角色</v-btn>
-                <v-dialog max-width="800px">
-                    <template v-slot:activator="{ on }">
-                        <v-btn color="primary" v-on="on">详情</v-btn>
-                    </template>
-                    <StatDetailCard></StatDetailCard>
-                </v-dialog>
-            </v-card-actions>
-        </v-card>
-    </v-flex>
-    <v-flex sm12 md6>
-        <v-card color="grey lighten-4" padding="10">
-            <v-card-title>
-                <v-layout column align-start>
-                    <div class="display-2 text-uppercase">购书统计</div>
-                    <div class="subheader grey--text text-uppercase">{{ role }}</div>
-                </v-layout>
-            </v-card-title>
-            <v-card-text>
-                <v-sheet color="grey lighten-4">
-                    <v-sparkline :gradient="gradientColors" :gradient-direction="gradientDirection"
-                        :line-width="width" :smooth="smooth" auto-draw :value="value" padding="20">
-                        <template v-slot:label="item">
-                            {{ item.value }}本
-                        </template>
-                    </v-sparkline>
-                </v-sheet>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary">更换角色</v-btn>
-                <v-dialog max-width="800px">
-                    <template v-slot:activator="{ on }">
-                        <v-btn color="primary" v-on="on">详情</v-btn>
-                    </template>
-                    <StatDetailCard></StatDetailCard>
-                </v-dialog>
-            </v-card-actions>
-        </v-card>
-    </v-flex>
-    <v-flex sm12 md6>
-        <v-card color="grey lighten-4" padding="10">
-            <v-card-title>
-                <v-layout column align-start>
-                    <div class="display-2 text-uppercase">游览人数</div>
-                    <div class="subheader grey--text text-uppercase">{{ role }}</div>
-                </v-layout>
-            </v-card-title>
-            <v-card-text>
-                <v-sheet color="grey lighten-4">
-                    <v-sparkline :gradient="gradientColors" :gradient-direction="gradientDirection"
-                        :line-width="width" :smooth="smooth" auto-draw :value="value" padding="20">
-                        <template v-slot:label="item">
-                            {{ item.value }}人
-                        </template>
-                    </v-sparkline>
-                </v-sheet>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary">更换角色</v-btn>
-                <v-dialog max-width="800px">
-                    <template v-slot:activator="{ on }">
-                        <v-btn color="primary" v-on="on">详情</v-btn>
-                    </template>
-                    <StatDetailCard></StatDetailCard>
                 </v-dialog>
             </v-card-actions>
         </v-card>
@@ -181,18 +93,19 @@
 
 
 <script>
-import StatDetailCard from '../components/StatDetailCard'
-import ECharts from 'vue-echarts';
-export default {
+    import StatDetailCard from '../components/StatDetailCard'
+    import ECharts from 'vue-echarts'
+
+    export default {
     components: { StatDetailCard, 'v-chart': ECharts },
     data() {
         return {
             gradientColors: ['red', 'orange', 'yellow'],
             gradientDirection: 'top',
             smooth: 10,
+            totalPurchase: 0,
             lineWidth: 1.5,
-            role: "总量",
-            value: [10,23,52,6,76,21,34,75],
+            userName: "",
             path: [
                 {
                     text: '统计',
@@ -208,12 +121,8 @@ export default {
                         ['book', 'amount']
                     ]
                 },
-                xAxis: {type: 'category'},
-                yAxis: {},
-                // Declare several bar series, each will be mapped
-                // to a column of dataset.source by default.
                 series: [
-                    {type: 'bar'}
+                    {type: 'pie'}
                 ]
             },
             startDate: '', endDate: '',
@@ -224,35 +133,53 @@ export default {
         datePickerDialog(newVal) {
             if(newVal === false) {
                 // closed
-                this.$axios.get("/stats/books", {
-                    params: {
-                        startTime: this.startDate,
-                        endTime: this.endDate
-                    }
-                })
+                let getParams = {startTime: this.startDate, endTime: this.endDate}
+                if (this.userName)
+                    getParams['username'] = this.userName
+                this.$axios.get("/stats/books", {params: getParams})
                 .then(response => {
                     let ret = response.data
                     let arr = []
                     for(var prop in ret) {
-                        arr.push([prop, ret[prop]])
+                        if (prop === '_totalPurchase')
+                            this.totalPurchase = ret[prop]
+                        else
+                            arr.push([prop, ret[prop]])
                     }
                     this.bookStat.dataset.source = 
                         [['book', 'amount']].concat(arr)
                     console.log(this.bookStat.dataset.source)
                 })
                 .catch(error => {
-                    this.$store.commit("setPrompt", "请求失败")
+                    this.$store.commit("setPrompt", "Request failed, check your params!")
                 })
             }
         }
     },
+        computed: {
+            purchasePrompt() {
+                if (this.totalPurchase > 0)
+                    return `消费总额： CNY${this.totalPurchase}`
+                else
+                    return "无购买数据";
+            },
+            role() {
+                if (this.userName)
+                    return this.userName
+                else
+                    return "所有用户"
+            }
+        },
     created() {
         this.$axios.get("/stats/books")
         .then(response => {
             let ret = response.data
             let arr = []
             for(var prop in ret) {
-                arr.push([prop, ret[prop]])
+                if (prop === '_totalPurchase')
+                    this.totalPurchase = ret[prop]
+                else
+                    arr.push([prop, ret[prop]])
             }
             this.bookStat.dataset.source = 
                 [['book', 'amount']].concat(arr)
