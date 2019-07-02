@@ -3,27 +3,32 @@
     <v-card-title>
         <v-spacer></v-spacer>
         <v-text-field
-                v-model="searchString" append-icon="fas fa-search" label="按书名搜索"
-                single-line hide-details />
+                v-model="searchTitle" append-icon="fas fa-search" label="点击书籍搜索"
+                single-line readonly hide-details @click="defineSearch(null)" />
     </v-card-title>
-    <v-data-table :headers="headers" :items="order" class="elevation-1" :search="searchString">
+    <v-data-table :headers="headers" :items="order" class="elevation-1">
         <template v-slot:items="props">
             <tr @click="props.expanded = !props.expanded">
                 <td>{{ props.item.updateTime }}</td>
-                <td>{{ props.item.status }}</td>
+                <td>{{ localizedStatusPrompt(props.item) }}</td>
             </tr>
         </template>
         <template v-slot:expand="props">
-          <v-card flat>
-              <v-layout>
-                  <v-flex xs12 v-for="(itm,idx) in props.item.orderItems" :key="idx">
-                      书名：{{ itm.book.title }} 数量：{{ itm.amount }}
-                  </v-flex>
-              </v-layout>
-          </v-card>
+            <v-list>
+                <v-list-tile v-for="itm in props.item.orderItems"
+                    :key="itm.book.id" avatar @click="defineSearch(itm.book)" >
+                    <v-list-tile-avatar>
+                        <img :src="itm.book.picture.path" />
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title v-text="itm.book.title"></v-list-tile-title>
+                        <span color="grey">数量 {{ itm.amount }}</span>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
         </template>
         <v-alert v-slot:no-results :value="true" color="error" icon="fas fa-warning">
-          Your search for "{{ searchString }}" found no results.
+          Your search for "{{ searchTitle }}" found no results.
         </v-alert>
     </v-data-table>
 </v-card>
@@ -44,7 +49,24 @@ export default {
                     value: 'status'
                 }
             ],
-            searchString: ''
+            searchBook:  null
+        }
+    },
+    watch: {
+        searchBook(newVal) {
+            let vm = this
+            if (this.$route.name === "admin-all-orders") {
+                if(newVal !== null)
+                    this.$axios.get("stats/orders/by-book", { params: { bookId: newVal.id }})
+                    .then(response => { vm.order = response.data })
+                    .catch(error => { vm.$store.commit("setErrorPrompt", "Error occurred while requesting data.") })
+                else
+                    this.$axios.get("stats/orders")
+                    .then(response => { vm.order = response.data })
+                    .catch(error => { vm.$store.commit("setErrorPrompt", "Error occurred while requesting data.") })
+            } else {
+                this.$store.commit("setErrorPrompt", "Search not supported here.")
+            }
         }
     },
     created() {
@@ -64,6 +86,21 @@ export default {
         .catch(error => {
             vm.$state.commit("setPrompt", `error, ${error}`)
         })
+    },
+    methods: {
+        localizedStatusPrompt(ord) {
+            console.log(ord)
+            let mapper = { submitted: "已提交" }
+            return mapper[ord.status] || "未提交"
+        },
+        defineSearch(book) {
+            this.searchBook = book
+        }
+    },
+    computed: {
+        searchTitle(){
+            return this.searchBook ? this.searchBook.title : ""
+        }
     }
 }
 </script>

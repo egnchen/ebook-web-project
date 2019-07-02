@@ -66,8 +66,8 @@ public class StatsController {
 
     @GetMapping("/orders/by-book")
     @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<List<Order>> getOrdersForBook(@RequestParam String bookTitle) {
-        Book book = bookService.getBook(bookTitle);
+    public ResponseEntity<List<Order>> getOrdersForBook(@RequestParam Integer bookId) {
+        Book book = bookService.getBook(bookId);
         if(book == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 

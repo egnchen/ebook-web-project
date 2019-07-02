@@ -2,16 +2,16 @@
 <v-layout justify-center>
     <v-flex sm12 lg9>
         <h2>订单管理</h2>
-        <Order></Order>
+        <OrderList/>
     </v-flex>
 </v-layout>
 </template>
 
 <script>
-import Order from '../components/OrderList'
+    import OrderList from '../components/OrderList'
 
-export default {
-    components: {Order},
+    export default {
+    components: { OrderList },
     
 }
 </script>

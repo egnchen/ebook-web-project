@@ -29,8 +29,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     countQuery = "SELECT COUNT(DISTINCT oi.order) FROM Book b INNER JOIN FETCH OrderItem oi WHERE b.title LIKE %?1%")
     Page<Order> findOrdersByBookTitleContaining(String query, Pageable pageable);
 
-    @Query(value = "SELECT DISTINCT oi.order FROM Book b INNER JOIN FETCH OrderItem oi WHERE b = ?1",
-    countQuery = "SELECT COUNT(DISTINCT oi.order) FROM Book b INNER JOIN FETCH OrderItem oi WHERE b = ?1")
+    @Query(value = "SELECT DISTINCT oi.order FROM OrderItem oi WHERE oi.book = ?1",
+    countQuery = "SELECT COUNT(DISTINCT oi.order) FROM OrderItem oi WHERE oi.book = ?1")
     Page<Order> findOrdersByBook(Book book, Pageable pageable);
 
     @Query(value = "FROM Order o INNER JOIN FETCH o.orderItems oi INNER JOIN FETCH oi.book WHERE o.user = ?1 AND o.updateTime > ?2 AND o.updateTime < ?3 ")

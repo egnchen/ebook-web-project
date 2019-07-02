@@ -50,6 +50,6 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<Order> getAllPurchasesForBook(Book book) {
-        return orderDao.getOrdersByBook(book, 1, 100).getContent();
+        return orderDao.getOrdersByBook(book, 0, 100).getContent();
     }
 }
