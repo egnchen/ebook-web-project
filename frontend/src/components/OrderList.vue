@@ -10,6 +10,7 @@
         <template v-slot:items="props">
             <tr @click="props.expanded = !props.expanded">
                 <td>{{ props.item.updateTime }}</td>
+                <td>{{ props.item.user.username }}</td>
                 <td>{{ localizedStatusPrompt(props.item) }}</td>
             </tr>
         </template>
@@ -43,6 +44,10 @@ export default {
                 {
                     text: '日期',
                     value: 'updateTime'
+                },
+                {
+                    text: "用户",
+                    value: "user"
                 },
                 {
                     text: '状态',

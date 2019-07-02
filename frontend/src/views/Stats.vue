@@ -19,10 +19,10 @@
                 </span>
                 <v-dialog v-model="datePickerDialog" width="500">
                     <template v-slot:activator="{on}">
-                         <v-btn color="primary" v-on="on">修改日期</v-btn>
+                         <v-btn color="primary" v-on="on">过滤</v-btn>
                     </template>
                     <v-card>
-                        <v-card-title>修改日期</v-card-title>
+                        <v-card-title>修改日期与用户</v-card-title>
                         <v-card-text>
                             <v-layout row wrap>
                                 <v-flex xs12 lg6>

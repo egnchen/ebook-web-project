@@ -57,8 +57,11 @@ public class StatsController {
             targetUser = userService.findByUsername(username);
             if (targetUser == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else
+        } else if(authenticationFacade.getCurrentUser().getRole() == User.Role.ROLE_USER)
             targetUser = authenticationFacade.getCurrentUser();
+        else
+            return new ResponseEntity<>(statsService.getAllPurchasesBetween(startTime, endTime)
+                    , HttpStatus.OK);
         return new ResponseEntity<>(
                 statsService.getPurchaseByUserBetween(startTime, endTime, targetUser),
                 HttpStatus.OK);
